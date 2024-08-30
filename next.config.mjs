@@ -10,4 +10,5 @@ export default withPWA({
   dest: "public", // PWA를 위한 service worker 파일이 생성될 경로
   register: true,
   skipWaiting: true,
+  disable: process.env.NODE_ENV === "development", // 개발 모드에서는 PWA 비활성화
 })(nextConfig);
