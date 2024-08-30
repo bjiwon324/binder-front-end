@@ -1,0 +1,18 @@
+{
+  "name": "쓰레기통 알리미! binder",
+  "short_name": "binder",
+  "description": "쓰레기통 알리미! binder",
+  "theme_color": "#ffc211",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "sizes": "100x100",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}
