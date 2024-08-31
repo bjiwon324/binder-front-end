@@ -13,9 +13,9 @@ export default function SignIn() {
   };
   return (
     <>
-      <SigninButton label="kakao" onClick={handleClickKakaoSignIn} />
-      <SigninButton label="naver" onClick={handleClickNaverSignIn} />
-      <SigninButton label="google" onClick={handleClickGoogleSignIn} />
+      <SigninButton label="kakao" onClick={handleClickKakaoSignIn} testId={"kakaoBtn"} />
+      <SigninButton label="naver" onClick={handleClickNaverSignIn} testId={"naverBtn"} />
+      <SigninButton label="google" onClick={handleClickGoogleSignIn} testId={"googleBtn"} />
     </>
   );
 }
