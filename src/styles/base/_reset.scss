@@ -1,0 +1,81 @@
+/* stylelint-disable */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("/fonts/Pretendard-Variable.woff2") format("woff2-variations");
+  font-weight: 100 900; /* 가변 폰트의 가중치 범위 */
+  font-style: normal;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Pretendard", sans-serif;
+  font-weight: 400;
+}
+
+h1 {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  padding: 0;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+button,
+input,
+select,
+textarea {
+  background-color: transparent;
+  border: 0;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+ul,
+ol {
+  padding-left: 0;
+  list-style: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  // -webkit-text-fill-color: ;
+  // -webkit-box-shadow: 0 0 0 1000px $gray70 inset;
+  // box-shadow: 0 0 0 1000px $gray70 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:autofill,
+input:autofill:hover,
+input:autofill:focus,
+input:autofill:active {
+  // -webkit-text-fill-color: ;
+  // -webkit-box-shadow: 0 0 0 1000px $gray70 inset;
+  // box-shadow: 0 0 0 1000px $gray70 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
