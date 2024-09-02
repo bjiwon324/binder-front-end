@@ -1,3 +1,4 @@
+
 if (!self.define) {
   let e,
     s = {};
@@ -376,3 +377,4 @@ define(["./workbox-4754cb34"], function (e) {
       "GET"
     );
 });
+

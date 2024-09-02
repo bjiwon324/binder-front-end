@@ -33,6 +33,7 @@ export default function Signin() {
     window.location.href = "https://api.bin-finder.net/oauth2/authorization/naver";
   };
 
+
   const handleClickGoogleSignIn = () => {
     window.location.href = "https://api.bin-finder.net/oauth2/authorization/google";
   };
