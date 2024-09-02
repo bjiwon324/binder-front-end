@@ -12,6 +12,7 @@ const cn = classNames.bind(styles);
 export default function Signin() {
   const [user, setUser] = useAtom(userAtom);
 
+
   // const { data: userData, isLoading, isError } = useQuery({ queryKey: ["user"], queryFn: () => getMembersMe() });
 
   // useEffect(() => {
@@ -20,6 +21,7 @@ export default function Signin() {
   //     console.log(userData);
   //   }
   // }, [userData, user, setUser]);
+
 
   //.env 에 담아서 url 변수로 지정하기 -- 나중에
   const handleClickKakaoSignIn = () => {
