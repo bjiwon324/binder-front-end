@@ -26,13 +26,13 @@ export default function Card({ ...item }: CardProps) {
   const binState = () => {
     switch (item.binState) {
       case "normal":
-        return "normal";
+        return "일반 쓰레기통";
       case "recycle":
-        return "recycle";
+        return "분리수거함";
       case "drink":
-        return "drink";
+        return "음료 쓰레기통";
       case "cigarette":
-        return "cigarette";
+        return "담배꽁초 수거함";
       default:
         return "normal";
     }

@@ -17,7 +17,7 @@ export interface CardProps {
     mylike: boolean;
   };
   id: number;
-  binState: "normal" | "recycle" | "drink" | "cigarette";
+  binState: string;
 }
 
 const mook = [
