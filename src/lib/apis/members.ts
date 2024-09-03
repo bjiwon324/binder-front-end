@@ -10,6 +10,6 @@ export const getMembers = async (cookies: string | undefined) => {
     return res.data;
   } catch (e) {
     console.error(e);
-    return null;
+    window.location.href = "/";
   }
 };

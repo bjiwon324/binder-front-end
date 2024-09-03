@@ -1,9 +1,5 @@
 import classNames from "classnames/bind";
 import styles from "./MyPageToggle.module.scss";
-import accountDelete from "@/../public/images/accountDelete.svg";
-import logout from "@/../public/images/logout.svg";
-import arrowRight from "@/../public/images/arrowRight.svg";
-import Image from "next/image";
 import SettingItem from "./SettingItem";
 import { useMutation } from "@tanstack/react-query";
 import { postLogout } from "@/lib/apis/auth";
@@ -15,7 +11,7 @@ export default function MyPageSetting() {
   const { mutate: logout } = useMutation({
     mutationFn: postLogout,
     onSuccess: () => {
-      // router.push("/");
+      router.push("/");
     },
   });
 

@@ -4,8 +4,8 @@ import profileEdit from "@/../public/images/profileEdit.svg";
 import classNames from "classnames/bind";
 import styles from "./DropProfileEdit.module.scss";
 import { useMutation } from "@tanstack/react-query";
-import { postImg } from "@/lib/apis/Image";
 import { useEffect } from "react";
+import { postImg } from "@/lib/apis/image";
 
 const cn = classNames.bind(styles);
 

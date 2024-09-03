@@ -37,7 +37,6 @@ export default function Card({ ...item }: CardProps) {
         return "normal";
     }
   };
-  console.log(binState());
   const handleLikeUpdate = () => {
     setLikeCounter((prevCount) =>
       typeof prevCount === "number"
