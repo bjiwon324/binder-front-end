@@ -12,7 +12,7 @@ function Location() {
   });
 
   const { data: place, isLoading } = useQuery({
-    queryKey: ["place"],
+    queryKey: ["place", xy],
     queryFn: () => getPlaceNameByOSM(xy.x, xy.y),
     enabled: xy !== null,
   });
@@ -22,8 +22,8 @@ function Location() {
       setXy(locationData[0]);
     }
   }, [locationData]);
-
-  return <div>{isLoading ? "로딩중.." : place || "장소 정보 없음"}</div>;
+  console.log(place);
+  return <div>{isLoading ? "로딩중.." : place}</div>;
 }
 
 export default Location;

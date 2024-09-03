@@ -9,19 +9,34 @@ import { useState } from "react";
 
 const cn = classNames.bind(styles);
 
-export default function MyPageProfile() {
+interface ProfileProps {
+  memberData: {
+    id: number;
+    createdAt: string;
+    modifiedAt: string;
+    email: string;
+    nickname: string;
+    role: string;
+    image_url: string;
+  };
+}
+
+export default function MyPageProfile({ memberData }: ProfileProps) {
   const [profileEdit, setProfileEdit] = useState<boolean>(false);
 
   const handleProfileEdit = () => {
     setProfileEdit((prev) => !prev);
   };
 
+  const profileImg =
+    memberData.image_url !== null ? memberData.image_url : defaultImg;
+
   return (
     <>
       <div className={cn("profileWrap")}>
         <div className={cn("imgEditWrap")} onClick={handleProfileEdit}>
           <div className={cn("profileImg")}>
-            <Image src={defaultImg} alt="프로필 이미지" fill />
+            <Image src={profileImg} alt="프로필 이미지" fill />
           </div>
           <div className={cn("profileEdit")}>
             <div className={cn("profileEditimg")}>
@@ -30,7 +45,7 @@ export default function MyPageProfile() {
           </div>
         </div>
 
-        <div className={cn("profileName")}>영등포미화꾼</div>
+        <div className={cn("profileName")}>{memberData.nickname}</div>
 
         <div className={cn("profileStar")}>
           <div className={cn("profileStarImg")}>

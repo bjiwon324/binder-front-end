@@ -8,7 +8,6 @@ const cn = classNames.bind(styles);
 
 export default function MyPageToggle() {
   const [menu, setMenu] = useState<string>("활동내역");
-  console.log(menu);
   return (
     <>
       <div className={cn("toggleWrap")}>
