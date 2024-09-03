@@ -2,12 +2,14 @@
   position: absolute;
   top: 6.2rem;
   left: 50%;
+
   transform: translateX(-50%);
   background: #06130d;
   color: white;
   border-radius: 1.7rem;
   padding: 0.6rem 2.4rem;
   animation: slideIn 0.5s forwards;
+
   &::after {
     content: "";
     position: absolute;
@@ -29,6 +31,7 @@
   font-size: 1.3rem;
   line-height: 1;
   letter-spacing: -0.0195rem;
+  text-wrap: nowrap;
 
   &-glitter {
     font-size: 2rem;
