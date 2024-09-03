@@ -23,26 +23,31 @@
 }
 
 .card-text-box {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 1rem;
   line-height: 1;
 }
 
 .card-title-box {
+  width: 100%;
   display: flex;
   gap: 0.7rem;
-  align-items: start;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .card-tag {
-  padding: 0.6rem 1.4rem;
+  padding: 0.3rem 1.2rem;
   margin-top: -0.4rem;
   border-radius: 1.8rem;
   text-align: center;
   font-size: 1.4rem;
   font-weight: 500;
   letter-spacing: -0.014rem;
+  margin-right: 0.5rem;
 
   &.judge {
     background: #e9e9e9;
@@ -56,6 +61,11 @@
     color: #f9e7e7;
     background: #c1aaaa;
   }
+  &.bin {
+    color: #d9d9d9;
+    background: #fff;
+    border: 0.1rem solid #d9d9d9;
+  }
 }
 
 .card-title {
@@ -66,7 +76,6 @@
 }
 
 .card-likes {
-  margin-top: 1rem;
   display: flex;
   align-items: center;
   gap: 0.65rem;
@@ -75,14 +84,16 @@
   letter-spacing: -0.0225rem;
 
   > img {
-    filter: invert(99%) sepia(0%) saturate(0%) hue-rotate(190deg) brightness(90%) contrast(91%);
+    filter: invert(99%) sepia(0%) saturate(0%) hue-rotate(190deg)
+      brightness(90%) contrast(91%);
   }
 
   &.mylike {
     color: #75968a;
 
     > img {
-      filter: invert(59%) sepia(8%) saturate(765%) hue-rotate(107deg) brightness(94%) contrast(93%);
+      filter: invert(59%) sepia(8%) saturate(765%) hue-rotate(107deg)
+        brightness(94%) contrast(93%);
     }
   }
 
@@ -101,12 +112,19 @@
 }
 
 .card-createdAt {
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
+  // position: absolute;
+  // bottom: 2rem;
+  // right: 2rem;
   color: #a4b7ad;
   text-align: right;
   font-size: 1.3rem;
   font-weight: 400;
   letter-spacing: -0.0195rem;
+}
+.card-bottom {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

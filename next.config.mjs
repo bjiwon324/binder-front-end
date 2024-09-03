@@ -6,6 +6,16 @@ const nextConfig = {
   sassOptions: {
     additionalData: '@import "@/styles/main.scss";',
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "sangchu-bucket.s3.ap-northeast-2.amazonaws.com",
+        port: "",
+        pathname: "/binder/img/**",
+      },
+    ],
+  },
   // 다른 Next.js 설정들
 };
 

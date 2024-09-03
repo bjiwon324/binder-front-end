@@ -2,6 +2,8 @@ import classNames from "classnames/bind";
 import styles from "./dropBottom.module.scss";
 import close from "@/../public/images/dropClose.svg";
 import Image from "next/image";
+import { useRef } from "react";
+import { useOnClickOutside } from "usehooks-ts";
 
 const cn = classNames.bind(styles);
 
@@ -22,9 +24,12 @@ export default function DropWrap({
   btnFunction,
   submitState = false,
 }: DropProps) {
+  const ref = useRef(null);
+
+  useOnClickOutside(ref, closeBtn);
   return (
     <div className={cn("drop")}>
-      <div className={cn("dropWrap")}>
+      <div className={cn("dropWrap")} ref={ref}>
         <div className={cn("dropTitle")}>
           <div>{title}</div>
           <div className={cn("dropClose")} onClick={closeBtn}>

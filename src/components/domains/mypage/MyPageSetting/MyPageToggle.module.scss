@@ -1,0 +1,47 @@
+@import "@/styles/main.scss";
+.findWrap {
+  width: 100%;
+  height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
+  background-color: #f4f6f5;
+  padding: 2.5rem 1.7rem;
+  overflow: scroll;
+}
+.settingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.7rem 2.1rem;
+  border-bottom: 1px solid #d1dad6;
+  cursor: pointer;
+}
+.settingItem:last-child {
+  border-bottom: none;
+}
+.settingWrap {
+  width: 100%;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
+}
+
+.settingLogout {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: relative;
+}
+.settingLink {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: relative;
+}
+.settingTitle {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+}
+.settingText {
+  color: #06130d;
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 37px; /* 217.647% */
+}
