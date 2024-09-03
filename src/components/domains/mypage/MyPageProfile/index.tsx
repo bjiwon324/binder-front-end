@@ -55,7 +55,9 @@ export default function MyPageProfile({ memberData }: ProfileProps) {
         </div>
       </div>
 
-      {profileEdit && <DropProfileEdit closeBtn={handleProfileEdit} />}
+      {profileEdit && (
+        <DropProfileEdit closeBtn={handleProfileEdit} memberData={memberData} />
+      )}
     </>
   );
 }

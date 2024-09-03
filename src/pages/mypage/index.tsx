@@ -1,7 +1,11 @@
 import MyPageProfile from "@/components/domains/mypage/MyPageProfile";
 import MyPageToggle from "@/components/domains/mypage/MyPageToggle";
 import { getMembers } from "@/lib/apis/members";
-import { QueryClient, dehydrate } from "@tanstack/react-query";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -27,8 +31,10 @@ export default function MyPage({
   const memberData = dehydratedState.queries[0].state.data;
   return (
     <>
+      {/* <HydrationBoundary state={dehydratedState}> */}
       <MyPageProfile memberData={memberData} />
       <MyPageToggle />
+      {/* </HydrationBoundary> */}
     </>
   );
 }

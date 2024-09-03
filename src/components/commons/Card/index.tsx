@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const cn = classNames.bind(styles);
 
-const STATUSTEXT: Record<Status, string>  = {
+const STATUSTEXT: Record<Status, string> = {
   approve: "승인",
   reject: "거절",
   judge: "검토 중",
@@ -18,16 +18,33 @@ export default function Card({ ...item }: CardProps) {
   const [likeCounter, setLikeCounter] = useState(item.likes?.count);
   const statusText = STATUSTEXT[item.status as Status];
 
-
   const completed = item.isAdmin && item.status !== "judge";
 
   const isAdminjudging = () => {
     return !item.isAdmin || item.status !== "judge";
   };
-
+  const binState = () => {
+    switch (item.binState) {
+      case "normal":
+        return "normal";
+      case "recycle":
+        return "recycle";
+      case "drink":
+        return "drink";
+      case "cigarette":
+        return "cigarette";
+      default:
+        return "normal";
+    }
+  };
+  console.log(binState());
   const handleLikeUpdate = () => {
     setLikeCounter((prevCount) =>
-      typeof prevCount === "number" ? (isLike ? prevCount - 1 : prevCount + 1) : prevCount
+      typeof prevCount === "number"
+        ? isLike
+          ? prevCount - 1
+          : prevCount + 1
+        : prevCount
     );
   };
 
@@ -42,7 +59,11 @@ export default function Card({ ...item }: CardProps) {
   };
 
   return (
-    <button className={cn("card-wrapper")} onClick={() => handleClick(item.id)} disabled={completed}>
+    <button
+      className={cn("card-wrapper")}
+      onClick={() => handleClick(item.id)}
+      disabled={completed}
+    >
       <Image
         src={"/images/icon-location-green-pin.svg"}
         alt="초록색 위치 표시 핀"
@@ -54,20 +75,39 @@ export default function Card({ ...item }: CardProps) {
       <div className={cn("card-text-box")}>
         <div className={cn("card-title-box")}>
           <h4 className={cn("card-title")}>{item.name}</h4>
-          {isAdminjudging() && <span className={cn("card-tag", item.status)}>{statusText}</span>}
+          <p className={cn("card-createdAt")}>{item.createdAt}</p>
         </div>
         <p className={cn("card-address")}>{item.address}</p>
-        <div className={cn("card-likes", { mylike: isLike, admin: item.isAdmin })}>
-          {item.isAdmin ? (
-            <p>{item.admin}</p>
-          ) : (
-            <>
-              <Image src={"/images/icon-gray-star.svg"} alt="좋아요" width={15} height={15} objectFit="fit" />
-              <p>{likeCounter}</p>
-            </>
-          )}
+        <div className={cn("card-bottom")}>
+          <div>
+            <span className={cn("card-tag", "bin")}>{binState()}</span>
+
+            {isAdminjudging() && (
+              <span className={cn("card-tag", item.status)}>{statusText}</span>
+            )}
+          </div>
+          <div
+            className={cn("card-likes", {
+              mylike: isLike,
+              admin: item.isAdmin,
+            })}
+          >
+            {item.isAdmin ? (
+              <p>{item.admin}</p>
+            ) : (
+              <>
+                <Image
+                  src={"/images/icon-gray-star.svg"}
+                  alt="좋아요"
+                  width={15}
+                  height={15}
+                  objectFit="fit"
+                />
+                <p>{likeCounter}</p>
+              </>
+            )}
+          </div>
         </div>
-        <p className={cn("card-createdAt")}>{item.createdAt}</p>
       </div>
     </button>
   );

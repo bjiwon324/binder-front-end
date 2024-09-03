@@ -3,11 +3,8 @@ import DropWrap from "..";
 import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./DropProfileEdit.module.scss";
-import Image from "next/image";
-import defaultImg from "@/../public/images/profileDefault.svg";
-import profileEdit from "@/../public/images/profileEdit.svg";
-import { useMutation } from "@tanstack/react-query";
-import { postImg } from "@/lib/apis/Image";
+import Nickname from "./Nickname";
+import Img from "./Img";
 
 const cn = classNames.bind(styles);
 
@@ -18,12 +15,17 @@ interface IFormInput {
 
 interface EditProfileProps {
   closeBtn: () => void;
+  memberData: any;
 }
 
-export default function DropProfileEdit({ closeBtn }: EditProfileProps) {
+export default function DropProfileEdit({
+  closeBtn,
+  memberData,
+}: EditProfileProps) {
   const [submit, setSubmit] = useState<boolean>(false);
   const [submitNick, setSubmitNick] = useState<boolean>(false);
-  const [imgData, setImgData] = useState<any>();
+  const [imgData, setImgData] = useState<any>(memberData.image_url);
+  const prevNickname = memberData.nickname.slice(0, 10);
 
   const {
     register,
@@ -47,27 +49,6 @@ export default function DropProfileEdit({ closeBtn }: EditProfileProps) {
     defaultValue: "",
   });
 
-  const { mutate: imgPost } = useMutation({
-    mutationFn: (data: any) => postImg(data),
-    onSuccess: (data) => {
-      setImgData(data);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
-
-  const handleImgPost = async () => {
-    const formData = new FormData();
-    formData.append("file", profileImg[0]);
-    imgPost(formData);
-  };
-  useEffect(() => {
-    if (profileImg !== "") {
-      handleImgPost();
-    }
-  }, [profileImg]);
-
   useEffect(() => {
     setSubmit(
       profileImg.length > 0 || (nickname !== "" && nickname.length > 1)
@@ -84,63 +65,18 @@ export default function DropProfileEdit({ closeBtn }: EditProfileProps) {
       submitState={submit}
     >
       <form onSubmit={handleSubmit(onSubmit)} className={cn("profiltEditWrap")}>
-        <label htmlFor="profileImg" className={cn("imgEditWrap")}>
-          <div className={cn("profileImg")}>
-            <Image
-              src={imgData ? imgData.imageUrl : defaultImg}
-              alt="프로필 이미지"
-              fill
-            />
-          </div>
-          <div className={cn("profileEdit")}>
-            <div className={cn("profileEditimg")}>
-              <Image src={profileEdit} alt="프로필 편집 이미지" fill />
-            </div>
-          </div>
-        </label>
-        <input
-          className={cn("profile")}
-          id="profileImg"
-          type="file"
-          accept="image/*"
-          // onChange={handleImgPost}
-          {...register("profileImg")}
+        <Img
+          register={register("profileImg")}
+          imgData={imgData}
+          setImgData={setImgData}
+          profileImg={profileImg}
         />
 
-        <div className={cn("nicknameWrap")}>
-          <div className={cn("nicknameTitle")}>
-            <label
-              htmlFor="nickname"
-              className={
-                errors.nickname
-                  ? cn("nicknameRed")
-                  : submitNick
-                    ? cn("nicknameGreen")
-                    : cn("nickname")
-              }
-            >
-              닉네임
-            </label>
-            {errors.nickname ? (
-              <div className={cn("nicknameNotiRed")}>
-                {errors.nickname.message}
-              </div>
-            ) : (
-              <div className={cn("nicknameNoti")}>{nickname.length} / 10자</div>
-            )}
-          </div>
-          <input
-            className={
-              errors.nickname
-                ? cn("nicknameInputRed")
-                : submitNick
-                  ? cn("nicknameInputGreen")
-                  : cn("nicknameInput")
-            }
-            id="nickname"
-            type="text"
-            maxLength={10}
-            {...register("nickname", {
+        {/* 닉네임  */}
+        <Nickname
+          errors={errors}
+          register={{
+            ...register("nickname", {
               minLength: {
                 value: 2,
                 message: "닉네임은 최소 2자 이상이어야 합니다.",
@@ -150,10 +86,12 @@ export default function DropProfileEdit({ closeBtn }: EditProfileProps) {
                 value: /^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]+$/,
                 message: "특수문자는 사용할 수 없습니다.",
               },
-            })}
-            placeholder="한글, 영어, 숫자만 사용가능 (2자 이상)"
-          />
-        </div>
+            }),
+          }}
+          submitNick={submitNick}
+          prevNickname={prevNickname}
+          nickname={nickname}
+        />
       </form>
     </DropWrap>
   );
