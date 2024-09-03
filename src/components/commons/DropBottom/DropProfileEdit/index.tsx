@@ -14,7 +14,11 @@ interface IFormInput {
   nickname: string;
 }
 
-export default function DropProfileEdit() {
+interface EditProfileProps {
+  closeBtn: () => void;
+}
+
+export default function DropProfileEdit({ closeBtn }: EditProfileProps) {
   const [submit, setSubmit] = useState<boolean>(false);
   const [submitNick, setSubmitNick] = useState<boolean>(false);
 
@@ -50,7 +54,7 @@ export default function DropProfileEdit() {
     <DropWrap
       title="프로필 수정"
       btn="적용"
-      closeBtn={() => {}}
+      closeBtn={closeBtn}
       btnFunction={handleSubmit(onSubmit)}
       submitState={submit}
     >
@@ -89,10 +93,10 @@ export default function DropProfileEdit() {
             </label>
             {errors.nickname ? (
               <div className={cn("nicknameNotiRed")}>
-                최소 글자 수는 2자 이상입니다
+                {errors.nickname.message}
               </div>
             ) : (
-              <div className={cn("nicknameNoti")}>{nickname.length} / 20자</div>
+              <div className={cn("nicknameNoti")}>{nickname.length} / 10자</div>
             )}
           </div>
           <input
@@ -105,10 +109,18 @@ export default function DropProfileEdit() {
             }
             id="nickname"
             type="text"
-            {...register("nickname", {
-              minLength: 2,
-            })}
             maxLength={10}
+            {...register("nickname", {
+              minLength: {
+                value: 2,
+                message: "닉네임은 최소 2자 이상이어야 합니다.",
+              },
+              maxLength: 10,
+              pattern: {
+                value: /^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]+$/,
+                message: "특수문자는 사용할 수 없습니다.",
+              },
+            })}
             placeholder="한글, 영어, 숫자만 사용가능 (2자 이상)"
           />
         </div>
