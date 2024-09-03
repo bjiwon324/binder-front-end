@@ -29,7 +29,7 @@ export default function DropWrap({
   useOnClickOutside(ref, closeBtn);
   return (
     <div className={cn("drop")}>
-      <div className={cn("dropWrap")}>
+      <div className={cn("dropWrap")} ref={ref}>
         <div className={cn("dropTitle")}>
           <div>{title}</div>
           <div className={cn("dropClose")} onClick={closeBtn}>
@@ -37,9 +37,7 @@ export default function DropWrap({
           </div>
         </div>
 
-        <div className={cn("dropChildren")} ref={ref}>
-          {children}
-        </div>
+        <div className={cn("dropChildren")}>{children}</div>
 
         <div
           onClick={submitState ? btnFunction : () => {}}

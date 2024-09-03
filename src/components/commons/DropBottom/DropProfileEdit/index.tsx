@@ -6,11 +6,13 @@ import styles from "./DropProfileEdit.module.scss";
 import Image from "next/image";
 import defaultImg from "@/../public/images/profileDefault.svg";
 import profileEdit from "@/../public/images/profileEdit.svg";
+import { useMutation } from "@tanstack/react-query";
+import { postImg } from "@/lib/apis/Image";
 
 const cn = classNames.bind(styles);
 
 interface IFormInput {
-  profileImg: string;
+  profileImg: any;
   nickname: string;
 }
 
@@ -21,6 +23,7 @@ interface EditProfileProps {
 export default function DropProfileEdit({ closeBtn }: EditProfileProps) {
   const [submit, setSubmit] = useState<boolean>(false);
   const [submitNick, setSubmitNick] = useState<boolean>(false);
+  const [imgData, setImgData] = useState<any>();
 
   const {
     register,
@@ -43,6 +46,28 @@ export default function DropProfileEdit({ closeBtn }: EditProfileProps) {
     name: "nickname",
     defaultValue: "",
   });
+
+  const { mutate: imgPost } = useMutation({
+    mutationFn: (data: any) => postImg(data),
+    onSuccess: (data) => {
+      setImgData(data);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const handleImgPost = async () => {
+    const formData = new FormData();
+    formData.append("file", profileImg[0]);
+    imgPost(formData);
+  };
+  useEffect(() => {
+    if (profileImg !== "") {
+      handleImgPost();
+    }
+  }, [profileImg]);
+
   useEffect(() => {
     setSubmit(
       profileImg.length > 0 || (nickname !== "" && nickname.length > 1)
@@ -61,7 +86,11 @@ export default function DropProfileEdit({ closeBtn }: EditProfileProps) {
       <form onSubmit={handleSubmit(onSubmit)} className={cn("profiltEditWrap")}>
         <label htmlFor="profileImg" className={cn("imgEditWrap")}>
           <div className={cn("profileImg")}>
-            <Image src={defaultImg} alt="프로필 이미지" fill />
+            <Image
+              src={imgData ? imgData.imageUrl : defaultImg}
+              alt="프로필 이미지"
+              fill
+            />
           </div>
           <div className={cn("profileEdit")}>
             <div className={cn("profileEditimg")}>
@@ -74,6 +103,7 @@ export default function DropProfileEdit({ closeBtn }: EditProfileProps) {
           id="profileImg"
           type="file"
           accept="image/*"
+          // onChange={handleImgPost}
           {...register("profileImg")}
         />
 

@@ -1,25 +1,30 @@
 import MyPageProfile from "@/components/domains/mypage/MyPageProfile";
 import MyPageToggle from "@/components/domains/mypage/MyPageToggle";
 import { getMembers } from "@/lib/apis/members";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient();
   const { req } = context;
-  const cookies = req.headers.cookie;
+  const cookies = req.headers.cookie || "";
 
-  const memberData = await getMembers(cookies); // 쿠키를 포함하여 API 호출
+  await queryClient.prefetchQuery({
+    queryKey: ["memberDatas"],
+    queryFn: () => getMembers(cookies), // 쿠키를 전달하여 API 호출
+  });
 
   return {
     props: {
-      memberData: memberData || null, // 데이터가 없을 경우 null로 처리
+      dehydratedState: dehydrate(queryClient), // 상태를 직렬화하여 클라이언트에 전달
     },
   };
 };
 
 export default function MyPage({
-  memberData,
+  dehydratedState,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log(memberData);
+  const memberData = dehydratedState.queries[0].state.data;
   return (
     <>
       <MyPageProfile memberData={memberData} />
