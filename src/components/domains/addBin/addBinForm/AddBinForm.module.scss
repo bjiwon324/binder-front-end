@@ -8,9 +8,12 @@
     max-width: 39rem;
     padding: 2rem;
     margin: 10rem 0;
+    transition: color 0.3s ease;
 
     > div {
-      @include column-flexbox(start, start);
+      @include flexbox(start, start);
+      flex-direction: column-reverse;
+      position: relative;
       gap: 1.2rem;
       width: 100%;
     }
@@ -31,13 +34,17 @@
     cursor: pointer;
 
     color: #4d4d4d;
+
+    &.error {
+      color: $error-red;
+    }
   }
   &-input {
     padding: 1.4rem;
     width: 100%;
     border-radius: 1rem;
     letter-spacing: -0.024rem;
-    color: #a5a5a5;
+    color: #4d4d4d;
     border: 1px solid #d9d9d9;
     background: #fff;
 
@@ -45,12 +52,19 @@
       color: #a5a5a5;
     }
 
-    & .error {
+    &:focus {
+      border: 1px solid $primary-green;
+    }
+
+    &.error {
+      outline: none;
+      border: 1px solid $error-red;
     }
   }
 
   &-img-box {
     @include column-flexbox();
+    position: relative;
     width: 100%;
     margin-top: 1.2rem;
     height: 14.3rem;
@@ -58,6 +72,7 @@
     gap: 1.2rem;
     border-radius: 1rem;
     background-color: #f2f2f2;
+    overflow: hidden;
 
     &-text {
       font-size: 1.4rem;
@@ -68,10 +83,10 @@
 }
 
 .img-input {
-  position: relative;
-  bottom: 10rem;
+  position: absolute;
   left: 3rem;
   z-index: -1;
+  top: 3rem;
 }
 
 .choose {
@@ -79,4 +94,20 @@
   margin-left: 0.3rem;
   letter-spacing: -0.013rem;
   color: #a5a5a5;
+}
+
+.error-message {
+  position: absolute;
+  right: 0;
+  top: 0.3rem;
+  font-size: 1.3rem;
+  color: $error-red;
+}
+
+.addbin-input:focus + .addbin-label {
+  color: $primary-green !important;
+}
+
+.preview {
+  z-index: 3;
 }
