@@ -3,11 +3,7 @@ import MyPageProfile from "@/components/domains/mypage/MyPageProfile";
 import MyPageToggle from "@/components/domains/mypage/MyPageToggle";
 import { getMembers } from "@/lib/apis/members";
 import { loginState } from "@/lib/atoms/userAtom";
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect } from "react";
@@ -29,18 +25,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function MyPage({
-  dehydratedState,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function MyPage({ dehydratedState }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const memberData = dehydratedState.queries[0].state.data;
-  const [, setLoginState] = useAtom(loginState);
-
+  const [isLogin, setLoginState] = useAtom(loginState);
+  console.log(memberData);
   useEffect(() => {
     if (memberData !== null) {
       setLoginState(true);
+    } else {
+      setLoginState(false);
     }
   }, [memberData, setLoginState]);
-  return memberData !== null ? (
+  return isLogin && memberData !== null ? (
     <>
       {/* <HydrationBoundary state={dehydratedState}> */}
       <MyPageProfile memberData={memberData} />

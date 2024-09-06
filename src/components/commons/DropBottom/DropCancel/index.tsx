@@ -12,12 +12,13 @@ const cn = classNames.bind(styles);
 
 interface DropCancelProps {
   handleDrop: () => void;
+  setDeleteModal: any;
 }
 interface IFormInput {
   cancel: string;
 }
 
-export default function DropCancel({ handleDrop }: DropCancelProps) {
+export default function DropCancel({ handleDrop, setDeleteModal }: DropCancelProps) {
   const [cancelStats, setCancelState] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
   const [btnBool, setBtnBoolean] = useState<boolean>(false);
@@ -31,6 +32,7 @@ export default function DropCancel({ handleDrop }: DropCancelProps) {
     onSuccess: () => {
       console.log("성공");
       handleDrop();
+      setDeleteModal(true);
     },
   });
 
@@ -64,20 +66,12 @@ export default function DropCancel({ handleDrop }: DropCancelProps) {
       submitState={btnBool}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div
-          className={cn(
-            "cancelText",
-            cancelStats && `cancelText${cancelStats}`
-          )}
-        >
+        <div className={cn("cancelText", cancelStats && `cancelText${cancelStats}`)}>
           정말 탈퇴를 원하시면 {`"`}탈퇴하기{`"`}를 입력해 주세요.
         </div>
         <div className={cn("inputWrap")}>
           <input
-            className={cn(
-              "cancelTextInput",
-              cancelStats && `cancelTextInput${cancelStats}`
-            )}
+            className={cn("cancelTextInput", cancelStats && `cancelTextInput${cancelStats}`)}
             type="text"
             value={inputValue}
             placeholder="탈퇴하기"
