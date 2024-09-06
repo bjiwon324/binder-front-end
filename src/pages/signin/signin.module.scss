@@ -18,19 +18,26 @@
 
 .title-box {
   @include column-flexbox();
+
   gap: 0.7rem;
 }
 
 .wrapper {
-  position: absolute;
   text-align: center;
 
   width: 100%;
-  max-width: 39rem;
+  height: 100vh;
 
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -60%);
+  background-color: #fff;
 
-  padding: 0 2rem;
+  > div {
+    position: absolute;
+    padding: 0 2rem;
+
+    width: 100%;
+    max-width: 39rem;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+  }
 }

@@ -6,9 +6,9 @@
     font-size: 1.6rem;
     width: 100%;
     max-width: 39rem;
-    padding: 2rem;
-    margin: 10rem 0;
+    padding: 11rem 2rem 11rem;
     transition: color 0.3s ease;
+    background-color: #fff;
 
     > div {
       @include flexbox(start, start);

@@ -98,7 +98,6 @@ export default function AddBinForm() {
                   onClick={() => {
                     handleBinTypeClick(bin.id);
                   }}
-                  status="basic"
                   {...field}
                 >
                   {bin.label}
