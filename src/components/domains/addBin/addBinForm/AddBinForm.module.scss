@@ -106,6 +106,9 @@
 
 .addbin-input:focus + .addbin-label {
   color: $primary-green !important;
+  &.error {
+    color: $error-red !important;
+  }
 }
 
 .preview {

@@ -5,10 +5,7 @@ export default function Document() {
     <Html lang="ko">
       <Head>
         <link rel="manifest" href="/manifest.json" />
-        <script
-          defer
-          src="https://developers.kakao.com/sdk/js/kakao.min.js"
-        ></script>
+        <script defer src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
       </Head>
       <body>
         <Main />
