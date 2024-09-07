@@ -19,10 +19,18 @@ export default function AdminPageItem({ title }: AdminProps) {
   const [pageFilter, setPageFilter] = useState<string>("전체");
 
   const router = useRouter();
-
+  const getBins = () => {
+    if (title === "요청받은 쓰레기통") {
+      return getAdminBins(pageFilter);
+    } else if (title === "신고받은 쓰레기통") {
+      return getAdminBins(pageFilter);
+    } else {
+      return getAdminBins(pageFilter);
+    }
+  };
   const { data: bins } = useQuery({
     queryKey: ["bins", pageFilter],
-    queryFn: () => getAdminBins(pageFilter),
+    queryFn: () => getBins(),
   });
 
   const handleDrop = () => {
