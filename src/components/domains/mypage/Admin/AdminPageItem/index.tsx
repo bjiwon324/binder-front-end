@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import styles from "./AdminPageItem.module.scss";
 import classNames from "classnames/bind";
 import { useRouter } from "next/router";
-import { getAdminBins } from "@/lib/apis/admin";
+import { getAdminBins, getAdminBinsFix } from "@/lib/apis/admin";
 import arrowGary from "@/../public/images/arrowGray.svg";
 import Image from "next/image";
 import { useState } from "react";
@@ -19,17 +19,19 @@ export default function AdminPageItem({ title }: AdminProps) {
   const [pageFilter, setPageFilter] = useState<string>("전체");
 
   const router = useRouter();
+
   const getBins = () => {
     if (title === "요청받은 쓰레기통") {
       return getAdminBins(pageFilter);
     } else if (title === "신고받은 쓰레기통") {
       return getAdminBins(pageFilter);
-    } else {
-      return getAdminBins(pageFilter);
+    } else if (title === "수정요청 쓰레기통") {
+      return getAdminBinsFix(pageFilter);
     }
   };
+
   const { data: bins } = useQuery({
-    queryKey: ["bins", pageFilter],
+    queryKey: ["bins", title, pageFilter],
     queryFn: () => getBins(),
   });
 
@@ -52,7 +54,7 @@ export default function AdminPageItem({ title }: AdminProps) {
         </div>
 
         <div className={cn("adminCardList")}>
-          {bins?.binRegistrationDetails.map((item: any, index: number) => (
+          {bins?.binRegistrationDetails?.map((item: any, index: number) => (
             <div
               onClick={() => {
                 router.push(router.asPath + "/" + item.binId);

@@ -1,16 +1,15 @@
-// import styles from "./AdminPage.module.scss";
-import classNames from "classnames/bind";
 import AdminPageBar from "./AdminPageBar";
 import AdminPageItem from "./AdminPageItem";
 
-// const cn = classNames.bind(styles);
-
-export default function AdminPage() {
+interface AdminPageProps {
+  title: string;
+}
+export default function AdminPage({ title }: AdminPageProps) {
   return (
     <>
       <AdminPageBar />
 
-      <AdminPageItem title={"요청받은 쓰레기통"} />
+      <AdminPageItem title={title} />
     </>
   );
 }
