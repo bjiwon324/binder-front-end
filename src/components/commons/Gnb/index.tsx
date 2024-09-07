@@ -16,7 +16,6 @@ const cn = classNames.bind(styles);
 export default function Gnb() {
   const [page, setPage] = useState<string>("");
   const router = useRouter();
-
   useEffect(() => {
     setPage(router.asPath);
   }, [router]);
@@ -31,18 +30,26 @@ export default function Gnb() {
         <span>홈</span>
       </div>
 
-      <div className={page === "/search" ? cn("gnbOn") : cn("gnb")}>
+      <div className={page.startsWith("/search") ? cn("gnbOn") : cn("gnb")}>
         <div className={cn("onBar")}></div>{" "}
         <Link href={"/search"} className={cn("gnbMenuImg")}>
-          <Image src={page === "/search" ? searchOn : search} alt="검색" fill />
+          <Image
+            src={page.startsWith("/search") ? searchOn : search}
+            alt="검색"
+            fill
+          />
         </Link>
         <span>검색</span>
       </div>
 
-      <div className={page === "/mypage" ? cn("gnbOn") : cn("gnb")}>
+      <div className={page.startsWith("/mypage") ? cn("gnbOn") : cn("gnb")}>
         <div className={cn("onBar")}></div>
         <Link href={"/mypage"} className={cn("gnbMenuImg")}>
-          <Image src={page === "/mypage" ? mypageOn : mypage} alt="마이" fill />
+          <Image
+            src={page.startsWith("/mypage") ? mypageOn : mypage}
+            alt="마이"
+            fill
+          />
         </Link>
         <span>마이</span>
       </div>

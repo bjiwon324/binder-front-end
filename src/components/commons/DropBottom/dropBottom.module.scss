@@ -6,6 +6,8 @@
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 999;
   overflow: hidden;
 }

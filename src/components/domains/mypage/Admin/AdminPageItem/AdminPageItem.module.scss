@@ -1,0 +1,59 @@
+@import "@/styles/main.scss";
+
+.adminWrap {
+  width: 100%;
+  height: calc(100vh - 7.5rem - 7.6rem);
+  background: #f4f6f5;
+  padding: 2rem 1.7rem;
+}
+
+.adminTitleWrap {
+  display: flex;
+  justify-content: space-between;
+}
+.adminTitle {
+  display: flex;
+  gap: 0.5rem;
+}
+.adminTitleText {
+  color: #06130d;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 26px;
+}
+.adminTitleTag {
+  width: 6rem;
+  height: 2.5rem;
+  border-radius: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ff3232;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 26px;
+}
+.adminDrop {
+  width: 10.2rem;
+  height: 2.5rem;
+  border-radius: 1.8rem;
+  border: 1px solid #515f58;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #515f58;
+  font-size: 1.4rem;
+  line-height: 25px;
+  cursor: pointer;
+}
+.adminCardList {
+  margin-top: 1.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+}

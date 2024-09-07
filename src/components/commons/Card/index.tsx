@@ -14,10 +14,10 @@ const STATUSTEXT: Record<Status, string> = {
 export default function Card({ ...item }: CardProps) {
   const statusText = STATUSTEXT[item.status as Status];
 
-  const completed = item.isAdmin && item.status !== "judge";
+  const completed = item.status === "REJECTED";
 
   const isAdminjudging = () => {
-    return !item.isAdmin || item.status !== "judge";
+    return !item.isAdmin || item.status !== "REJECTED";
   };
   const binState = () => {
     switch (item.type) {
@@ -70,7 +70,7 @@ export default function Card({ ...item }: CardProps) {
       <div className={cn("card-text-box")}>
         <div className={cn("card-title-box")}>
           <h4 className={cn("card-title")}>{item.title}</h4>
-          <p className={cn("card-createdAt")}>{item.createdAt.slice(0, 10)}</p>
+          <p className={cn("card-createdAt")}>{item.createdAt?.slice(0, 10)}</p>
         </div>
         <p className={cn("card-address")}>{item.address}</p>
         <div className={cn("card-bottom")}>
@@ -87,8 +87,8 @@ export default function Card({ ...item }: CardProps) {
               admin: item.isAdmin,
             })}
           >
-            {item.isAdmin ? (
-              <p>{item.admin}</p>
+            {item.admin ? (
+              <p>{item.nickname}</p>
             ) : (
               <>
                 <Image
