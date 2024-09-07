@@ -5,9 +5,18 @@ import styles from "./AdminFilter.module.scss";
 
 const cn = classNames.bind(styles);
 
-export default function AdminFilter() {
+interface AdminFilter {
+  closeModal: () => void;
+  setPageFilter: (filter: string) => void;
+  pageFilter: string;
+}
+export default function AdminFilter({
+  closeModal,
+  setPageFilter,
+  pageFilter,
+}: AdminFilter) {
   const [submit, setSubmit] = useState<boolean>(false);
-  const [choice, setChoice] = useState<String>("");
+  const [choice, setChoice] = useState<string>(pageFilter);
 
   const handleChoice = (e: string) => {
     setChoice(e);
@@ -19,12 +28,18 @@ export default function AdminFilter() {
     }
   }, [choice]);
 
+  const handleSubmit = () => {
+    setPageFilter(choice);
+    closeModal();
+  };
+
   return (
     <DropWrap
       title="처리 상태"
       btn="적용"
-      closeBtn={() => {}}
+      closeBtn={closeModal}
       submitState={submit}
+      btnFunction={handleSubmit}
     >
       <div className={cn("wrap")}>
         <div

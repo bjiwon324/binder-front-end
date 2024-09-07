@@ -19,6 +19,9 @@
     h4 {
       color: #a6adab !important;
     }
+    & .card-tag {
+      opacity: 0.5;
+    }
   }
 }
 
@@ -50,16 +53,16 @@
   margin-right: 0.5rem;
 
   &.PENDING {
-    background: #e9e9e9;
-    color: #bdbdbd;
+    background: #515f58;
+    color: #f4f6f5;
   }
   &.APPROVED {
-    background: #9bb7ad;
+    background: #3cc58a;
     color: #e1f4ed;
   }
   &.REJECTED {
-    color: #f9e7e7;
-    background: #c1aaaa;
+    color: #e1f4ed;
+    background: #e9aead;
   }
   &.bin {
     color: #d9d9d9;
