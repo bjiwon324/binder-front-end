@@ -1,10 +1,10 @@
-import Image from "next/image";
-import styles from "./Card.module.scss";
-import classNames from "classnames/bind";
-import { CardProps, Status } from "../CardList";
-import { useRouter } from "next/router";
 import grayStar from "@/../public/images/icon-gray-star.svg";
 import reportGray from "@/../public/images/report-gray.svg";
+import classNames from "classnames/bind";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { CardProps, Status } from "../CardList";
+import styles from "./Card.module.scss";
 
 const cn = classNames.bind(styles);
 
@@ -21,13 +21,14 @@ export default function Card({ ...item }: CardProps) {
   const isReport = router.asPath === "/mypage/report";
   const completed =
     item.status === "REJECTED" || (item.status === "APPROVED" && item.admin);
-  const tagName = isReport
-    ? "신고"
-    : router.asPath === "/mypage/ask"
-      ? "요청"
-      : router.asPath === "/mypage/fix"
-        ? "수정"
-        : "";
+
+  const tagNames: { [key: string]: string } = {
+    "/mypage/ask": "요청",
+    "/mypage/fix": "수정",
+    "/mypage/report": "신고",
+  };
+
+  const tagName = tagNames[router.asPath];
 
   const isAdminjudging = () => {
     return !item.isAdmin || item.status !== "REJECTED";
@@ -46,7 +47,7 @@ export default function Card({ ...item }: CardProps) {
         return "일반 쓰레기통";
     }
   };
-  console.log(item);
+
   return (
     <button className={cn("card-wrapper")} disabled={completed}>
       <Image

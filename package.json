@@ -41,6 +41,7 @@
     "cypress": "^13.13.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
+    "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-storybook": "^0.8.0",
     "storybook": "^8.2.9",
     "typescript": "^5"

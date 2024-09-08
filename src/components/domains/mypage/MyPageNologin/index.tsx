@@ -1,9 +1,9 @@
-import classNames from "classnames/bind";
-import styles from "./MyPageNologin.module.scss";
+import arrowRight from "@/../public/images/arrowGreen.svg";
 import defaultImg from "@/../public/images/profileDefault.svg";
+import classNames from "classnames/bind";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import arrowRight from "@/../public/images/arrowGreen.svg";
+import styles from "./MyPageNologin.module.scss";
 
 const cn = classNames.bind(styles);
 
@@ -22,7 +22,11 @@ export default function MyPageNologin() {
           </div>
         </div>
 
-        <div className={cn("profileName")} onClick={handleLogin}>
+        <div
+          className={cn("profileName")}
+          onClick={handleLogin}
+          data-cy="goLogin"
+        >
           로그인하기{" "}
           <div className={cn("loginImg")}>
             <Image src={arrowRight} alt={"로그인하러 가기"} fill />
