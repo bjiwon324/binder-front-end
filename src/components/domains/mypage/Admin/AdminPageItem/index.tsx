@@ -2,7 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import styles from "./AdminPageItem.module.scss";
 import classNames from "classnames/bind";
 import { useRouter } from "next/router";
-import { getAdminBins, getAdminBinsFix } from "@/lib/apis/admin";
+import {
+  getAdminBins,
+  getAdminBinsFix,
+  getAdminBinsReport,
+} from "@/lib/apis/admin";
 import arrowGary from "@/../public/images/arrowGray.svg";
 import Image from "next/image";
 import { useState } from "react";
@@ -24,7 +28,7 @@ export default function AdminPageItem({ title }: AdminProps) {
     if (title === "요청받은 쓰레기통") {
       return getAdminBins(pageFilter);
     } else if (title === "신고받은 쓰레기통") {
-      return getAdminBins(pageFilter);
+      return getAdminBinsReport(pageFilter);
     } else if (title === "수정요청 쓰레기통") {
       return getAdminBinsFix(pageFilter);
     }
@@ -34,7 +38,11 @@ export default function AdminPageItem({ title }: AdminProps) {
     queryKey: ["bins", title, pageFilter],
     queryFn: () => getBins(),
   });
-
+  const details =
+    bins?.binRegistrationDetails ||
+    bins?.binModificationDetails ||
+    bins?.binComplaintsDetails ||
+    [];
   const handleDrop = () => {
     setDrop((prev) => !prev);
   };
@@ -54,10 +62,10 @@ export default function AdminPageItem({ title }: AdminProps) {
         </div>
 
         <div className={cn("adminCardList")}>
-          {bins?.binRegistrationDetails?.map((item: any, index: number) => (
+          {details.map((item: any, index: number) => (
             <div
               onClick={() => {
-                router.push(router.asPath + "/" + item.binId);
+                router.push(router.asPath + "/" + item.registrationId);
               }}
               key={index}
             >

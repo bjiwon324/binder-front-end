@@ -2,19 +2,32 @@ import Image from "next/image";
 import styles from "./Card.module.scss";
 import classNames from "classnames/bind";
 import { CardProps, Status } from "../CardList";
+import { useRouter } from "next/router";
+import grayStar from "@/../public/images/icon-gray-star.svg";
+import reportGray from "@/../public/images/report-gray.svg";
 
 const cn = classNames.bind(styles);
 
 const STATUSTEXT: Record<Status, string> = {
   APPROVED: "승인",
   REJECTED: "거절",
-  PENDING: "검토 중",
+  PENDING: "심사 중",
 };
 
 export default function Card({ ...item }: CardProps) {
   const statusText = STATUSTEXT[item.status as Status];
 
-  const completed = item.status === "REJECTED";
+  const router = useRouter();
+  const isReport = router.asPath === "/mypage/report";
+  const completed =
+    item.status === "REJECTED" || (item.status === "APPROVED" && item.admin);
+  const tagName = isReport
+    ? "신고"
+    : router.asPath === "/mypage/ask"
+      ? "요청"
+      : router.asPath === "/mypage/fix"
+        ? "수정"
+        : "";
 
   const isAdminjudging = () => {
     return !item.isAdmin || item.status !== "REJECTED";
@@ -33,32 +46,9 @@ export default function Card({ ...item }: CardProps) {
         return "일반 쓰레기통";
     }
   };
-  // const handleLikeUpdate = () => {
-  //   setLikeCounter((prevCount) =>
-  //     typeof prevCount === "number"
-  //       ? isLike
-  //         ? prevCount - 1
-  //         : prevCount + 1
-  //       : prevCount
-  //   );
-  // };
-
-  const handleClick = (id: number) => {
-    if (item.isAdmin) {
-      //페이지 이동시키기
-      return console.log(id);
-    } else {
-      // setIsLike((prev) => !prev);
-      // handleLikeUpdate();
-    }
-  };
-
+  console.log(item);
   return (
-    <button
-      className={cn("card-wrapper")}
-      onClick={() => handleClick(item.id)}
-      disabled={completed}
-    >
+    <button className={cn("card-wrapper")} disabled={completed}>
       <Image
         src={"/images/icon-location-green-pin.svg"}
         alt="초록색 위치 표시 핀"
@@ -77,9 +67,15 @@ export default function Card({ ...item }: CardProps) {
           <div>
             <span className={cn("card-tag", "bin")}>{binState()}</span>
 
-            {isAdminjudging() && (
-              <span className={cn("card-tag", item.status)}>{statusText}</span>
-            )}
+            {isAdminjudging() &&
+              (item.admin && item.status === "PENDING" ? (
+                <></>
+              ) : (
+                <span className={cn("card-tag", item.status)}>
+                  {tagName + " "}
+                  {statusText}
+                </span>
+              ))}
           </div>
           <div
             className={cn("card-likes", {
@@ -87,17 +83,29 @@ export default function Card({ ...item }: CardProps) {
               admin: item.isAdmin,
             })}
           >
-            {item.admin ? (
+            {item.admin && !isReport ? (
               <p>{item.nickname}</p>
             ) : (
               <>
-                <Image
-                  src={"/images/icon-gray-star.svg"}
-                  alt="좋아요"
-                  width={15}
-                  height={15}
-                  objectFit="fit"
-                />
+                {isReport ? (
+                  <Image
+                    src={reportGray}
+                    alt="좋아요"
+                    width={15}
+                    height={15}
+                    objectFit="fit"
+                    className={cn("isReport")}
+                  />
+                ) : (
+                  <Image
+                    src={grayStar}
+                    alt="좋아요"
+                    width={15}
+                    height={15}
+                    objectFit="fit"
+                  />
+                )}
+
                 <p>{item.bookmarkCount}</p>
               </>
             )}

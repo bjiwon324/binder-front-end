@@ -15,7 +15,7 @@ $toggleBar: 7.5rem;
   transition: all 0.5s;
 }
 .toggleBar2 {
-  margin-left: $toggleBar;
+  margin-left: $toggleBar + 1.4rem;
 }
 .toggleItemOn,
 .toggleItem {
@@ -33,4 +33,5 @@ $toggleBar: 7.5rem;
 }
 .toggle {
   display: flex;
+  gap: 1.4rem;
 }

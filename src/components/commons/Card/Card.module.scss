@@ -99,7 +99,9 @@
         brightness(94%) contrast(93%);
     }
   }
-
+  & .isReport {
+    filter: none;
+  }
   &.admin {
     color: #75968a;
   }
