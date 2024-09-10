@@ -61,6 +61,9 @@
   font-size: 2rem;
   font-weight: 800;
   line-height: 37px;
+  & > img {
+    margin-left: 0.5rem;
+  }
 }
 
 .profileStar {

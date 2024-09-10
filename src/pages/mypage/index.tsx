@@ -3,11 +3,7 @@ import MyPageProfile from "@/components/domains/mypage/MyPageProfile";
 import MyPageToggle from "@/components/domains/mypage/MyPageToggle";
 import { getMembers } from "@/lib/apis/members";
 import { adminUser, loginState } from "@/lib/atoms/userAtom";
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect } from "react";
