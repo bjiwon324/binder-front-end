@@ -46,7 +46,7 @@ export default function AdminPageItem({ title }: AdminProps) {
   const handleDrop = () => {
     setDrop((prev) => !prev);
   };
-
+  console.log(details);
   return (
     <>
       <div className={cn("adminWrap")}>
@@ -65,7 +65,7 @@ export default function AdminPageItem({ title }: AdminProps) {
           {details.map((item: any, index: number) => (
             <div
               onClick={() => {
-                router.push(router.asPath + "/" + item.registrationId);
+                router.push(router.asPath + "/" + item.binId);
               }}
               key={index}
             >

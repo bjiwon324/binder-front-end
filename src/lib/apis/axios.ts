@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
 import { API_BASE_URL } from "../constants/urls";
 
 export const instance: AxiosInstance = axios.create({
@@ -13,7 +13,7 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      window.location.href = "/signin";
+      // window.location.href = "/signin";
     }
     return Promise.reject(error);
   }
