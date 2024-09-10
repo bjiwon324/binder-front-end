@@ -4,14 +4,10 @@ import classNames from "classnames/bind";
 import { SOCIAL_LOGIN_URL } from "@/lib/constants/urls";
 import Toast from "@/components/domains/signin/Toast";
 import Image from "next/image";
-import { loginState } from "@/lib/atoms/userAtom";
-import { useAtom } from "jotai";
 
 const cn = classNames.bind(styles);
 
 export default function Signin() {
-  const [isLoggedIn, setLoginState] = useAtom(loginState);
-
   const handleClickKakaoSignIn = () => {
     window.location.href = SOCIAL_LOGIN_URL + "/kakao";
   };

@@ -8,6 +8,8 @@ import Input from "./Input";
 import { btnInputValues } from "@/lib/constants/btnInputValues";
 import { useMutation } from "@tanstack/react-query";
 import postAddbin from "@/lib/apis/postAddbin";
+import { useAtom } from "jotai";
+import { userCoordinate } from "@/lib/atoms/userAtom";
 
 const cn = classNames.bind(styles);
 
@@ -27,13 +29,14 @@ interface AddbinFormValues {
 }
 
 export interface PostAddbinValues extends AddbinFormValues {
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
 }
 
 export default function AddBinForm() {
   const [selectedBin, setSelectedBin] = useState<string>("");
   const [img, setImg] = useState<string>("");
+  const [coordinate, setCoordinate] = useAtom(userCoordinate);
   const {
     register,
     handleSubmit,
@@ -56,16 +59,19 @@ export default function AddBinForm() {
   };
 
   const onSubmit: SubmitHandler<AddbinFormValues> = (data) => {
-    const postData = data;
+    const postData: PostAddbinValues = data;
     postData.image = img;
     console.log(postData);
-    //submitAddbin(postData);
+    postData.latitude = coordinate.x;
+    postData.longitude = coordinate.y;
+    submitAddbin(postData);
   };
 
   const { mutate: submitAddbin } = useMutation({
     mutationKey: ["post-add-bin"],
     mutationFn: (data: PostAddbinValues) => postAddbin(data),
-    onSuccess: () => {
+    onSuccess: (res) => {
+      console.log(res);
       //모달띄우기ㅣ
     },
   });
