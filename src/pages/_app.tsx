@@ -19,3 +19,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </QueryClientProvider>
   );
 }
+
+//width: "100%", maxWidth: "450px"

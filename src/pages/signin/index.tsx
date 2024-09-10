@@ -4,14 +4,10 @@ import classNames from "classnames/bind";
 import { SOCIAL_LOGIN_URL } from "@/lib/constants/urls";
 import Toast from "@/components/domains/signin/Toast";
 import Image from "next/image";
-import { loginState } from "@/lib/atoms/userAtom";
-import { useAtom } from "jotai";
 
 const cn = classNames.bind(styles);
 
 export default function Signin() {
-  const [isLoggedIn, setLoginState] = useAtom(loginState);
-
   const handleClickKakaoSignIn = () => {
     window.location.href = SOCIAL_LOGIN_URL + "/kakao";
   };
@@ -26,34 +22,18 @@ export default function Signin() {
 
   return (
     <section className={cn("wrapper")}>
-      <article className={cn("title-box")}>
-        <Image
-          alt="logo"
-          src={"/images/icon-sample-logo.svg"}
-          objectFit="fit"
-          width={120}
-          height={39}
-        />
-        <p className={cn("description")}>로그인 후 이용가능합니다.</p>
-      </article>
-      <article className={cn("btns-wrapper")}>
-        <Toast />
-        <SocialoginButton
-          label="kakao"
-          onClick={handleClickKakaoSignIn}
-          testId={"kakaoBtn"}
-        />
-        <SocialoginButton
-          label="naver"
-          onClick={handleClickNaverSignIn}
-          testId={"naverBtn"}
-        />
-        <SocialoginButton
-          label="google"
-          onClick={handleClickGoogleSignIn}
-          testId={"googleBtn"}
-        />
-      </article>
+      <div>
+        <article className={cn("title-box")}>
+          <Image alt="logo" src={"/images/icon-sample-logo.svg"} objectFit="fit" width={120} height={39} />
+          <p className={cn("description")}>로그인 후 이용가능합니다.</p>
+        </article>
+        <article className={cn("btns-wrapper")}>
+          <Toast />
+          <SocialoginButton label="kakao" onClick={handleClickKakaoSignIn} testId={"kakaoBtn"} />
+          <SocialoginButton label="naver" onClick={handleClickNaverSignIn} testId={"naverBtn"} />
+          <SocialoginButton label="google" onClick={handleClickGoogleSignIn} testId={"googleBtn"} />
+        </article>
+      </div>
     </section>
   );
 }

@@ -7,7 +7,7 @@ export const instance: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
     return response;
   },
