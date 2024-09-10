@@ -20,6 +20,7 @@ export interface CardProps {
   bookmarkCount: number;
   isAdmin?: boolean;
   admin: boolean;
+  nickname?: string;
 }
 
 export default function CardList() {

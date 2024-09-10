@@ -1,0 +1,21 @@
+@import "@/styles/main.scss";
+
+.adminBar {
+  width: 100%;
+  height: 7.5rem;
+  padding: 0 1.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  & > img {
+    rotate: 180deg;
+    cursor: pointer;
+  }
+  & > div {
+    color: #06130d;
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 37px;
+  }
+}
