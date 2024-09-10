@@ -73,7 +73,7 @@ export default function Card({ ...item }: CardProps) {
                 <></>
               ) : (
                 <span className={cn("card-tag", item.status)}>
-                  {tagName + " "}
+                  {!!tagName && tagName + " "}
                   {statusText}
                 </span>
               ))}
@@ -85,7 +85,7 @@ export default function Card({ ...item }: CardProps) {
             })}
           >
             {item.admin && !isReport ? (
-              <p>{item.nickname}</p>
+              <p>{item.nickname?.slice(0, 16)}</p>
             ) : (
               <>
                 {isReport ? (

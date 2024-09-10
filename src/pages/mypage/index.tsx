@@ -27,7 +27,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function MyPage({ dehydratedState }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function MyPage({
+  dehydratedState,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const memberData = dehydratedState.queries[0].state.data;
   const [isLogin, setLoginState] = useAtom(loginState);
   const [, setIsAdmin] = useAtom(adminUser);
