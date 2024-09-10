@@ -1,11 +1,12 @@
-import classNames from "classnames/bind";
-import styles from "./MyPageProfile.module.scss";
+import adminMark from "@/../public/images/adminMark.svg";
 import defaultImg from "@/../public/images/profileDefault.svg";
 import profileEditImg from "@/../public/images/profileEdit.svg";
 import star from "@/../public/images/star.svg";
-import Image from "next/image";
 import DropProfileEdit from "@/components/commons/DropBottom/DropProfileEdit";
+import classNames from "classnames/bind";
+import Image from "next/image";
 import { useState } from "react";
+import styles from "./MyPageProfile.module.scss";
 
 const cn = classNames.bind(styles);
 
@@ -47,7 +48,17 @@ export default function MyPageProfile({ memberData }: ProfileProps) {
           </div>
         </div>
 
-        <div className={cn("profileName")}>{nick.slice(0, 16)}</div>
+        <div className={cn("profileName")}>
+          {nick.slice(0, 16)}
+          {memberData.role === "ROLE_ADMIN" && (
+            <Image
+              src={adminMark}
+              alt="어드민 인증마크"
+              width={17}
+              height={17}
+            />
+          )}
+        </div>
 
         <div className={cn("profileStar")}>
           <div className={cn("profileStarImg")}>

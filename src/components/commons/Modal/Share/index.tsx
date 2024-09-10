@@ -1,11 +1,10 @@
-import classNames from "classnames/bind";
-import Portal from "../Portal";
-import styles from "./Share.module.scss";
-import { useRouter } from "next/router";
+import close from "@/../public/images/dropClose.svg";
 import kakao from "@/../public/images/kakao.svg";
+import classNames from "classnames/bind";
 import Image from "next/image";
 import { useEffect } from "react";
-import close from "@/../public/images/dropClose.svg";
+import Portal from "../Portal";
+import styles from "./Share.module.scss";
 
 const cn = classNames.bind(styles);
 
@@ -15,8 +14,6 @@ interface IModalProps {
 }
 
 export default function Share({ modalClose, setShare }: IModalProps) {
-  const router = useRouter();
-
   const copyURL = () => {
     let currentUrl = window.document.location.href;
     let t = document.createElement("textarea");
