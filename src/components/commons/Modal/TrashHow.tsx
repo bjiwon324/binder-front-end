@@ -15,7 +15,7 @@ interface IModalProps {
 }
 
 export default function Modal({ modalState, modalClose }: IModalProps) {
-  const [modalHow, setModalHow] = useState<string>("거절");
+  const [modalHow, setModalHow] = useState<string>(modalState);
   // 거절, 승인 ,심사 중
   const date = new Date();
   const name = "oo";
@@ -25,6 +25,8 @@ export default function Modal({ modalState, modalClose }: IModalProps) {
         return wrong;
       case "승인":
         return access;
+      case "신청":
+        return audit;
       default:
         return audit;
     }
@@ -69,10 +71,14 @@ export default function Modal({ modalState, modalClose }: IModalProps) {
                 <br />
                 심사 결과까지 대략 3일 소요됩니다.
               </>
+            ) : modalHow === "신청" ? (
+              <>
+                쓰레기통이 등록 신청되었습니다. <br />
+                심사 결과까지 대략 3일 소요됩니다.
+              </>
             ) : (
               <>
-                {date.getFullYear()}.{date.getMonth() + 1}.{date.getDate()}{" "}
-                {name} 님이 신청한
+                {date.getFullYear()}.{date.getMonth() + 1}.{date.getDate()} {name} 님이 신청한
                 <br />
                 쓰레기통 등록 건에 대하여
                 <br />
