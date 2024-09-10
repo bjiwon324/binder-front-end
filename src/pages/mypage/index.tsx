@@ -43,7 +43,7 @@ export default function MyPage({
       setLoginState(false);
       isLoginState = false;
     }
-  }, [memberData, setLoginState, setIsAdmin]);
+  }, [memberData, setLoginState, setIsAdmin, isLoginState]);
 
   return isLogin && memberData !== null ? (
     <>
