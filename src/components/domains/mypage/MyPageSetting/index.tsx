@@ -26,6 +26,7 @@ export default function MyPageSetting() {
   const { mutate: logout } = useMutation({
     mutationFn: postLogout,
     onSuccess: () => {
+      document.cookie = "loginState=false; path=/;";
       router.push("/");
     },
   });
@@ -64,7 +65,9 @@ export default function MyPageSetting() {
       />
       {isAdmin && <AdminSetting />}
 
-      {drop && <DropCancel handleDrop={handleDrop} setDeleteModal={setDeleteModal} />}
+      {drop && (
+        <DropCancel handleDrop={handleDrop} setDeleteModal={setDeleteModal} />
+      )}
       {dropShare && <Share modalClose={handleDropShare} setShare={setShare} />}
       {share && <ShareNoti />}
       {deleteModal && <DeleteMemberModal modalClose={deleteModalClose} />}
