@@ -8,15 +8,15 @@ import { useAtom } from "jotai";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect } from "react";
 
+let isLoginState = false;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { req } = context;
 
   const cookies = req.headers.cookie || "";
-  const isLoggedIn = cookies.includes("loginState=true"); // 쿠키에서 로그인 상태를 확인
 
   await queryClient.prefetchQuery({
-    queryKey: ["memberDatas", isLoggedIn],
+    queryKey: ["memberDatas", isLoginState],
     queryFn: () => getMembers(cookies), // 쿠키를 전달하여 API 호출
   });
 
@@ -37,20 +37,18 @@ export default function MyPage({
   useEffect(() => {
     if (memberData !== null) {
       setLoginState(true);
-      document.cookie = "loginState=true; path=/;";
+      isLoginState = true;
       setIsAdmin(memberData.role);
     } else {
       setLoginState(false);
-      document.cookie = "loginState=false; path=/;";
+      isLoginState = false;
     }
   }, [memberData, setLoginState, setIsAdmin]);
 
   return isLogin && memberData !== null ? (
     <>
-      {/* <HydrationBoundary state={dehydratedState}> */}
       <MyPageProfile memberData={memberData} />
       <MyPageToggle />
-      {/* </HydrationBoundary> */}
     </>
   ) : (
     <>
