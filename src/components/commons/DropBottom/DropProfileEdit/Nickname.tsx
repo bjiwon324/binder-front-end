@@ -1,7 +1,7 @@
+import inputX from "@/../public/images/inputX.svg";
 import classNames from "classnames/bind";
 import Image from "next/image";
 import styles from "./DropProfileEdit.module.scss";
-import inputX from "@/../public/images/inputX.svg";
 
 const cn = classNames.bind(styles);
 
@@ -11,7 +11,7 @@ interface NicknameProps {
   submitNick: boolean;
   prevNickname: string;
   nickname: string;
-  inputValue: string;
+  inputValue?: string;
   handleInputX: () => void;
 }
 export default function Nickname({
@@ -60,7 +60,7 @@ export default function Nickname({
           id="nickname"
           type="text"
           maxLength={16}
-          value={inputValue}
+          // value={inputValue}
           {...register}
           placeholder="한글, 영어, 숫자만 사용가능 (2자 이상)"
         />

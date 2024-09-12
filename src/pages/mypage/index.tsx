@@ -13,7 +13,7 @@ export default function MyPage() {
     queryFn: () => getMembers(),
   });
 
-  const [, setLoginState] = useAtom(loginState);
+  const [isLogin, setLoginState] = useAtom(loginState);
   const [, setIsAdmin] = useAtom(adminUser);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function MyPage() {
     }
   }, [setLoginState, setIsAdmin, memberData]);
 
-  return memberData !== null ? (
+  return !!memberData ? (
     <>
       <MyPageProfile memberData={memberData} />
       <MyPageToggle />

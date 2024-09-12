@@ -1,12 +1,12 @@
+import { patchMembers } from "@/lib/apis/members";
+import { useMutation } from "@tanstack/react-query";
+import classNames from "classnames/bind";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import DropWrap from "..";
-import { useEffect, useState } from "react";
-import classNames from "classnames/bind";
 import styles from "./DropProfileEdit.module.scss";
-import Nickname from "./Nickname";
 import Img from "./Img";
-import { useMutation } from "@tanstack/react-query";
-import { patchMembers } from "@/lib/apis/members";
+import Nickname from "./Nickname";
 
 const cn = classNames.bind(styles);
 
@@ -34,7 +34,7 @@ export default function DropProfileEdit({
   const [submitNick, setSubmitNick] = useState<boolean>(false);
   const [imgData, setImgData] = useState<any>(memberData.imageUrl);
   const [prevNickname, setPrevNickname] = useState<string>(nick.slice(0, 16));
-  const [inputValue, setInputValue] = useState<string>("");
+  // const [inputValue, setInputValue] = useState<string>("");
 
   const {
     register,
@@ -79,7 +79,7 @@ export default function DropProfileEdit({
     setSubmitNick(nickname.length > 1);
   }, [profileImg, nickname]);
   const handleInputX = () => {
-    setInputValue("");
+    // setInputValue("");
   };
   return (
     <DropWrap
@@ -121,15 +121,15 @@ export default function DropProfileEdit({
                   value: /^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]+$/,
                   message: "특수문자는 사용할 수 없습니다.",
                 },
-                onChange: (e) => {
-                  setInputValue(e.target.value); // 입력값 업데이트 함수
-                },
+                // onChange: (e) => {
+                //   setInputValue(e.target.value); // 입력값 업데이트 함수
+                // },
               }),
             }}
             submitNick={submitNick}
             prevNickname={prevNickname}
             nickname={nickname}
-            inputValue={inputValue}
+            // inputValue={inputValue}
             handleInputX={handleInputX}
           />
         </form>

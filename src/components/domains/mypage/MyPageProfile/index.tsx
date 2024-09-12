@@ -25,18 +25,21 @@ interface ProfileProps {
 
 export default function MyPageProfile({ memberData }: ProfileProps) {
   const [profileEdit, setProfileEdit] = useState<boolean>(false);
+  const [nick, setNick] = useState<string>(memberData?.nickname);
+  const [img, setImg] = useState<string>(memberData?.imageUrl);
 
   const handleProfileEdit = () => {
     setProfileEdit((prev) => !prev);
   };
-  const profileImg = memberData?.imageUrl ? memberData?.imageUrl : defaultImg;
+
+  const profileImg = img !== null ? img : defaultImg;
 
   return (
     <>
       <div className={cn("profileWrap")}>
         <div className={cn("imgEditWrap")} onClick={handleProfileEdit}>
           <div className={cn("profileImg")}>
-            <Image src={memberData?.imageUrl} alt="프로필 이미지" fill />
+            <Image src={profileImg} alt="프로필 이미지" fill />
           </div>
           <div className={cn("profileEdit")}>
             <div className={cn("profileEditimg")}>
@@ -46,7 +49,7 @@ export default function MyPageProfile({ memberData }: ProfileProps) {
         </div>
 
         <div className={cn("profileName")}>
-          {memberData?.nickname.slice(0, 16)}
+          {nick?.slice(0, 16)}
           {memberData?.role === "ROLE_ADMIN" && (
             <Image
               src={adminMark}
