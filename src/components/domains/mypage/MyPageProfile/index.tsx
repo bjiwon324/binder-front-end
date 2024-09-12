@@ -25,8 +25,8 @@ interface ProfileProps {
 
 export default function MyPageProfile({ memberData }: ProfileProps) {
   const [profileEdit, setProfileEdit] = useState<boolean>(false);
-  const [nick, setNick] = useState<string>(memberData?.nickname || "");
-  const [img, setImg] = useState<string>(memberData?.imageUrl || "");
+  const [nick, setNick] = useState<string>(memberData?.nickname);
+  const [img, setImg] = useState<string>(memberData?.imageUrl);
 
   const handleProfileEdit = () => {
     setProfileEdit((prev) => !prev);
@@ -49,7 +49,7 @@ export default function MyPageProfile({ memberData }: ProfileProps) {
         </div>
 
         <div className={cn("profileName")}>
-          {nick.slice(0, 16)}
+          {nick?.slice(0, 16)}
           {memberData?.role === "ROLE_ADMIN" && (
             <Image
               src={adminMark}
