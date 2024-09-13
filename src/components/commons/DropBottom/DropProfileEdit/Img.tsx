@@ -43,11 +43,7 @@ export default function Img({
   }, [handleImgPost, profileImg]);
 
   const img =
-    imgData !== "null"
-      ? imgData
-      : memberImg !== "null"
-        ? memberImg
-        : defaultImg;
+    imgData !== null ? imgData : memberImg !== null ? memberImg : defaultImg;
 
   return (
     <>

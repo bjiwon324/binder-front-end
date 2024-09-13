@@ -35,7 +35,7 @@ export default function DropProfileEdit({
   const [imgData, setImgData] = useState<any>(memberData.imageUrl);
   const [prevNickname, setPrevNickname] = useState<string>(nick.slice(0, 16));
   const [inputValue, setInputValue] = useState<string>("");
-
+  console.log(memberData.imageUrl);
   const {
     register,
     handleSubmit,
