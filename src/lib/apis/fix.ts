@@ -10,6 +10,7 @@ export const getAdminBinsFix = async (data: any) => {
     return res.data;
   } catch (err) {
     console.error(err);
+    throw err;
   }
 };
 export const postAcceptFix = async (id: any) => {
@@ -18,5 +19,16 @@ export const postAcceptFix = async (id: any) => {
     return res.data;
   } catch (err) {
     console.error(err);
+    throw err;
+  }
+};
+
+export const postRejectFix = async (id: string | string[] | undefined, data: string) => {
+  try {
+    const res = await instance.post(`admin/bins/modifications/${id}/reject`, { rejectReason: data });
+    return res;
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
 };
