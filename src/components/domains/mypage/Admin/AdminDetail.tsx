@@ -1,50 +1,165 @@
 import classNames from "classnames/bind";
 import Image from "next/image";
 import styles from "./AdminDetail.module.scss";
-import { getBinsId } from "@/lib/apis/bins";
 import { btnInputValues } from "@/lib/constants/btnInputValues";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 import AdminDetailItem from "./AdminDetailItem";
 import DropReason from "@/components/commons/DropBottom/DropReason";
 import { useState } from "react";
 import Modal from "@/components/commons/Modal/TrashHow";
 import { MODAL_CONTENTS } from "@/lib/constants/modalContents";
 import { useToggle } from "@/lib/hooks/useToggle";
-
+import { binDetail, BinDetail } from "@/lib/atoms/binAtom";
+import Button from "@/components/commons/Button";
+import { UseMutateFunction, useMutation } from "@tanstack/react-query";
+import { postRejectFix } from "@/lib/apis/fix";
+import { postRejectAccept } from "@/lib/apis/ask";
+import { postRejectReport } from "@/lib/apis/report";
+import ImgInput from "../../addBin/addBinForm/ImgInput";
+import NoneImgInput from "../../addBin/addBinForm/NoneImgInput";
+import DropInfo from "@/components/commons/DropBottom/DropInfo";
+import Router from "next/router";
 
 const cn = classNames.bind(styles);
 
 interface Props {
-  state: "등록" | "신고" | "수정";
-  approve: () => void;
+  state: "등록" | "신고" | "수정" | "정보";
+  approve: ((data: string) => void) | (() => void);
+  binDetail: BinDetail;
+  toggleIsEdit?: () => void;
 }
 
-export default function DefaultForm({ state, approve }: Props) {
+type DropBottomState = "수정" | "등록" | "신고 승인" | "신고 거절" | "정보";
+
+const dropReasonPlaceholderMap: Record<DropBottomState, string> = {
+  수정: "수정 요청받은 쓰레기 통의 거절사유를 입력해 주세요",
+  등록: "거절 사유를 입력해 주세요",
+  "신고 거절": "신고가 반려되니 신중히 입력해 주세요",
+  "신고 승인": "장소가 삭제되니 신중히 입력해 주세요",
+  정보: "",
+};
+
+const dropReasonTitleMap: Record<DropBottomState, string> = {
+  수정: "수정 거절 사유 입력",
+  등록: "거절 사유 입력",
+  "신고 거절": "신고 거절 사유 입력",
+  "신고 승인": "신고 승인 사유 입력",
+  정보: "",
+};
+
+export default function DefaultForm({ state, approve, binDetail, toggleIsEdit }: Props) {
   const [isOpenDropBottom, openDropBottom, closeDropBottom] = useToggle(false);
+  const [isOpenInfoDropBottom, openInfoDropBottom, closeInfoDropBottom] = useToggle(false);
   const [isOpenModal, openModal, closeModal] = useToggle(false);
+  const [isOpenErrorModal, openErrorModal, closeErrorModal] = useToggle(false);
+  const [dropBottomState, setDropBottomState] = useState<DropBottomState>(getInitialDropBottomState(state));
   const [reason, setReason] = useState("");
 
-  const router = useRouter();
-  const { id } = router.query;
+  const handleClickReportApprove = () => {
+    setDropBottomState("신고 승인");
+    openDropBottom();
+  };
 
-  const { data: binDetail } = useQuery({
-    queryKey: ["binDetail", id],
-    queryFn: () => getBinsId(id),
-  });
+  const handleClickReject = () => {
+    if (state === "신고") {
+      setDropBottomState("신고 거절");
+      return openDropBottom();
+    }
 
-  const handleClickReject = () => openDropBottom();
+    return openDropBottom();
+  };
+  const mutationFnMap = {
+    수정: useMutation(getMutationOptions("rejectFixBin", postRejectFix, binDetail?.modificationId)),
+    등록: useMutation(getMutationOptions("rejectAddBin", postRejectAccept, binDetail?.binId)),
+    "신고 거절": useMutation(getMutationOptions("rejectReportBin", postRejectReport, binDetail?.complaintId)),
+  };
+  function getMutationOptions(mutationKey: string, mutationFn: Function, id: string | number | undefined) {
+    return {
+      mutationKey: [mutationKey, id],
+      mutationFn: (data: string) => mutationFn(String(id), data),
+      onSuccess: () => {
+        closeDropBottom();
+        openModal();
+      },
+      onError: (error: any) => {
+        if (error.status === 400) openErrorModal();
+        console.log("Error:", error.status);
+      },
+    };
+  }
 
   const handleClickSubmit = (data: string) => {
     setReason(data);
-    closeDropBottom();
-    openModal();
+
+    if (dropBottomState === "신고 승인") {
+      approve(data);
+    } else if (dropBottomState !== "정보") {
+      mutationFnMap[dropBottomState]?.mutate(data);
+    }
   };
+
+  const renderDetailTitle = () => `쓰레기통 ${state === "정보" ? "정보" : `${state} 심사`}`;
+
+  const renderButtons = () => (
+    <article className={cn("detailBtn")}>
+      <button className={cn(state === "신고" ? "detailRejectReport" : "detailReject")} onClick={handleClickReject}>
+        {state} 거절
+      </button>
+      <button
+        className={cn(state === "신고" ? "detailAcceptReport" : "detailAccept")}
+        onClick={state === "신고" ? handleClickReportApprove : (approve as () => void)}
+      >
+        {state} 승인
+      </button>
+    </article>
+  );
+
+  const renderDropReason = () => (
+    <DropReason
+      state={dropBottomState}
+      closeBtn={closeDropBottom}
+      title={dropReasonTitleMap[dropBottomState]}
+      placeholder={dropReasonPlaceholderMap[dropBottomState]}
+      onHandleSubmit={handleClickSubmit}
+    />
+  );
+
+  const renderModal = () => (
+    <Modal
+      modalClose={Router.back}
+      modalState={
+        MODAL_CONTENTS[
+          dropBottomState === "수정"
+            ? "rejectFix"
+            : dropBottomState === "등록"
+              ? "rejectAdd"
+              : dropBottomState === "신고 거절"
+                ? "rejectReport"
+                : "SuccessReport"
+        ]
+      }
+      moreInfo={reason}
+    />
+  );
 
   return (
     <>
       <article className={cn("detailWrap")}>
-        <h3 className={cn("detailTitle")}>쓰레기통 {state} 심사</h3>
+        <h3 className={cn("detailTitle")}>{renderDetailTitle()}</h3>
+        {state !== "정보" && (
+          <div className={cn("detailIitle-btn-wrapper")}>
+            {(state === "수정" || state === "신고") && (
+              <button className={cn("detailIitle-btn")} onClick={openInfoDropBottom}>
+                {state === "신고" ? "신고 사유보기" : "원본 불러오기"}
+              </button>
+            )}
+
+            {state !== "신고" && (
+              <button className={cn("detailIitle-btn")} onClick={toggleIsEdit}>
+                수정하기
+              </button>
+            )}
+          </div>
+        )}
       </article>
       <section className={cn("detailInner")}>
         <AdminDetailItem title={"쓰레기통 주소"} detail={binDetail?.address} />
@@ -62,53 +177,48 @@ export default function DefaultForm({ state, approve }: Props) {
           </div>
         </article>
         <AdminDetailItem title={"장소 명칭"} detail={binDetail?.title} />
-        {binDetail?.imageUrl && binDetail?.imageUrl !== "string" && (
-          <article className={cn("detail")}>
-            <h4>
-              쓰레기통 사진<span>(선택)</span>
-            </h4>
-            <Image src={binDetail?.imageUrl} alt="이미지" width={356} height={143} />
-          </article>
-        )}
-        {state === "수정" && <AdminDetailItem title={"수정 요청 사유"} detail={"binDetail?.title"} />}
-        <article className={cn("detailBtn")}>
-          <button
-            className={state === "신고" ? cn("detailRejectReport") : cn("detailReject")}
-            onClick={handleClickReject}
-          >
-            {state} 거절
-          </button>
-          <button className={state === "신고" ? cn("detailAcceptReport") : cn("detailAccept")} onClick={approve}>
-            {state} 승인
-          </button>
+        <article className={cn("detail")}>
+          <h4>
+            쓰레기통 사진<span>(선택)</span>
+          </h4>
+          {binDetail?.imageUrl ? (
+            <div className={cn("imgBox")}>
+              <Image src={binDetail.imageUrl} alt="이미지" fill objectFit="cover" />
+            </div>
+          ) : (
+            <NoneImgInput disabled={true} />
+          )}
         </article>
-        {state === "등록" && isOpenDropBottom && (
-          <DropReason
+        {state === "수정" && <AdminDetailItem title={"수정 요청 사유"} detail={binDetail?.modificationReason!} />}
+        {state === "정보" ? (
+          <Button status="edit" onClick={approve as () => void}>
+            쓰레기통 정보 수정하기
+          </Button>
+        ) : (
+          renderButtons()
+        )}
+        {isOpenDropBottom && renderDropReason()}
+        {isOpenModal && renderModal()}
+        {isOpenErrorModal && <Modal modalClose={closeErrorModal} modalState={MODAL_CONTENTS.processingCompleted} />}
+        {isOpenInfoDropBottom && (
+          <DropInfo
+            title={state === "신고" ? "신고 사유보기" : "원본 불러오기"}
+            closeBtn={closeInfoDropBottom}
             state={state}
-            closeBtn={closeDropBottom}
-            title="거절"
-            placeholder="거절"
-            binId={id}
-            onHandleSubmit={handleClickSubmit}
+            id={binDetail.complaintId || binDetail.binId || binDetail.id!}
           />
-        )}
-        {state === "수정" && isOpenDropBottom && (
-          <DropReason
-            state={state}
-            closeBtn={closeDropBottom}
-            title="수정 거절"
-            placeholder="수정 요청받은 쓰레기 통의 거절"
-            binId={id}
-            onHandleSubmit={handleClickSubmit}
-          />
-        )}
-        {state === "등록" && isOpenModal && (
-          <Modal modalClose={closeModal} modalState={MODAL_CONTENTS.rejectAdd} moreInfo={reason} />
-        )}
-        {state === "수정" && isOpenModal && (
-          <Modal modalClose={closeModal} modalState={MODAL_CONTENTS.rejectFix} moreInfo={reason} />
         )}
       </section>
     </>
   );
+}
+
+function getInitialDropBottomState(state: string): DropBottomState {
+  const stateMap: Record<string, DropBottomState> = {
+    신고: "신고 거절",
+    수정: "수정",
+    등록: "등록",
+    정보: "정보",
+  };
+  return stateMap[state] || "정보";
 }

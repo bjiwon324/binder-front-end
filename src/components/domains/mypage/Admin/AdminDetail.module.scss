@@ -1,14 +1,29 @@
 .detailWrap {
+  @include flexbox(between);
   width: 100%;
 
   padding: 2rem 1.7rem;
   background: #f4f6f5;
+  line-height: 2.6rem;
 }
 .detailTitle {
-  color: #06130d;
   font-size: 1.9rem;
   font-weight: 700;
-  line-height: 26px;
+  color: #06130d;
+}
+.detailIitle-btn {
+  text-align: right;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.014rem;
+  text-decoration-line: underline;
+  color: #a6adab;
+
+  &-wrapper {
+    @include flexbox(end);
+    gap: 2rem;
+  }
 }
 .detailInner {
   width: 100%;
@@ -35,10 +50,6 @@
     color: #a5a5a5;
     font-size: 1.3rem;
     line-height: 26px;
-  }
-  & > img {
-    object-fit: cover;
-    border-radius: 1rem;
   }
 }
 .detailItemTitle {
@@ -106,4 +117,13 @@
 }
 .detailAcceptReport {
   background: #ff3232;
+}
+
+.imgBox {
+  position: relative;
+  width: 100%;
+  height: 14.3rem;
+
+  border-radius: 1rem;
+  overflow: hidden;
 }

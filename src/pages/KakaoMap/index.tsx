@@ -16,6 +16,11 @@ declare global {
   }
 }
 
+export const filterAddress = (address: string) => {
+  // "특별시", "광역시", "특별자치시" 등을 제거하는 정규식
+  return address.replace(/(특별시|광역시|특별자치시)/g, "").trim();
+};
+
 const initMap = (kakao: any, coordinate: { x: number; y: number }) => {
   const container = document.getElementById("map");
   const options = {
@@ -64,6 +69,7 @@ const getAddressFromCoords = (
   geocoder.coord2Address(coord.getLng(), coord.getLat(), (result: any, status: any) => {
     if (status === kakao.maps.services.Status.OK) {
       const getAddress = result[0];
+      console.log("address", getAddress);
       callback(getAddress);
     } else {
       console.error("역지오코딩 실패", status);
@@ -106,8 +112,8 @@ export default function KakaoMap() {
 
           getAddressFromCoords(window.kakao, coordinate, (getAddress: any) => {
             setAddress({
-              roadAddress: getAddress.road_address?.address_name || null,
-              address: getAddress.address.address_name,
+              roadAddress: filterAddress(getAddress.road_address?.address_name) || null,
+              address: filterAddress(getAddress.address.address_name),
             });
           });
         });

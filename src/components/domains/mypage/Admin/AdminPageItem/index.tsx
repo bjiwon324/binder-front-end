@@ -10,6 +10,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styles from "./AdminPageItem.module.scss";
+import { useAtom } from "jotai";
+import { BinDetail, binDetail } from "@/lib/atoms/binAtom";
 
 const cn = classNames.bind(styles);
 
@@ -18,6 +20,7 @@ interface AdminProps {
 }
 export default function AdminPageItem({ title }: AdminProps) {
   const [drop, setDrop] = useState<boolean>(false);
+  const [, setBinDetail] = useAtom(binDetail);
 
   const router = useRouter();
   const filter = router.query.filter || "전체";
@@ -48,6 +51,14 @@ export default function AdminPageItem({ title }: AdminProps) {
     }
   })();
 
+  const handleClickCard = (item: BinDetail, id: string | number) => {
+    if (id === item.binId) {
+      setBinDetail(item);
+      router.push(router.route + "/" + id);
+      //이렇게 할 경우 url 직접 입력시 빈값
+    }
+  };
+
   const handleDrop = () => {
     setDrop((prev) => !prev);
   };
@@ -67,15 +78,10 @@ export default function AdminPageItem({ title }: AdminProps) {
         </div>
 
         <div className={cn("adminCardList")}>
-          {binData[1]?.map((item: any, index: number) => (
-            <div
-              onClick={() => {
-                router.push(router.route + "/" + item.binId);
-              }}
-              key={index}
-            >
+          {binData[1]?.map((item: any) => (
+            <div onClick={() => handleClickCard(item, item.binId)} key={item.id}>
               <Card
-                id={item.binId}
+                binId={item.binId}
                 title={item.title}
                 address={item.address}
                 type={item.type}
