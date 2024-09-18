@@ -4,6 +4,7 @@ import { atomWithStorage } from "jotai/utils";
 //추후 수정
 export const mapCenterCoordinate = atom<{ x: 0; y: 0 }>({ x: 0, y: 0 });
 export const adminUser = atom<string>("");
+export const notiAtom = atom<boolean>(false);
 export const loginState = atomWithStorage<boolean>("loginState", false);
 
 //user 위치, 초기 위치 (0,0)
