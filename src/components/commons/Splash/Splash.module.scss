@@ -1,0 +1,41 @@
+.splashWrap {
+  width: 100%;
+  max-width: 39rem;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  z-index: 99;
+  opacity: 0;
+  animation: fadeOut 3s;
+
+  & p {
+    color: #5e786c;
+    text-align: center;
+    font-size: 1.4rem;
+    line-height: 20px;
+  }
+}
+.version {
+  color: #a5a5a5;
+  text-align: center;
+  font-size: 1.4rem;
+  line-height: 20px;
+  position: absolute;
+  bottom: 9.9rem;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

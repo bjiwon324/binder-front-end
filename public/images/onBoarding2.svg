@@ -1,0 +1,46 @@
+<svg width="106" height="92" viewBox="0 0 106 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 34086">
+<g id="Group 34083">
+<g id="Group 34040">
+<path id="Vector" d="M11 32.2002V80.0786C11 86.3303 15.8935 91.4002 21.9275 91.4002H59.2725C65.3065 91.4002 70.2 86.3303 70.2 80.0786V32.2002H11ZM33.8669 78.9732C33.8669 81.0793 32.2204 82.7851 30.1876 82.7851C28.1548 82.7851 26.5083 81.0793 26.5083 78.9732V44.6177C26.5083 42.5116 28.1548 40.8057 30.1876 40.8057C32.2204 40.8057 33.8669 42.5116 33.8669 44.6177V78.9732ZM54.6917 78.9732C54.6917 81.0793 53.0452 82.7851 51.0124 82.7851C48.9796 82.7851 47.3331 81.0793 47.3331 78.9732V44.6177C47.3331 42.5116 48.9796 40.8057 51.0124 40.8057C53.0452 40.8057 54.6917 42.5116 54.6917 44.6177V78.9732Z" fill="url(#paint0_linear_1495_8020)"/>
+<path id="Line 62" d="M5 21H77" stroke="url(#paint1_linear_1495_8020)" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 63" d="M19 5H63.8" stroke="url(#paint2_linear_1495_8020)" stroke-width="10" stroke-linecap="round"/>
+</g>
+</g>
+<g id="Group 34082">
+<g id="Ellipse 93" filter="url(#filter0_d_1495_8020)">
+<circle cx="81.5" cy="61.5" r="20.5" fill="white"/>
+</g>
+<g id="Group 34041">
+<g id="Group 34081">
+<path id="Line 64 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M81.3855 52C82.4476 52 83.3086 52.861 83.3086 53.9231V70.0769C83.3086 71.139 82.4476 72 81.3855 72C80.3234 72 79.4624 71.139 79.4624 70.0769V53.9231C79.4624 52.861 80.3234 52 81.3855 52Z" fill="#0BB76D"/>
+<path id="Line 65 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M91 61.6154C91 62.6775 90.139 63.5385 89.0769 63.5385L72.9231 63.5385C71.861 63.5385 71 62.6775 71 61.6154C71 60.5533 71.861 59.6923 72.9231 59.6923L89.0769 59.6923C90.139 59.6923 91 60.5533 91 61.6154Z" fill="#0BB76D"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_1495_8020" x="57" y="39" width="49" height="49" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1495_8020"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1495_8020" result="shape"/>
+</filter>
+<linearGradient id="paint0_linear_1495_8020" x1="40.6" y1="32.2002" x2="40.6" y2="91.4002" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00C16E"/>
+<stop offset="1" stop-color="#33DFB6"/>
+</linearGradient>
+<linearGradient id="paint1_linear_1495_8020" x1="41" y1="2.5" x2="41" y2="40.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00C16E"/>
+<stop offset="1" stop-color="#9DDCC1"/>
+</linearGradient>
+<linearGradient id="paint2_linear_1495_8020" x1="41.4" y1="-6.5" x2="41.4" y2="17.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00C16E"/>
+<stop offset="1" stop-color="#9DDCC1"/>
+</linearGradient>
+</defs>
+</svg>

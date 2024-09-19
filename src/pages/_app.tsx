@@ -1,4 +1,5 @@
 import Gnb from "@/components/commons/Gnb";
+import Splash from "@/components/commons/Splash";
 import "@/styles/base/index.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -37,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
           <ReactQueryDevtools initialIsOpen={false} />
           {!hideGnbOnPages.includes(router.pathname) && <Gnb />}
+          <Splash />
         </div>
       </div>
     </QueryClientProvider>
