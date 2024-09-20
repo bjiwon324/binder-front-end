@@ -5,6 +5,7 @@ import {
   userAddress,
   userCoordinate,
 } from "@/lib/atoms/userAtom";
+import { BinItemType } from "@/lib/constants/btnInputValues";
 import { useToggle } from "@/lib/hooks/useToggle";
 import {
   addMyLocationMarker,
@@ -18,8 +19,9 @@ import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
+import BinTypeBtnList from "../BinTypeBtnList";
 import styles from "./KakaoMap.module.scss";
 
 const cn = classNames.bind(styles);
@@ -68,7 +70,7 @@ const initializeMap = (coordinate: any, setAddress: any) => {
 };
 
 const updateMarkers = (binData: any, map: any, binkMarkerRef: any) => {
-  if (binkMarkerRef.current.length > 0) {
+  if (!!map && binkMarkerRef.current.length > 0) {
     binkMarkerRef.current.forEach((marker: any) => marker?.setMap(null));
   }
 
@@ -90,12 +92,55 @@ const updateMarkers = (binData: any, map: any, binkMarkerRef: any) => {
 export default function KakaoMap() {
   const [coordinate, setCoordinate] = useAtom(userCoordinate);
   const [, setAddress] = useAtom(userAddress);
+  const [binType, setBinType] = useState<null | BinItemType["id"] | undefined>(
+    null
+  );
   const mapRef = useRef<any>(null);
   const myMarkerRef = useRef<any>(null);
   const binkMarkerRef = useRef<any>([]);
   const [centerCoordinate, setCenterCoordinate] = useAtom(mapCenterCoordinate);
   const [toggleMyLocation, toggleOpen, toggleClose] = useToggle(false);
+  const [toggleAroundBin, toggleAroundBinOpen, toggleAroundBinClose] =
+    useToggle(false);
 
+  const handleClickSearchBintype = async (
+    id: BinItemType["id"] | undefined
+  ) => {
+    setBinType(id);
+
+    if (binType === id) {
+      // 같은 타입의 버튼을 다시 클릭했을 때는 타입을 초기화
+      setBinType(null);
+      binkMarkerRef.current.forEach((marker: any) => marker?.setMap(null));
+      binkMarkerRef.current = [];
+    } else {
+      // 선택한 binType에 해당하는 마커 데이터를 즉시 불러오고 업데이트
+      try {
+        if (centerCoordinate.x !== 0 && centerCoordinate.y !== 0) {
+          binkMarkerRef.current.forEach((marker: any) => marker?.setMap(null)); // 기존 마커 제거
+          binkMarkerRef.current = [];
+
+          const fetchedBinData = await getAroundbins(
+            centerCoordinate.x,
+            centerCoordinate.y,
+            id!,
+            500
+          );
+
+          if (fetchedBinData && !!mapRef.current) {
+            updateMarkers(fetchedBinData, mapRef.current, binkMarkerRef);
+          }
+        }
+      } catch (error) {
+        console.error(
+          "주변 쓰레기통 데이터를 불러오는 데 실패했습니다:",
+          error
+        );
+      }
+    }
+  };
+
+  console.log(binType);
   const { data: locationData, refetch: locationRefetch } = useQuery<any>({
     queryKey: ["locations"],
     queryFn: getLocation,
@@ -103,13 +148,15 @@ export default function KakaoMap() {
   });
 
   const { data: binData, refetch: refetchBinData } = useQuery({
-    queryKey: ["get-around-bins", centerCoordinate],
+    queryKey: ["get-around-bins", binType],
     queryFn: () =>
-      getAroundbins(centerCoordinate.x, centerCoordinate.y, null, 500),
-    enabled: !!centerCoordinate.x && !!centerCoordinate.y,
+      getAroundbins(centerCoordinate.x, centerCoordinate.y, binType!, 500),
+    enabled: toggleAroundBin && !!centerCoordinate.x && !!centerCoordinate.y,
     gcTime: 3000,
   });
+  console.log("ddd", binData);
 
+  //gps로 현위치 불러오기
   useEffect(() => {
     if (locationData && Array.isArray(locationData)) {
       setCoordinate(locationData[0]);
@@ -117,6 +164,7 @@ export default function KakaoMap() {
     }
   }, [locationData]);
 
+  //중앙 좌표값 세팅
   const debouncedHandleCenterChanged = useDebounceCallback(() => {
     if (mapRef.current) {
       const center = mapRef.current.getCenter();
@@ -124,6 +172,13 @@ export default function KakaoMap() {
         x: center.getLat(),
         y: center.getLng(),
       };
+      if (newCenterCoordinate !== centerCoordinate) {
+        toggleAroundBinClose();
+      }
+
+      if (newCenterCoordinate !== coordinate) {
+        toggleClose();
+      }
       setCenterCoordinate(newCenterCoordinate);
     }
   }, 500);
@@ -135,8 +190,8 @@ export default function KakaoMap() {
         if (result) {
           mapRef.current = result.map;
           myMarkerRef.current = result.myLocationMarker;
-
-          updateMarkers(binData, mapRef.current, binkMarkerRef);
+          // 맵 중앙 이동시 새로 데이터 불러오기
+          // updateMarkers(binData, mapRef.current, binkMarkerRef);
 
           window.kakao.maps.event.addListener(
             mapRef.current,
@@ -157,53 +212,67 @@ export default function KakaoMap() {
     };
   }, [coordinate]);
 
+  //내위치 버튼
   const handelClickGetmyLocation = async () => {
     try {
       const { data: newLocationData } = await locationRefetch();
       if (newLocationData && Array.isArray(newLocationData)) {
         const newCoordinate = newLocationData[0];
         setCoordinate(newCoordinate);
+        toggleOpen();
 
-        if (mapRef.current && myMarkerRef.current && window.kakao.maps) {
-          const newLatLng = new window.kakao.maps.LatLng(
-            newCoordinate.x,
-            newCoordinate.y
-          );
-          mapRef.current.panTo(newLatLng);
-          myMarkerRef.current.setPosition(newLatLng);
+        const newLatLng = new window.kakao.maps.LatLng(
+          newCoordinate.x,
+          newCoordinate.y
+        );
+        mapRef.current.panTo(newLatLng);
+        myMarkerRef.current.setPosition(newLatLng);
 
-          getAddressFromCoords(
-            window.kakao,
-            newCoordinate,
-            (getAddress: any) => {
-              setAddress({
-                roadAddress:
-                  filterAddress(getAddress.road_address?.address_name) || null,
-                address: getAddress.address?.address_name,
-              });
-            }
-          );
-        }
+        getAddressFromCoords(window.kakao, newCoordinate, (getAddress: any) => {
+          setAddress({
+            roadAddress:
+              filterAddress(getAddress.road_address?.address_name) || null,
+            address: getAddress.address?.address_name,
+          });
+        });
       }
     } catch (error) {
       console.error("데이터 다시 불러오기 실패:", error);
     }
   };
 
-  useEffect(() => {
-    if (mapRef.current && centerCoordinate.x !== 0) {
-      refetchBinData();
-    }
-  }, [centerCoordinate, refetchBinData]);
+  // 맵 중앙 이동시 새로 데이터 불러오기
+  // useEffect(() => {
+  //   if (mapRef.current && centerCoordinate.x !== 0) {
+  //     refetchBinData();
+  //   }
+  // }, [centerCoordinate, refetchBinData]);
 
-  useEffect(() => {
-    if (binData && !!mapRef.current) {
-      updateMarkers(binData, mapRef.current, binkMarkerRef);
-    }
-  }, [binData]);
+  const handelClickGetAroundBinData = async () => {
+    try {
+      if (centerCoordinate.x !== 0 && centerCoordinate.y !== 0) {
+        // 즉각적으로 마커를 지우고 빈 데이터를 로드하기 시작
+        binkMarkerRef.current.forEach((marker: any) => marker?.setMap(null));
+        binkMarkerRef.current = [];
+        toggleAroundBinOpen();
+        const fetchedBinData = await getAroundbins(
+          centerCoordinate.x,
+          centerCoordinate.y,
+          binType!,
+          500
+        );
 
+        if (fetchedBinData) {
+          updateMarkers(fetchedBinData, mapRef.current, binkMarkerRef);
+        }
+      }
+    } catch (error) {
+      console.error("주변 쓰레기통 데이터를 불러오는 데 실패했습니다:", error);
+    }
+  };
   return (
     <>
+      <BinTypeBtnList binType={binType!} onClick={handleClickSearchBintype} />
       <div
         id="map"
         style={{
@@ -215,22 +284,39 @@ export default function KakaoMap() {
         ref={mapRef}
       ></div>
       <section className={cn("map-wrapper")}>
-        <button
-          className={
-            !toggleMyLocation ? cn("my-location-btn") : cn("my-location-btn-on")
-          }
-          onClick={() => {
-            handelClickGetmyLocation(); // 함수 호출
-            !toggleMyLocation ? toggleOpen() : toggleClose(); // 토글 함수 호출
-          }}
-        >
-          <Image
-            src={"/images/icon-my-lovcationBtn.svg"}
-            alt="내 위치 다시 가져오기"
-            width={49}
-            height={49}
-          />
-        </button>
+        <article className={cn("btns-wrapper")}>
+          <button
+            onClick={() => {
+              handelClickGetAroundBinData();
+            }}
+            className={cn("search-around-bin-btn", toggleAroundBin && "on")}
+          >
+            <Image
+              src={"/images/return.svg"}
+              alt="현위치에서 다시 검색하기"
+              width={21}
+              height={20}
+            />
+            <p>현 위치에서 검색</p>
+          </button>
+          <button
+            className={
+              !toggleMyLocation
+                ? cn("my-location-btn")
+                : cn("my-location-btn-on")
+            }
+            onClick={() => {
+              handelClickGetmyLocation(); // 함수 호출
+            }}
+          >
+            <Image
+              src={"/images/icon-my-lovcationBtn.svg"}
+              alt="내 위치 다시 가져오기"
+              width={49}
+              height={49}
+            />
+          </button>
+        </article>
       </section>
     </>
   );
