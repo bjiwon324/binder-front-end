@@ -36,6 +36,7 @@ export default function Tutorial() {
       setOnBoard(false);
     }
   }, [tutorial]);
+
   return (
     <Portal>
       <Swiper
