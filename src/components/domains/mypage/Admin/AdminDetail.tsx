@@ -1,23 +1,22 @@
-import classNames from "classnames/bind";
-import Image from "next/image";
-import styles from "./AdminDetail.module.scss";
-import { btnInputValues } from "@/lib/constants/btnInputValues";
-import AdminDetailItem from "./AdminDetailItem";
+import Button from "@/components/commons/Button";
+import DropInfo from "@/components/commons/DropBottom/DropInfo";
 import DropReason from "@/components/commons/DropBottom/DropReason";
-import { useState } from "react";
 import Modal from "@/components/commons/Modal/TrashHow";
+import { postRejectAccept } from "@/lib/apis/ask";
+import { postRejectFix } from "@/lib/apis/fix";
+import { postRejectReport } from "@/lib/apis/report";
+import { BinDetail } from "@/lib/atoms/binAtom";
+import { btnInputValues } from "@/lib/constants/btnInputValues";
 import { MODAL_CONTENTS } from "@/lib/constants/modalContents";
 import { useToggle } from "@/lib/hooks/useToggle";
-import { binDetail, BinDetail } from "@/lib/atoms/binAtom";
-import Button from "@/components/commons/Button";
-import { UseMutateFunction, useMutation } from "@tanstack/react-query";
-import { postRejectFix } from "@/lib/apis/fix";
-import { postRejectAccept } from "@/lib/apis/ask";
-import { postRejectReport } from "@/lib/apis/report";
-import ImgInput from "../../addBin/addBinForm/ImgInput";
-import NoneImgInput from "../../addBin/addBinForm/NoneImgInput";
-import DropInfo from "@/components/commons/DropBottom/DropInfo";
+import { useMutation } from "@tanstack/react-query";
+import classNames from "classnames/bind";
+import Image from "next/image";
 import Router from "next/router";
+import { useState } from "react";
+import NoneImgInput from "../../addBin/addBinForm/NoneImgInput";
+import styles from "./AdminDetail.module.scss";
+import AdminDetailItem from "./AdminDetailItem";
 
 const cn = classNames.bind(styles);
 
@@ -46,12 +45,20 @@ const dropReasonTitleMap: Record<DropBottomState, string> = {
   정보: "",
 };
 
-export default function DefaultForm({ state, approve, binDetail, toggleIsEdit }: Props) {
+export default function DefaultForm({
+  state,
+  approve,
+  binDetail,
+  toggleIsEdit,
+}: Props) {
   const [isOpenDropBottom, openDropBottom, closeDropBottom] = useToggle(false);
-  const [isOpenInfoDropBottom, openInfoDropBottom, closeInfoDropBottom] = useToggle(false);
+  const [isOpenInfoDropBottom, openInfoDropBottom, closeInfoDropBottom] =
+    useToggle(false);
   const [isOpenModal, openModal, closeModal] = useToggle(false);
   const [isOpenErrorModal, openErrorModal, closeErrorModal] = useToggle(false);
-  const [dropBottomState, setDropBottomState] = useState<DropBottomState>(getInitialDropBottomState(state));
+  const [dropBottomState, setDropBottomState] = useState<DropBottomState>(
+    getInitialDropBottomState(state)
+  );
   const [reason, setReason] = useState("");
 
   const handleClickReportApprove = () => {
@@ -68,11 +75,33 @@ export default function DefaultForm({ state, approve, binDetail, toggleIsEdit }:
     return openDropBottom();
   };
   const mutationFnMap = {
-    수정: useMutation(getMutationOptions("rejectFixBin", postRejectFix, binDetail?.modificationId)),
-    등록: useMutation(getMutationOptions("rejectAddBin", postRejectAccept, binDetail?.binId)),
-    "신고 거절": useMutation(getMutationOptions("rejectReportBin", postRejectReport, binDetail?.complaintId)),
+    수정: useMutation(
+      getMutationOptions(
+        "rejectFixBin",
+        postRejectFix,
+        binDetail?.modificationId
+      )
+    ),
+    등록: useMutation(
+      getMutationOptions(
+        "rejectAddBin",
+        postRejectAccept,
+        binDetail?.registrationId
+      )
+    ),
+    "신고 거절": useMutation(
+      getMutationOptions(
+        "rejectReportBin",
+        postRejectReport,
+        binDetail?.complaintId
+      )
+    ),
   };
-  function getMutationOptions(mutationKey: string, mutationFn: Function, id: string | number | undefined) {
+  function getMutationOptions(
+    mutationKey: string,
+    mutationFn: Function,
+    id: string | number | undefined
+  ) {
     return {
       mutationKey: [mutationKey, id],
       mutationFn: (data: string) => mutationFn(String(id), data),
@@ -97,16 +126,22 @@ export default function DefaultForm({ state, approve, binDetail, toggleIsEdit }:
     }
   };
 
-  const renderDetailTitle = () => `쓰레기통 ${state === "정보" ? "정보" : `${state} 심사`}`;
+  const renderDetailTitle = () =>
+    `쓰레기통 ${state === "정보" ? "정보" : `${state} 심사`}`;
 
   const renderButtons = () => (
     <article className={cn("detailBtn")}>
-      <button className={cn(state === "신고" ? "detailRejectReport" : "detailReject")} onClick={handleClickReject}>
+      <button
+        className={cn(state === "신고" ? "detailRejectReport" : "detailReject")}
+        onClick={handleClickReject}
+      >
         {state} 거절
       </button>
       <button
         className={cn(state === "신고" ? "detailAcceptReport" : "detailAccept")}
-        onClick={state === "신고" ? handleClickReportApprove : (approve as () => void)}
+        onClick={
+          state === "신고" ? handleClickReportApprove : (approve as () => void)
+        }
       >
         {state} 승인
       </button>
@@ -148,7 +183,10 @@ export default function DefaultForm({ state, approve, binDetail, toggleIsEdit }:
         {state !== "정보" && (
           <div className={cn("detailIitle-btn-wrapper")}>
             {(state === "수정" || state === "신고") && (
-              <button className={cn("detailIitle-btn")} onClick={openInfoDropBottom}>
+              <button
+                className={cn("detailIitle-btn")}
+                onClick={openInfoDropBottom}
+              >
                 {state === "신고" ? "신고 사유보기" : "원본 불러오기"}
               </button>
             )}
@@ -169,7 +207,11 @@ export default function DefaultForm({ state, approve, binDetail, toggleIsEdit }:
             {btnInputValues.map((item, index) => (
               <div
                 key={index}
-                className={binDetail?.type === item.id ? cn("detailSelectItemOn") : cn("detailSelectItem")}
+                className={
+                  binDetail?.type === item.id
+                    ? cn("detailSelectItemOn")
+                    : cn("detailSelectItem")
+                }
               >
                 {item.label}
               </div>
@@ -183,13 +225,23 @@ export default function DefaultForm({ state, approve, binDetail, toggleIsEdit }:
           </h4>
           {binDetail?.imageUrl ? (
             <div className={cn("imgBox")}>
-              <Image src={binDetail.imageUrl} alt="이미지" fill objectFit="cover" />
+              <Image
+                src={binDetail.imageUrl}
+                alt="이미지"
+                fill
+                objectFit="cover"
+              />
             </div>
           ) : (
             <NoneImgInput disabled={true} />
           )}
         </article>
-        {state === "수정" && <AdminDetailItem title={"수정 요청 사유"} detail={binDetail?.modificationReason!} />}
+        {state === "수정" && (
+          <AdminDetailItem
+            title={"수정 요청 사유"}
+            detail={binDetail?.modificationReason!}
+          />
+        )}
         {state === "정보" ? (
           <Button status="edit" onClick={approve as () => void}>
             쓰레기통 정보 수정하기
@@ -199,7 +251,12 @@ export default function DefaultForm({ state, approve, binDetail, toggleIsEdit }:
         )}
         {isOpenDropBottom && renderDropReason()}
         {isOpenModal && renderModal()}
-        {isOpenErrorModal && <Modal modalClose={closeErrorModal} modalState={MODAL_CONTENTS.processingCompleted} />}
+        {isOpenErrorModal && (
+          <Modal
+            modalClose={closeErrorModal}
+            modalState={MODAL_CONTENTS.processingCompleted}
+          />
+        )}
         {isOpenInfoDropBottom && (
           <DropInfo
             title={state === "신고" ? "신고 사유보기" : "원본 불러오기"}

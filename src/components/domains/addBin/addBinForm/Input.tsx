@@ -33,12 +33,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <label htmlFor={id} className={cn("addbin-label", { error: isError })}>
         {label}
       </label>
-      {type === "serch" && (
+      {id === "address" && (
         <Link href={"/KakaoMap"}>
           <button className={cn("addbin-input-delete-button")}>
             <Image
               src={"/images/search.svg"}
-              alt="입력값 지우기"
+              alt="검색으로 이동하기"
               width={17}
               height={17}
             />

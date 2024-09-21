@@ -1,0 +1,94 @@
+.card-wrapper {
+  @include flexbox(between, start);
+  position: absolute;
+  padding: 2.2rem 1.7rem 1.5rem;
+  border-radius: 1rem;
+  width: calc(100% - 4rem);
+  bottom: calc(env(safe-area-inset-bottom) + 10rem);
+  left: 2rem;
+  background-color: $white;
+  box-shadow: 0px 1px 4px 0px #c8d0cd;
+  z-index: 3;
+}
+
+.text-box {
+  @include column-flexbox(start, start);
+  gap: 1rem;
+}
+.recommend {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.007rem;
+  color: #0bb76d;
+}
+.card-title {
+  @include flexbox();
+  gap: 0.6rem;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.01rem;
+  color: #06130d;
+}
+
+.address-box {
+  @include flexbox();
+  gap: 0.6rem;
+
+  font-size: 1.6rem;
+  letter-spacing: -0.016rem;
+  color: #515f58;
+}
+
+.likes-box {
+  @include flexbox(end);
+  gap: 1.1rem;
+  font-size: 1.5rem;
+  letter-spacing: -0.0225rem;
+  color: #a4b7ad;
+
+  & .star {
+    filter: invert(84%) sepia(11%) saturate(280%) hue-rotate(96deg)
+      brightness(85%) contrast(86%);
+  }
+
+  > p {
+    line-height: 2.5rem;
+    margin-left: -0.5rem;
+  } /* 166.667% */
+}
+
+.img-box {
+  position: relative;
+  @include column-flexbox();
+  width: 11.5rem;
+  height: 9.5rem;
+  flex-shrink: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: url("/images/icon-add-img.svg") no-repeat #f2f2f2;
+  background-size: 7rem 7rem;
+  background-position: left 60% center;
+
+  > img {
+    object-fit: cover;
+  }
+
+  &-text {
+    @include flexbox();
+    gap: 0.7rem;
+    position: absolute;
+    bottom: 0rem;
+    width: 100%;
+    z-index: 4;
+    background: #3b4943;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 2.5rem; /* 166.667% */
+    letter-spacing: -0.0225rem;
+
+    > img {
+      filter: brightness(999);
+    }
+  }
+}

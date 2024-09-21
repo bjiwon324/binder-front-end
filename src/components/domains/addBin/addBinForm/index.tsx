@@ -161,11 +161,9 @@ export default function AddBinForm({
           id="address"
           label="쓰레기통 주소"
           placeholder="주소를 입력하세요"
-          type="text"
           {...register("address", { required: "주소는 필수입니다." })}
           isError={!!errors.address}
           errorMessage={errors.address?.message}
-          onClickDelete={handleDeleteAddress}
         />
 
         <div className={cn("addbin-selector", { error: errors.binType })}>

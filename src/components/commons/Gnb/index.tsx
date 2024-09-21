@@ -5,7 +5,7 @@ import mypageOn from "@/../public/images/mypageOn.svg";
 import search from "@/../public/images/search.svg";
 import searchOn from "@/../public/images/searchOn.svg";
 import { getNotiUnread } from "@/lib/apis/noti";
-import { notiAtom } from "@/lib/atoms/userAtom";
+import { adminUser, notiAtom } from "@/lib/atoms/userAtom";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
@@ -26,9 +26,14 @@ export default function Gnb() {
     setPage(router.asPath);
   }, [router]);
 
-  const { data: noti, isSuccess } = useQuery({
+  const {
+    data: noti,
+    isSuccess,
+    isError,
+  } = useQuery({
     queryKey: ["noti"],
     queryFn: getNotiUnread,
+    retry: 3,
   });
   useEffect(() => {
     if (isSuccess) {
@@ -36,6 +41,9 @@ export default function Gnb() {
     }
   }, [isSuccess]);
 
+  if (isError) {
+    setIsNoti(false);
+  }
   return (
     <div className={cn("gnbWrap")}>
       <div className={page === "/" ? cn("gnbOn") : cn("gnb")}>
