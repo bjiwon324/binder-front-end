@@ -8,3 +8,9 @@ interface SearchType {
 export const searchPrev = atomWithStorage<SearchType[]>("searchPrev", []);
 
 export const myPageSetting = atom<string>("활동내역");
+
+export const onBoardingAtom = atomWithStorage<boolean | null>(
+  "onBoarding",
+  null
+);
+export const tutorialAtom = atomWithStorage<boolean | null>("tutorial", null);
