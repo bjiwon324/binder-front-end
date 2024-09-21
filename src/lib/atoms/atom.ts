@@ -13,3 +13,4 @@ export const onBoardingAtom = atomWithStorage<boolean | null>(
   "onBoarding",
   null
 );
+export const tutorialAtom = atomWithStorage<boolean | null>("tutorial", null);

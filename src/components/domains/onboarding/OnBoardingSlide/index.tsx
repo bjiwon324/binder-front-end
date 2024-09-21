@@ -6,6 +6,7 @@ import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useRef } from "react";
+import SwiperRef from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
@@ -16,7 +17,7 @@ import styles from "./OnBoardingSlide.module.scss";
 const cn = classNames.bind(styles);
 
 export default function OnBoardingSlide() {
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<null | SwiperRef>(null);
   const [, setOnBoard] = useAtom(onBoardingAtom);
   const router = useRouter();
 
