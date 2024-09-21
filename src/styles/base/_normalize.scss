@@ -354,7 +354,7 @@ template {
 [hidden] {
   display: none;
 }
-body .swiper-pagination-bullet {
+body #onBoarding .swiper-pagination-bullet {
   background-color: #e8e8e8; /* 점의 색상 변경 */
   width: 26px;
   height: 5px;
@@ -362,10 +362,10 @@ body .swiper-pagination-bullet {
   border-radius: 14px;
 }
 
-body .swiper-pagination-bullet-active {
+body #onBoarding .swiper-pagination-bullet-active {
   background-color: #0bb76d; /* 활성화된 점의 색상 */
 }
-body .swiper-pagination {
+body #onBoarding .swiper-pagination {
   position: absolute;
   top: 40px !important;
   height: 5px;

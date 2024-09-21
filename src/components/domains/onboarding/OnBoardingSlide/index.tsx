@@ -25,6 +25,7 @@ export default function OnBoardingSlide() {
       swiperRef.current.slideNext();
     }
   };
+
   const lastSlide = () => {
     setOnBoard(true);
     router.push("/");
@@ -33,6 +34,7 @@ export default function OnBoardingSlide() {
   return (
     <>
       <Swiper
+        id="onBoarding"
         onSwiper={(swiper: any) => (swiperRef.current = swiper)}
         modules={[Pagination]}
         spaceBetween={50}

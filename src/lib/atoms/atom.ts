@@ -9,4 +9,7 @@ export const searchPrev = atomWithStorage<SearchType[]>("searchPrev", []);
 
 export const myPageSetting = atom<string>("활동내역");
 
-export const onBoardingAtom = atomWithStorage<boolean>("onBoarding", false);
+export const onBoardingAtom = atomWithStorage<boolean | null>(
+  "onBoarding",
+  null
+);
