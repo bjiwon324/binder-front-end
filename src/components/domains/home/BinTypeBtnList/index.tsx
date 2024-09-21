@@ -6,24 +6,21 @@ import styles from "./BinTypeBtnList.module.scss";
 const cn = classNames.bind(styles);
 
 interface Props {
-  onClick: (id?: BinItemType["id"]) => void;
-  binType: null | BinItemType["id"];
+  onClick: (
+    id: BinItemType["id"] | "isBookmarked"
+  ) => Promise<(() => void) | undefined>;
+  binType: null | BinItemType["id"] | "isBookmarked";
 }
 
 export default function BinTypeBtnList({ onClick, binType }: Props) {
   return (
     <ul className={cn("list")}>
       <li>
-        <BinTypeBtn binType={null} isBookMarked={true} onClick={onClick} />
+        <BinTypeBtn binType={binType} onClick={onClick} type={"isBookmarked"} />
       </li>
       {btnInputValues.map((type) => (
         <li>
-          <BinTypeBtn
-            binType={binType}
-            isBookMarked={false}
-            type={type}
-            onClick={onClick}
-          />
+          <BinTypeBtn binType={binType} type={type} onClick={onClick} />
         </li>
       ))}
     </ul>

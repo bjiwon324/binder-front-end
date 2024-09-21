@@ -89,3 +89,23 @@ export const getMarkerImage = (isBookMarked: boolean, type: string) => {
   }
   return imageSrc;
 };
+
+export const updateMarkers = (binData: any, map: any, binkMarkerRef: any) => {
+  if (!!map && binkMarkerRef.current.length > 0) {
+    binkMarkerRef.current.forEach((marker: any) => marker?.setMap(null));
+  }
+
+  if (binData && !!map) {
+    const newMarkers = binData.map((bin: any) => {
+      const marker = createMarker(
+        window.kakao,
+        map,
+        { x: bin.latitude, y: bin.longitude },
+        getMarkerImage(bin.isBookMarked, bin.type),
+        bin.title
+      );
+      return marker;
+    });
+    binkMarkerRef.current = newMarkers;
+  }
+};

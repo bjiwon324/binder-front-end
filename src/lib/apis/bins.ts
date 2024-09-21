@@ -6,5 +6,6 @@ export const getBinsId = async (id: any) => {
     return res.data;
   } catch (err) {
     console.error(err);
+    throw err;
   }
 };
