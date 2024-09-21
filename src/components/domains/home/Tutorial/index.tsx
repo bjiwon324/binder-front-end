@@ -1,8 +1,8 @@
 import Portal from "@/components/commons/Modal/Portal";
-import { tutorialAtom } from "@/lib/atoms/atom";
+import { onBoardingAtom, tutorialAtom } from "@/lib/atoms/atom";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import SwiperRef from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -18,7 +18,8 @@ const cn = classNames.bind(styles);
 
 export default function Tutorial() {
   const swiperRef = useRef<null | SwiperRef>(null);
-  const [, setTutorial] = useAtom(tutorialAtom);
+  const [tutorial, setTutorial] = useAtom(tutorialAtom);
+  const [, setOnBoard] = useAtom(onBoardingAtom);
 
   const slideNext = () => {
     if (swiperRef.current) {
@@ -29,6 +30,12 @@ export default function Tutorial() {
   const lastSlide = () => {
     setTutorial(true);
   };
+
+  useEffect(() => {
+    if (tutorial === false) {
+      setOnBoard(false);
+    }
+  }, [tutorial]);
   return (
     <Portal>
       <Swiper
