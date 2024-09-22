@@ -44,8 +44,8 @@ export default function App({ Component, pageProps }: AppProps) {
         `}
       </Script>
 
-      <div style={{ backgroundColor: "gray", height: "100vh" }}>
-        <div style={{ width: "390px", margin: "0 auto" }}>
+      <div id="webWrap">
+        <div id="webInner">
           <Component {...pageProps} />
           <ReactQueryDevtools initialIsOpen={false} />
           {!hideGnbOnPages.includes(router.pathname) && <Gnb />}
