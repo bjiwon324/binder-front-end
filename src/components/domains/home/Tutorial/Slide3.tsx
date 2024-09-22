@@ -13,7 +13,7 @@ export default function Slide3() {
 
       <div className={cn("bubble")}>
         <Image src={bobble} alt={"말풍선 삼각형"} width={22} height={14} />
-        <div className={cn("bubbleText")}>쓰레기통 위치를 검색하세요</div>
+        <div className={cn("bubbleText")}>가까운 아이콘을 클릭하세요</div>
       </div>
     </div>
   );

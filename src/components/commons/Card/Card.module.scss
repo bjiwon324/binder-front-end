@@ -51,6 +51,9 @@
   font-weight: 500;
   letter-spacing: -0.014rem;
   margin-right: 0.5rem;
+  @include respondTo(small) {
+    font-size: 1.6rem;
+  }
 
   &.PENDING {
     background: #515f58;
@@ -76,6 +79,9 @@
   font-size: 1.7rem;
   font-weight: 800;
   letter-spacing: -0.017rem;
+  @include respondTo(small) {
+    font-size: 1.9rem;
+  }
 }
 
 .card-likes {
@@ -85,6 +91,9 @@
   font-size: 1.5rem;
   font-weight: 400;
   letter-spacing: -0.0225rem;
+  @include respondTo(small) {
+    font-size: 1.7rem;
+  }
 
   > img {
     filter: invert(99%) sepia(0%) saturate(0%) hue-rotate(190deg)
@@ -114,6 +123,9 @@
   font-weight: 400;
   letter-spacing: -0.016rem;
   color: #515f58;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }
 
 .card-createdAt {
@@ -125,6 +137,9 @@
   font-size: 1.3rem;
   font-weight: 400;
   letter-spacing: -0.0195rem;
+  @include respondTo(small) {
+    font-size: 1.5rem;
+  }
 }
 .card-bottom {
   margin-top: 1rem;

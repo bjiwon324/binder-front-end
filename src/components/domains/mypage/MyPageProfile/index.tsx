@@ -5,11 +5,11 @@ import defaultImg from "@/../public/images/profileDefault.svg";
 import profileEditImg from "@/../public/images/profileEdit.svg";
 import star from "@/../public/images/star.svg";
 import DropProfileEdit from "@/components/commons/DropBottom/DropProfileEdit";
-import { notiAtom } from "@/lib/atoms/userAtom";
+import { notiAtom, userImg } from "@/lib/atoms/userAtom";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyPageNoti from "../MyPageNoti";
 import styles from "./MyPageProfile.module.scss";
 
@@ -34,6 +34,7 @@ export default function MyPageProfile({ memberData }: ProfileProps) {
   const [nick, setNick] = useState<string>(memberData?.nickname);
   const [img, setImg] = useState<string>(memberData?.imageUrl);
   const [isNoti] = useAtom(notiAtom);
+  const [image, setImage] = useAtom(userImg);
 
   const handleProfileEdit = () => {
     setProfileEdit((prev) => !prev);
@@ -41,15 +42,16 @@ export default function MyPageProfile({ memberData }: ProfileProps) {
   const handleNoti = () => {
     setNotiModal((prev) => !prev);
   };
-
-  const profileImg = img !== "null" && img !== null ? img : defaultImg;
+  useEffect(() => {
+    setImage(img !== "" ? img : defaultImg);
+  }, [img]);
 
   return (
     <>
       <div className={cn("profileWrap")}>
         <div className={cn("imgEditWrap")} onClick={handleProfileEdit}>
           <div className={cn("profileImg")}>
-            <Image src={profileImg} alt="프로필 이미지" fill />
+            <Image src={image} alt="프로필 이미지" fill />
           </div>
           <div className={cn("profileEdit")}>
             <div className={cn("profileEditimg")}>

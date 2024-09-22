@@ -44,4 +44,7 @@
   font-size: 1.7rem;
   font-weight: 600;
   line-height: 37px; /* 217.647% */
+  @include respondTo(small) {
+    font-size: 1.9rem;
+  }
 }
