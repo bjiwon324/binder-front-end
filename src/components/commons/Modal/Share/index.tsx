@@ -40,8 +40,7 @@ export default function Share({ modalClose, setShare }: IModalProps) {
         content: {
           title: "Bin-finder", // 제목
           description: "가까운 쓰레기통 위치를 찾아보자", // 설명
-          imageUrl:
-            "https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/05/urban-20230530170006446243.jpg", // 썸네일 이미지 URL
+          imageUrl: "https://www.bin-finder.net/images/logo-144.png", // 썸네일 이미지 URL
           link: {
             mobileWebUrl: location.href,
             webUrl: location.href,
