@@ -6,6 +6,7 @@ interface SearchType {
   date: string;
 }
 export const searchPrev = atomWithStorage<SearchType[]>("searchPrev", []);
+export const searchData = atom<string>("");
 
 export const myPageSetting = atom<string>("활동내역");
 

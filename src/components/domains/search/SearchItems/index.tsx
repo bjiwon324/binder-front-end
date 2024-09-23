@@ -8,6 +8,7 @@ const cn = classNames.bind(styles);
 
 export default function SearchItems() {
   const [prevSearch, setSearchPrev] = useAtom(searchPrev);
+
   return (
     <div className={cn("itemsWrap")}>
       {prevSearch?.map((item: any, index: number) => (
