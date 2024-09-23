@@ -1,6 +1,8 @@
 import { patchMembers } from "@/lib/apis/members";
+import { userImg } from "@/lib/atoms/userAtom";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
+import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import DropWrap from "..";
@@ -32,10 +34,11 @@ export default function DropProfileEdit({
 }: EditProfileProps) {
   const [submit, setSubmit] = useState<boolean>(false);
   const [submitNick, setSubmitNick] = useState<boolean>(false);
-  const [imgData, setImgData] = useState<any>(memberData.imageUrl);
+  const [image, setImage] = useAtom(userImg);
+  const [imgData, setImgData] = useState<any>(image);
   const [prevNickname, setPrevNickname] = useState<string>(nick.slice(0, 16));
   const [inputValue, setInputValue] = useState<string>("");
-  console.log(memberData.imageUrl);
+
   const {
     register,
     handleSubmit,
@@ -75,9 +78,13 @@ export default function DropProfileEdit({
   const handleInputX = () => {
     setInputValue("");
   };
-
+  const handleDefault = () => {
+    // setImage("");
+    setImgData("");
+  };
+  console.log(nickname);
   useEffect(() => {
-    const isProfileImgChanged = profileImg.length !== 0;
+    const isProfileImgChanged = profileImg.length !== 0 || imgData === "";
     const isNicknameValid = inputValue.length >= 2;
     const isNicknameChanged = inputValue !== prevNickname;
 
@@ -90,7 +97,7 @@ export default function DropProfileEdit({
     }
 
     setSubmitNick(isNicknameValid);
-  }, [profileImg, inputValue, imgData, prevNickname]);
+  }, [profileImg, inputValue, imgData, prevNickname, image]);
 
   useEffect(() => {
     setInputValue(prevNickname);
@@ -103,6 +110,7 @@ export default function DropProfileEdit({
       closeBtn={closeBtn}
       btnFunction={handleSubmit(onSubmit)}
       submitState={submit}
+      handleDefault={handleDefault}
     >
       <>
         {/^(naver_|google_|kakao_)/.test(nick) && (

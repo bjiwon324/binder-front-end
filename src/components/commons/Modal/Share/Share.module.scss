@@ -23,6 +23,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  @include respondTo(small) {
+    width: 53.4rem;
+    height: 32rem;
+  }
 }
 .shareTitle {
   color: #06130d;
@@ -30,6 +35,9 @@
   font-weight: 800;
   line-height: 37px;
   margin-bottom: 2.3rem;
+  @include respondTo(small) {
+    font-size: 2.1rem;
+  }
 }
 .kakaoImg {
   width: 5.6rem;
@@ -47,6 +55,10 @@
     height: 2.9rem;
     position: relative;
   }
+  // @include respondTo(small) {
+  //   width: 6.8rem;
+  //   height: 6.8rem;
+  // }
 }
 .kakaoText {
   color: #515f58;
@@ -54,11 +66,15 @@
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 25px;
+  @include respondTo(small) {
+    font-size: 1.7rem;
+  }
 }
 
 .shareOrigin {
   width: 100%;
-  max-width: 32.2rem;
+  min-width: 32.2rem;
+  max-width: 46.8rem;
   height: 4.4rem;
   border-radius: 1rem;
   border: 1px solid #d9d9d9;
@@ -66,11 +82,17 @@
   overflow: hidden;
   position: relative;
   margin-top: 2.3rem;
+  @include respondTo(small) {
+    height: 4.8rem;
+  }
   & > input {
     padding: 1rem 1.4rem;
     color: #6b7772;
     font-size: 1.6rem;
     line-height: 25px;
+    @include respondTo(small) {
+      font-size: 1.8rem;
+    }
   }
   & > div {
     width: 7.3rem;
@@ -85,6 +107,12 @@
     right: 0;
     letter-spacing: -0.225px;
     cursor: pointer;
+    text-align: center;
+    @include respondTo(small) {
+      width: 10.6rem;
+      height: 4.8rem;
+      font-size: 1.7rem;
+    }
   }
 }
 .shareClose {
@@ -96,7 +124,9 @@
   cursor: pointer;
 }
 .shareNoti {
-  width: 35.6rem;
+  width: 90%;
+  min-width: 35.6rem;
+  max-width: 53.4rem;
   height: 4.4rem;
   border-radius: 1rem;
   background: rgba(11, 183, 109, 0.8);
@@ -107,8 +137,14 @@
   align-items: center;
   justify-content: center;
   position: fixed;
+  left: 50%;
   bottom: 10rem;
-  animation: noti 3s ease-in-out forwards;
+  transform: translateX(-50%);
+
+  // animation: noti 3s ease-in-out forwards;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }
 
 @keyframes noti {

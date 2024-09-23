@@ -5,7 +5,6 @@
   height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
   background-color: #f4f6f5;
   padding: 1.9rem 1.7rem;
-  position: relative;
 }
 .findWrap2 {
   width: 100%;
@@ -19,6 +18,9 @@
   font-weight: 700;
   line-height: 26px;
   margin-bottom: 1.4rem;
+  @include respondTo(small) {
+    font-size: 2.1rem;
+  }
 }
 .more {
   width: 5.2rem;

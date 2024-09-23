@@ -1,6 +1,7 @@
 .splashWrap {
   width: 100%;
-  max-width: 39rem;
+  min-width: 39rem;
+  max-width: 60rem;
   height: 100vh;
   display: flex;
   align-items: center;

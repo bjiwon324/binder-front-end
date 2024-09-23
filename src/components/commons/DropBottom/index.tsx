@@ -1,9 +1,9 @@
-import classNames from "classnames/bind";
-import styles from "./dropBottom.module.scss";
 import close from "@/../public/images/dropClose.svg";
+import classNames from "classnames/bind";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
+import styles from "./dropBottom.module.scss";
 
 const cn = classNames.bind(styles);
 
@@ -14,9 +14,18 @@ interface DropProps {
   btn: string;
   btnFunction?: () => void;
   submitState?: boolean;
+  handleDefault?: () => void;
 }
 
-export default function DropWrap({ children, title, closeBtn, btn, btnFunction, submitState = false }: DropProps) {
+export default function DropWrap({
+  children,
+  title,
+  closeBtn,
+  btn,
+  btnFunction,
+  submitState = false,
+  handleDefault,
+}: DropProps) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -45,9 +54,29 @@ export default function DropWrap({ children, title, closeBtn, btn, btnFunction, 
         </article>
       );
     }
+    if (title === "프로필 수정") {
+      return (
+        <article className={cn("editProfile")}>
+          <button className={cn("dropBtnEdit")} onClick={handleDefault}>
+            기본이미지로 변경
+          </button>
+          <button
+            onClick={btnFunction}
+            disabled={!submitState}
+            className={submitState ? cn("dropBtnOn") : cn("dropBtn")}
+          >
+            {btn}
+          </button>
+        </article>
+      );
+    }
 
     return (
-      <button onClick={btnFunction} disabled={!submitState} className={submitState ? cn("dropBtnOn") : cn("dropBtn")}>
+      <button
+        onClick={btnFunction}
+        disabled={!submitState}
+        className={submitState ? cn("dropBtnOn") : cn("dropBtn")}
+      >
         {btn}
       </button>
     );

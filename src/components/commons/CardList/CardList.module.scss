@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
+  @include respondTo(small) {
+    gap: 1.7rem;
+  }
   & > span {
     color: #515f58;
     font-size: 1.7rem;
@@ -19,4 +22,7 @@
   font-size: 1.7rem;
   font-weight: 600;
   line-height: 37px;
+  @include respondTo(small) {
+    font-size: 1.9rem;
+  }
 }

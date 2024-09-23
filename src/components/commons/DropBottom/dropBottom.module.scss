@@ -1,7 +1,9 @@
 @import "@/styles/main.scss";
 
 .drop {
-  width: 39rem;
+  width: 100%;
+  min-width: 39rem;
+  max-width: 60rem;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
@@ -35,6 +37,9 @@
   color: #06130d;
   font-size: 2rem;
   font-weight: 800;
+  @include respondTo(small) {
+    font-size: 2.6rem;
+  }
 }
 
 .dropClose {
@@ -50,8 +55,8 @@
 }
 .dropBtnOn,
 .dropBtn {
-  width: 100%;
-  min-width: 35.6rem;
+  // width: 100%;
+  // min-width: 35.6rem;
   height: 4.4rem;
   border-radius: 1rem;
   color: #fff;
@@ -65,16 +70,21 @@
   background: #94ccb4;
 }
 .dropBtnOn {
+  width: 100%;
   background: #0bb76d;
   cursor: pointer;
 }
 .cancle {
+  width: 100%;
   display: flex;
   gap: 0.8rem;
+  @include respondTo(small) {
+    gap: 1.4rem;
+  }
   & > .dropBtn,
   .dropBtnCancel,
   .dropBtnOn {
-    min-width: 17.4rem;
+    width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -94,6 +104,32 @@
   }
   & > .dropBtnOn {
     background-color: #ff3232;
+  }
+}
+.editProfile {
+  width: 100%;
+  display: flex;
+  gap: 0.8rem;
+  @include respondTo(small) {
+    gap: 1.4rem;
+  }
+  .dropBtnEdit,
+  .dropBtn,
+  .dropBtnOn {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  & > .dropBtnEdit {
+    border-radius: 10px;
+    border: 1px solid #0bb76d;
+    background: #fff;
+    color: #3b4943;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 20px;
+    cursor: pointer;
   }
 }
 

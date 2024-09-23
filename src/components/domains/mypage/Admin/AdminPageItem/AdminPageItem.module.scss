@@ -20,6 +20,9 @@
   font-size: 1.9rem;
   font-weight: 700;
   line-height: 26px;
+  @include respondTo(small) {
+    font-size: 2.1rem;
+  }
 }
 .adminTitleTag {
   width: 6rem;
@@ -33,6 +36,9 @@
   font-size: 1.4rem;
   font-weight: 500;
   line-height: 26px;
+  @include respondTo(small) {
+    font-size: 1.6rem;
+  }
 }
 .adminDrop {
   width: 10.2rem;
@@ -47,6 +53,9 @@
   font-size: 1.4rem;
   line-height: 25px;
   cursor: pointer;
+  @include respondTo(small) {
+    font-size: 1.6rem;
+  }
 }
 .adminCardList {
   padding: 1.9rem 0;

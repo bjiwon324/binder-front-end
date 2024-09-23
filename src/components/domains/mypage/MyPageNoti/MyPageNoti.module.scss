@@ -10,7 +10,9 @@
 }
 
 .notiWrap {
-  width: 39rem;
+  width: 100%;
+  max-width: 60rem;
+  min-width: 39rem;
   height: 100%;
   position: absolute;
   left: 50%;
@@ -24,6 +26,12 @@
   justify-content: space-between;
   align-items: center;
   background-color: #fff;
+  @include respondTo(small) {
+    height: 10rem;
+    & > div {
+      font-size: 2.4rem;
+    }
+  }
   & > img {
     rotate: 180deg;
     cursor: pointer;
@@ -50,6 +58,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  @include respondTo(small) {
+    width: 6.5rem;
+    height: 2.7rem;
+    font-size: 1.6rem;
+  }
 }
 .notiBack {
   width: 100%;
@@ -81,6 +94,9 @@
   flex-direction: column;
   gap: 0.2rem;
   position: relative;
+  @include respondTo(small) {
+    gap: 0.6rem;
+  }
 }
 .notiItemDate {
   color: #96a9a0;
@@ -95,11 +111,17 @@
     border-radius: 2.5rem;
     background: #ff3232;
   }
+  @include respondTo(small) {
+    font-size: 1.5rem;
+  }
 }
 .notiItemAddress {
   color: #96a9a0;
   font-size: 1.6rem;
   line-height: 25px;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }
 .notiItemTitle {
   color: #06130d;
@@ -107,12 +129,18 @@
   font-weight: 800;
   line-height: 24px;
   width: 95%;
+  @include respondTo(small) {
+    font-size: 1.9rem;
+  }
 }
 .notiItemAdmin {
   color: #515f58;
   font-size: 1.6rem;
   line-height: 25px;
   margin-top: 0.6rem;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }
 .notiItemDelete {
   position: absolute;
@@ -132,5 +160,8 @@
     font-size: 1.7rem;
     font-weight: 600;
     line-height: 37px;
+    @include respondTo(small) {
+      font-size: 1.9rem;
+    }
   }
 }

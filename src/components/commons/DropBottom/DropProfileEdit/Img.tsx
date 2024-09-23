@@ -41,9 +41,8 @@ export default function Img({
       handleImgPost();
     }
   }, [handleImgPost, profileImg]);
-
-  const img =
-    imgData !== null ? imgData : memberImg !== null ? memberImg : defaultImg;
+  console.log(imgData);
+  const img = imgData !== "" ? imgData : defaultImg;
 
   return (
     <>
