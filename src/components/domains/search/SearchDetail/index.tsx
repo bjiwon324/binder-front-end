@@ -26,29 +26,35 @@ interface DetailProp {
 export default function SearchDetail({ item }: DetailProp) {
   const distances = Math.floor(item.distance).toLocaleString();
   const bin = binType(item.type);
-  const [isBookmark, setIsBookmark] = useState<boolean>(false);
+  const [isBookmark, setIsBookmark] = useState<boolean>(item.isBookMarked);
+
+  const bookmarkImg = isBookmark ? bookmarkOn : bookmark;
 
   const { mutate: handlePost } = useMutation({
     mutationFn: () => postMyBookmark(item.id),
+    onSuccess: () => {
+      setIsBookmark(true);
+    },
   });
   const { mutate: handleDelete } = useMutation({
     mutationFn: () => deleteMyBookmark(item.id),
+    onSuccess: () => {
+      setIsBookmark(false);
+    },
   });
 
   const handleBookmark = () => {
     if (isBookmark) {
-      handleDelete;
-      setIsBookmark(false);
+      handleDelete();
     } else {
-      handlePost;
-      setIsBookmark(true);
+      handlePost();
     }
   };
 
   return (
     <div className={cn("detailWrap")}>
       <Image
-        src={item.isBookMarked ? bookmarkOn : bookmark}
+        src={bookmarkImg}
         alt={"북마크 이미지"}
         width={16}
         height={19}

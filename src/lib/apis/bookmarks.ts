@@ -19,3 +19,15 @@ export const deleteMyBookmark = async (id: number | string) => {
     throw err;
   }
 };
+
+export const getMyBookmark = async (x: number, y: number) => {
+  try {
+    const res = await instance.get(
+      `/bookmarks/all?longitude=${y}&latitude=${x}`
+    );
+    return res.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

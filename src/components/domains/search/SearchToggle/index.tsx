@@ -1,11 +1,27 @@
+import { getMyBookmark } from "@/lib/apis/bookmarks";
+import { searchBookmark, searchToggle } from "@/lib/atoms/atom";
+import { userCoordinate } from "@/lib/atoms/userAtom";
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
-import { useState } from "react";
+import { useAtom } from "jotai";
 import styles from "./SearchToggle.module.scss";
 
 const cn = classNames.bind(styles);
 
 export default function SearchToggle() {
-  const [btnState, setBtnState] = useState<string>("최근 검색");
+  const [btnState, setBtnState] = useAtom(searchToggle);
+  const [coordinate] = useAtom(userCoordinate);
+  const [, setSearch] = useAtom(searchBookmark);
+
+  const { data: bookmarkData, isSuccess } = useQuery({
+    queryKey: ["bookmarkDatas", btnState],
+    queryFn: () => getMyBookmark(coordinate.x, coordinate.y),
+  });
+
+  if (isSuccess) {
+    setSearch(bookmarkData);
+  }
+
   return (
     <div className={cn("toggleWrap")}>
       <div
