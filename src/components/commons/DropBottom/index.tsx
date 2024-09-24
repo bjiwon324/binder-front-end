@@ -49,7 +49,7 @@ export default function DropWrap({
             className={submitState ? cn("dropBtnOn") : cn("dropBtn")}
             onClick={submitState ? btnFunction : undefined}
           >
-            사유 등록
+            {btn}
           </button>
         </article>
       );
