@@ -1,9 +1,11 @@
 import arrow from "@/../public/images/arrowRight.svg";
 import location from "@/../public/images/location.svg";
 import search from "@/../public/images/search.svg";
-import { searchData, searchPrev } from "@/lib/atoms/atom";
+import { getSearch, getSearchKeyword } from "@/lib/apis/search";
+import { searchData, searchDetailList, searchPrev } from "@/lib/atoms/atom";
+import { userCoordinate } from "@/lib/atoms/userAtom";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -23,34 +25,18 @@ interface SearchType {
   date: string;
 }
 
-// API 요청 함수
-const getSearch = async (searchInput: string) => {
-  try {
-    const res = await axios.get(
-      `https://dapi.kakao.com/v2/local/search/keyword.json`,
-      {
-        params: {
-          query: searchInput,
-        },
-        headers: {
-          Authorization: `KakaoAK 1f8ba81f351f88bb4cd56113f479b984`,
-        },
-      }
-    );
-    return res.data.documents;
-  } catch (error) {
-    console.error("주소 검색 실패:", error);
-    return [];
-  }
-};
-
 export default function SearchInput() {
   const [, setSearchPrev] = useAtom(searchPrev);
   const [searchInput, setSearchData] = useAtom(searchData);
+  const [, setDetail] = useAtom(searchDetailList);
+  const [coordinate] = useAtom(userCoordinate);
   const [debouncedSearchInput, setDebouncedSearchInput] = useState(searchInput);
+  const [choicePlace, setChoicePlace] = useState<any>();
+
   const { register, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    console.log(data);
     setSearchPrev((prev: SearchType[]) => {
       const updatedPrev = prev.filter(
         (item: any) => item.title !== data.searchData
@@ -85,6 +71,37 @@ export default function SearchInput() {
     refetchOnWindowFocus: false, // 포커스 시 재요청 막기
   });
 
+  // const ref = useRef(null);
+
+  const handleClickOutside = () => {
+    setSearchData("");
+  };
+
+  // useOnClickOutside(ref, handleClickOutside);
+
+  const { data: searchAddress, isSuccess } = useQuery({
+    queryKey: ["searchAddress", coordinate, choicePlace, searchInput],
+    queryFn: () =>
+      getSearchKeyword(
+        coordinate.y,
+        coordinate.x,
+        choicePlace.x,
+        choicePlace.y,
+        searchInput,
+        choicePlace.address_name
+      ),
+  });
+  const handleChoice = (item: any) => {
+    setChoicePlace(item);
+
+    setSearchData(item.title);
+
+    handleSubmit(onSubmit)();
+  };
+  if (isSuccess) {
+    setDetail(searchAddress);
+  }
+
   return (
     <>
       <form className={cn("inputWrap")} onSubmit={handleSubmit(onSubmit)}>
@@ -96,24 +113,35 @@ export default function SearchInput() {
             {...register("searchData")}
             type="text"
             placeholder="쓰레기통 위치 검색"
+            value={searchInput}
             onChange={(e) => setSearchData(e.target.value)}
+            // ref={ref}
+
           />
         </div>
       </form>
 
       {/* {isSearching && <p>검색 중...</p>} */}
 
-      {addresses.length > 0 && (
-        <ul className={cn("searchList")}>
-          {addresses.map((address: any, index: number) => (
-            <li key={index}>
-              <Image src={location} alt="위치이미지" width={16} height={19} />
-              <p>{address.place_name}</p>
-              <Image src={arrow} alt="화살표" width={14} height={14} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul
+        className={
+          addresses.length > 0 ? cn("searchList") : cn("searchListNone")
+        }
+      >
+        {addresses.map((address: any, index: number) => (
+          <li
+            key={index}
+            onClick={() => {
+              handleChoice(address);
+              handleClickOutside();
+            }}
+          >
+            <Image src={location} alt="위치이미지" width={16} height={19} />
+            <p>{address.place_name}</p>
+            <Image src={arrow} alt="화살표" width={14} height={14} />
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
