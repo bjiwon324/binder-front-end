@@ -5,6 +5,7 @@ import { getSearch, getSearchKeyword } from "@/lib/apis/search";
 import { searchData, searchDetailList, searchPrev } from "@/lib/atoms/atom";
 import { userCoordinate } from "@/lib/atoms/userAtom";
 import { useQuery } from "@tanstack/react-query";
+
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -31,6 +32,7 @@ export default function SearchInput() {
   const [coordinate] = useAtom(userCoordinate);
   const [debouncedSearchInput, setDebouncedSearchInput] = useState(searchInput);
   const [choicePlace, setChoicePlace] = useState<any>();
+
   const { register, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
@@ -114,6 +116,7 @@ export default function SearchInput() {
             value={searchInput}
             onChange={(e) => setSearchData(e.target.value)}
             // ref={ref}
+
           />
         </div>
       </form>
