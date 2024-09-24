@@ -25,7 +25,11 @@ interface SearchType {
   date: string;
 }
 
-export default function SearchInput() {
+interface SearchInputProps {
+  prevSearchPick: string;
+}
+
+export default function SearchInput({ prevSearchPick }: SearchInputProps) {
   const [, setSearchPrev] = useAtom(searchPrev);
   const [searchInput, setSearchData] = useAtom(searchData);
   const [, setDetail] = useAtom(searchDetailList);
@@ -36,15 +40,14 @@ export default function SearchInput() {
   const { register, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
     setSearchPrev((prev: SearchType[]) => {
       const updatedPrev = prev.filter(
-        (item: any) => item.title !== data.searchData
+        (item: any) => item.title !== searchInput
       );
       const dates = new Date();
       const newData = {
         state: "search",
-        title: data.searchData,
+        title: searchInput,
         date: `${String(dates.getMonth() + 1).padStart(2, "0")}.${String(dates.getDate()).padStart(2, "0")}`,
       };
       return [newData, ...updatedPrev];
@@ -102,6 +105,10 @@ export default function SearchInput() {
     setDetail(searchAddress);
   }
 
+  useEffect(() => {
+    setSearchData(prevSearchPick);
+  }, [prevSearchPick]);
+
   return (
     <>
       <form className={cn("inputWrap")} onSubmit={handleSubmit(onSubmit)}>
@@ -116,7 +123,6 @@ export default function SearchInput() {
             value={searchInput}
             onChange={(e) => setSearchData(e.target.value)}
             // ref={ref}
-
           />
         </div>
       </form>

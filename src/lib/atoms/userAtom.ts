@@ -30,3 +30,5 @@ export const newAddCoordinate = atomWithStorage("newAddCoordinate", {
   x: 0,
   y: 0,
 });
+
+export const searchChoice = atomWithStorage("searchChoice", {});
