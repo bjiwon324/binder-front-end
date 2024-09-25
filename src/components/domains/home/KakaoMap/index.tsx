@@ -34,7 +34,7 @@ const cn = classNames.bind(styles);
 export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
   const [coordinate, setCoordinate] = useAtom(userCoordinate);
   const [, setAddress] = useAtom(userAddress);
-  const [newAddress, setNewAddAddress] = useAtom(newAddAddress);
+  const [, setNewAddAddress] = useAtom(newAddAddress);
   const [, setNewAddCoordinate] = useAtom(newAddCoordinate);
   const [bins, setbins] = useState<any>("");
   const [isCardHidden, setIsCardHidden] = useState(false);
@@ -72,15 +72,14 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
     return data;
   };
 
-  // React Query에서 binType을 기반으로 쿼리 실행
   const {
     data: binData,
     refetch: refetchBinData,
     isError,
   } = useQuery({
-    queryKey: ["get-around-bins", binType], // queryKey로 binType을 포함
+    queryKey: ["get-around-bins", binType],
     queryFn: () => fetchBinsWithId(binType),
-    enabled: !!binType && !!centerCoordinate.x && !!centerCoordinate.y, // binType이 존재할 때만 실행
+    enabled: !!binType && !!centerCoordinate.x && !!centerCoordinate.y,
     gcTime: 3000,
   });
 
@@ -88,7 +87,6 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
     setBinType((prev) => (prev === id ? null : id));
   };
 
-  // binType 상태를 감지하고 그에 따라 데이터 가져오기
   useEffect(() => {
     const fetchBinData = async () => {
       if (!binType || centerCoordinate.x === 0 || centerCoordinate.y === 0) {
@@ -96,7 +94,7 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
       }
 
       try {
-        binkMarkerRef.current.forEach((marker: any) => marker?.setMap(null)); // 기존 마커 제거
+        binkMarkerRef.current.forEach((marker: any) => marker?.setMap(null));
         binkMarkerRef.current = [];
 
         const { data: fetchedBinData } = await refetchBinData();
@@ -143,7 +141,6 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
     fetchBinData(); // 상태가 변경될 때마다 데이터 가져오기
   }, [binType]);
 
-  console.log(binType);
   //gps로 현위치 불러오기
   useEffect(() => {
     if (locationData && Array.isArray(locationData)) {
@@ -264,7 +261,6 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
     }
   };
 
-  console.log("bbb", binData);
   // 맵 중앙 이동시 새로 데이터 불러오기
   // useEffect(() => {
   //   if (mapRef.current && centerCoordinate.x !== 0) {
@@ -311,7 +307,6 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
   };
 
   const handleClickMarker = (id: number) => {
-    console.log(id);
     setSelectedBinId(id);
     toggleBinInfoOpen();
   };
