@@ -123,6 +123,7 @@ export default function SearchInput({ prevSearchPick }: SearchInputProps) {
             value={searchInput}
             onChange={(e) => setSearchData(e.target.value)}
             // ref={ref}
+            autoComplete="off"
           />
         </div>
       </form>
