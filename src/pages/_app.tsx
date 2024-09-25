@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (onBoard === false || onBoard === null) {
+    if (onBoard === false) {
       router.push("/onboarding");
     }
   }, [onBoard]);
