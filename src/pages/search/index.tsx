@@ -6,7 +6,7 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 
 export default function Search() {
-  const [detail, setDetail] = useAtom(searchDetailList);
+  const [detail] = useAtom(searchDetailList);
   const [prevSearchPick, setPrevSearchPick] = useState<string>("");
   return (
     <>

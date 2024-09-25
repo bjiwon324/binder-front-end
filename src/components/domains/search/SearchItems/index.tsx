@@ -46,7 +46,7 @@ export default function SearchItems({ setPrevSearchPick }: searchProps) {
             ))
           : bookmarks?.map((item, index) => (
               <div key={index}>
-                <SearchDetail item={item} />
+                <SearchDetail item={item} savePlace={true} />
               </div>
             ))}
     </div>
