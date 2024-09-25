@@ -59,7 +59,6 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
     queryFn: getLocation,
     gcTime: 3000,
   });
-  console.log("bins", bins);
 
   const fetchBinsWithId = async (
     id: BinItemType["id"] | "isBookmarked" | null
@@ -86,7 +85,7 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
   });
 
   const handleClickSearchBintype = (id: BinItemType["id"] | "isBookmarked") => {
-    setBinType((prev) => (prev === id ? null : id)); // 같은 타입이면 해제, 아니면 설정
+    setBinType((prev) => (prev === id ? null : id));
   };
 
   // binType 상태를 감지하고 그에 따라 데이터 가져오기
@@ -100,7 +99,7 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
         binkMarkerRef.current.forEach((marker: any) => marker?.setMap(null)); // 기존 마커 제거
         binkMarkerRef.current = [];
 
-        const { data: fetchedBinData } = await refetchBinData(); // binType에 따른 데이터 가져오기
+        const { data: fetchedBinData } = await refetchBinData();
         setbins(fetchedBinData);
 
         if (fetchedBinData?.length === 0) {
@@ -115,6 +114,11 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
 
         // 마커 업데이트
         if (fetchedBinData && !!mapRef.current) {
+          const { latitude, longitude } = fetchedBinData[0];
+          const latLng = new window.kakao.maps.LatLng(latitude, longitude);
+
+          mapRef.current.panTo(latLng);
+
           updateMarkers(
             fetchedBinData,
             mapRef.current,
@@ -137,7 +141,7 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
     };
 
     fetchBinData(); // 상태가 변경될 때마다 데이터 가져오기
-  }, [binType]); // binType과 좌표가 변경될 때 실행
+  }, [binType]);
 
   console.log(binType);
   //gps로 현위치 불러오기
@@ -318,11 +322,11 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
         id="map"
         style={{
           width: "100%",
+          height: "calc(100vh - 7.4rem)",
           zIndex: "0",
           position: "relative",
         }}
         ref={mapRef}
-        className={cn("map")}
       ></div>
     );
   }
@@ -333,7 +337,7 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
         id="map"
         style={{
           width: "100%",
-          height: "100vh",
+          height: "calc(100vh - 7.4rem)",
           zIndex: "0",
           position: "relative",
         }}

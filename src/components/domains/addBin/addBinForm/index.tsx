@@ -1,6 +1,7 @@
 import Button from "@/components/commons/Button";
 import DropReason from "@/components/commons/DropBottom/DropReason";
 import Modal from "@/components/commons/Modal/TrashHow";
+import { patchBinAdmin } from "@/lib/apis/admin";
 import { patchEditbin, postAddbin } from "@/lib/apis/postAddbin";
 import {
   newAddAddress,
@@ -65,7 +66,7 @@ export default function AddBinForm({
   };
 
   useEffect(() => {
-    if (binDetail && binDetail.binInfoForMember?.isOwner) {
+    if (binDetail && (binDetail.binInfoForMember?.isOwner || isAdmin)) {
       setValue("address", binDetail.address || "");
       setValue("binType", binDetail.type || "");
       setValue("title", binDetail.title || "");
@@ -136,6 +137,16 @@ export default function AddBinForm({
   const { mutate: submitEditbin } = useMutation({
     mutationKey: ["petch-edit-bin", binDetail?.id],
     mutationFn: (data) => patchEditbin(binDetail?.id!, data),
+    onSuccess: () => {
+      closeDropBottom();
+      openModal();
+    },
+    onError: (error: any) => alert(error.response.data.message),
+  });
+
+  const { mutate: patchBinAdminMutate } = useMutation({
+    mutationKey: ["petch-admin-edit-bin", binDetail?.id],
+    mutationFn: (data) => patchBinAdmin(binDetail?.binId!, data),
     onSuccess: () => {
       closeDropBottom();
       openModal();
