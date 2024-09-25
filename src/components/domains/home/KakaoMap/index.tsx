@@ -325,6 +325,7 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
           height: "calc(100vh - 7.4rem)",
           zIndex: "0",
           position: "relative",
+          overflow: "hidden",
         }}
         ref={mapRef}
       ></div>
@@ -340,6 +341,7 @@ export default function KakaoMap({ isAddBin }: { isAddBin: boolean }) {
           height: "calc(100vh - 7.4rem)",
           zIndex: "0",
           position: "relative",
+          overflow: "hidden",
         }}
         ref={mapRef}
       ></div>

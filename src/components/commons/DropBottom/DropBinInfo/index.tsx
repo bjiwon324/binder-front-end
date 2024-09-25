@@ -1,7 +1,9 @@
+import { useDrag } from "@/lib/hooks/useDrag";
 import { useToggle } from "@/lib/hooks/useToggle";
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 import Toast from "../../Toast";
 import DropReport from "../DropReport";
@@ -24,16 +26,28 @@ export function ImgField({ imageUrl }: { imageUrl?: string }) {
 }
 
 export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
-  const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
   const [isReport, isReportOpen, iseReportClose] = useToggle(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [cardHeight, setCardHeight] = useState(400);
+  const router = useRouter();
 
   const [
     isSuccessMybookmark,
     openSuccessMybookmarkToast,
     closeSuccessMybookmarkToast,
   ] = useToggle(false);
+
+  const onDragEnd = (deltaY: number) => {
+    if (deltaY < -100) {
+      setCardHeight(window.innerHeight);
+    } else {
+      setCardHeight(400);
+    }
+  };
+
+  const { ref, handleDragStart, handleDrag, handleDragEnd } =
+    useDrag(onDragEnd);
 
   const onSuccessBookmark = () => {
     openSuccessMybookmarkToast();
@@ -55,8 +69,13 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
     setIsButtonDisabled(true);
     setTimeout(() => setIsButtonDisabled(false), 1000);
   };
+  console.log(binDetailData);
 
   const handleClickBookmark = () => {
+    if (binDetailData?.binInfoForMember === null) {
+      return router.push("/signin");
+    }
+
     if (isButtonDisabled) return;
     disableButtonTemporarily();
 
@@ -67,6 +86,9 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
     }
   };
   const handleClickLike = () => {
+    if (binDetailData?.binInfoForMember === null) {
+      return router.push("/signin");
+    }
     if (isButtonDisabled) return;
     disableButtonTemporarily();
 
@@ -77,6 +99,9 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
     }
   };
   const handleClickDisLike = () => {
+    if (binDetailData?.binInfoForMember === null) {
+      return router.push("/signin");
+    }
     if (isButtonDisabled) return;
     disableButtonTemporarily();
 
@@ -102,7 +127,14 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
 
   return (
     <div className={cn("drop")}>
-      <article className={cn("dropWrap", { exit: !isVisible })} ref={ref}>
+      <div
+        className={cn("dropWrap", { exit: !isVisible })}
+        ref={ref}
+        onTouchStart={handleDragStart}
+        onTouchMove={handleDrag}
+        onTouchEnd={handleDragEnd}
+        style={{ height: cardHeight }}
+      >
         <button className={cn("drag-btn")}></button>
         <div className={cn("title-box")}>
           <div className={cn("title-text")}>
@@ -143,7 +175,7 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
           <button
             className={cn(
               "state-btn",
-              binDetailData?.binInfoForMember.isBookMarked && "selected"
+              binDetailData?.binInfoForMember?.isBookMarked && "selected"
             )}
             onClick={handleClickBookmark}
           >
@@ -158,7 +190,7 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
           <button
             className={cn(
               "state-btn",
-              binDetailData?.binInfoForMember.isLiked && "selected"
+              binDetailData?.binInfoForMember?.isLiked && "selected"
             )}
             onClick={handleClickLike}
           >
@@ -173,7 +205,7 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
           <button
             className={cn(
               "state-btn",
-              binDetailData?.binInfoForMember.isDisliked && "selected"
+              binDetailData?.binInfoForMember?.isDisliked && "selected"
             )}
             onClick={handleClickDisLike}
           >
@@ -213,7 +245,7 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
             isgreen
           >{`저장한 장소에 ${binDetailData?.title}을 추가했습니다`}</Toast>
         )}
-      </article>
+      </div>
       {isReport && binDetailData.id && (
         <DropReport
           binId={binDetailData.id}
