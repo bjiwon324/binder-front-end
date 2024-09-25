@@ -14,11 +14,11 @@ const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   const [onBoard] = useAtom(onBoardingAtom);
-
+  console.log(onBoard);
   const router = useRouter();
 
   useEffect(() => {
-    if (onBoard === false) {
+    if (onBoard === false || onBoard === null) {
       router.push("/onboarding");
     }
   }, [onBoard]);
