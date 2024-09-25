@@ -1,69 +1,41 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-interface UseDragProps {
-  onDragEnd: () => void;
-  onDragMove?: (event: CustomDragEvent) => void;
-  threshold?: number;
-}
-
-type CustomDragEvent =
-  | React.TouchEvent<HTMLDivElement>
-  | React.MouseEvent<HTMLDivElement>;
-
-export function useDrag({
-  onDragEnd,
-  onDragMove,
-  threshold = 100,
-}: UseDragProps) {
-  const [isDragging, setIsDragging] = useState(false);
+export const useDrag = (onDragEnd: (deltaY: number) => void, noUp = false) => {
   const [startY, setStartY] = useState(0);
   const [currentY, setCurrentY] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
 
-  const handleDragStart = (e: CustomDragEvent) => {
-    setIsDragging(true);
-    if ("touches" in e) {
-      setStartY(e.touches[0].clientY); // TouchEvent
-    } else {
-      setStartY(e.clientY); // MouseEvent
-    }
+  const handleDragStart = (e: React.TouchEvent | React.MouseEvent) => {
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    setStartY(clientY);
   };
 
-  const handleDragMove = (e: CustomDragEvent) => {
-    if (!isDragging) return;
-    let clientY: number;
-    if ("touches" in e) {
-      clientY = e.touches[0].clientY;
-    } else {
-      clientY = e.clientY;
-    }
-    const deltaY = clientY - startY;
-    setCurrentY(deltaY);
+  const handleDrag = (e: React.TouchEvent | React.MouseEvent) => {
+    if (ref.current) {
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+      const deltaY = clientY - startY;
 
-    // onDragMove가 있으면 호출
-    if (onDragMove) {
-      // 드래그 이벤트의 타입을 명확히 구분
-      if ("touches" in e) {
-        onDragMove(e as React.TouchEvent<HTMLDivElement>);
-      } else {
-        onDragMove(e as React.MouseEvent<HTMLDivElement>);
+      if (noUp && deltaY < 0) {
+        return;
       }
+
+      setCurrentY(deltaY);
+      ref.current.style.transform = `translateY(${deltaY}px)`;
     }
   };
 
   const handleDragEnd = () => {
-    setIsDragging(false);
-    if (currentY > threshold) {
-      onDragEnd();
-    } else {
-      setCurrentY(0);
+    if (ref.current) {
+      ref.current.style.transform = `translateY(0)`;
     }
+    onDragEnd(currentY);
+    setCurrentY(0);
   };
 
   return {
-    isDragging,
-    currentY,
+    ref,
     handleDragStart,
-    handleDragMove,
+    handleDrag,
     handleDragEnd,
   };
-}
+};

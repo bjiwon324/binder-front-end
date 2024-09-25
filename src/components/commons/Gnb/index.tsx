@@ -5,7 +5,7 @@ import mypageOn from "@/../public/images/mypageOn.svg";
 import search from "@/../public/images/search.svg";
 import searchOn from "@/../public/images/searchOn.svg";
 import { getNotiUnread } from "@/lib/apis/noti";
-import { adminUser, notiAtom } from "@/lib/atoms/userAtom";
+import { notiAtom } from "@/lib/atoms/userAtom";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
@@ -33,8 +33,15 @@ export default function Gnb() {
   } = useQuery({
     queryKey: ["noti"],
     queryFn: getNotiUnread,
-    retry: 3,
+
+    retry: (failureCount, error: any) => {
+      if (error.response?.status === 401) {
+        return false; // 401 에러면 재시도 중지
+      }
+      return failureCount < 3;
+    },
   });
+
   useEffect(() => {
     if (isSuccess) {
       setIsNoti(noti.hasUnread);

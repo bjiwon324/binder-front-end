@@ -1,8 +1,9 @@
 import { getBinsId } from "@/lib/apis/bins";
+import { useDrag } from "@/lib/hooks/useDrag";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { SetStateAction, useRef, useState } from "react";
+import { SetStateAction } from "react";
 import styles from "./RecommendCard.module.scss";
 
 const cn = classNames.bind(styles);
@@ -20,43 +21,22 @@ export default function RecommendCard({
   isCardHidden,
   setIsCardHidden,
 }: Props) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [startY, setStartY] = useState(0);
-  const [currentY, setCurrentY] = useState(0);
-
   const { data: binDetailData, isLoading } = useQuery({
     queryKey: ["bindetail", binDataId],
     queryFn: () => getBinsId(binDataId),
     enabled: !!binDataId,
   });
 
-  const handleDragStart = (e: React.TouchEvent | React.MouseEvent) => {
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-    setStartY(clientY);
-  };
-
-  const handleDrag = (e: React.TouchEvent | React.MouseEvent) => {
-    if (cardRef.current) {
-      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-      const deltaY = clientY - startY;
-
-      if (deltaY > 0) {
-        setCurrentY(deltaY);
-        cardRef.current.style.transform = `translateY(${deltaY}px)`;
-      }
-    }
-  };
-
-  const handleDragEnd = () => {
-    if (currentY > 100) {
+  const onDragEnd = (deltaY: number) => {
+    if (deltaY > 100) {
       setIsCardHidden(true);
-    } else {
-      if (cardRef.current) {
-        cardRef.current.style.transform = `translateY(0)`;
-      }
     }
-    setCurrentY(0);
   };
+
+  const { ref, handleDragStart, handleDrag, handleDragEnd } = useDrag(
+    onDragEnd,
+    true
+  );
 
   if (isLoading || !binDetailData) {
     return null;
@@ -64,7 +44,7 @@ export default function RecommendCard({
 
   return (
     <div
-      ref={cardRef}
+      ref={ref}
       onTouchStart={handleDragStart}
       onTouchMove={handleDrag}
       onTouchEnd={handleDragEnd}
