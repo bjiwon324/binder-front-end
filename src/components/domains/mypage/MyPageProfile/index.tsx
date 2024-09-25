@@ -43,7 +43,7 @@ export default function MyPageProfile({ memberData }: ProfileProps) {
     setNotiModal((prev) => !prev);
   };
   useEffect(() => {
-    setImage(img !== "" ? img : defaultImg);
+    setImage(img || defaultImg);
   }, [img]);
 
   return (
