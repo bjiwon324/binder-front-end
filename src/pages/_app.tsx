@@ -1,6 +1,6 @@
 import Gnb from "@/components/commons/Gnb";
 import Splash from "@/components/commons/Splash";
-import { onBoardingAtom } from "@/lib/atoms/atom";
+import { onBoardingAtom, themeColor } from "@/lib/atoms/atom";
 import "@/styles/base/index.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -14,7 +14,13 @@ const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   const [onBoard] = useAtom(onBoardingAtom);
-  console.log(onBoard);
+  const [themeMode] = useAtom(themeColor);
+  const theme = themeMode === "라이트 모드" ? "light" : "dark";
+
+  useEffect(() => {
+    document.documentElement.setAttribute("theme", theme);
+  }, [theme]);
+
   const router = useRouter();
 
   useEffect(() => {
