@@ -5,14 +5,14 @@ import { binType } from "@/lib/constants/binType";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import styles from "./SearchDetail.module.scss";
 
 const cn = classNames.bind(styles);
 
 interface DetailProp {
   item: {
-    id: number;
+    id?: number;
     address: string;
     title: string;
     type: string;
@@ -20,24 +20,31 @@ interface DetailProp {
     latitude: number;
     isBookMarked: boolean;
     distance: number;
+    binId?: number;
   };
+  savePlace?: boolean;
 }
 
-export default function SearchDetail({ item }: DetailProp) {
+export default function SearchDetail({ item, savePlace }: DetailProp) {
   const distances = Math.floor(item.distance).toLocaleString();
   const bin = binType(item.type);
-  const [isBookmark, setIsBookmark] = useState<boolean>(item.isBookMarked);
+  const [isBookmark, setIsBookmark] = useState<boolean>(
+    savePlace ? true : item.isBookMarked
+  );
 
   const bookmarkImg = isBookmark ? bookmarkOn : bookmark;
+  const binId: any = useCallback(() => {
+    savePlace ? item.binId : item.id;
+  }, [item]);
 
   const { mutate: handlePost } = useMutation({
-    mutationFn: () => postMyBookmark(item.id),
+    mutationFn: () => postMyBookmark(binId),
     onSuccess: () => {
       setIsBookmark(true);
     },
   });
   const { mutate: handleDelete } = useMutation({
-    mutationFn: () => deleteMyBookmark(item.id),
+    mutationFn: () => deleteMyBookmark(binId),
     onSuccess: () => {
       setIsBookmark(false);
     },
