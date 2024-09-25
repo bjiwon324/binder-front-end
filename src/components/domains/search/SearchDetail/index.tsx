@@ -5,7 +5,7 @@ import { binType } from "@/lib/constants/binType";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./SearchDetail.module.scss";
 
 const cn = classNames.bind(styles);
@@ -28,14 +28,17 @@ interface DetailProp {
 export default function SearchDetail({ item, savePlace }: DetailProp) {
   const distances = Math.floor(item.distance).toLocaleString();
   const bin = binType(item.type);
+
   const [isBookmark, setIsBookmark] = useState<boolean>(
     savePlace ? true : item.isBookMarked
   );
 
+  useEffect(() => {
+    setIsBookmark(savePlace ? true : item.isBookMarked);
+  }, [item.isBookMarked, savePlace]);
+
   const bookmarkImg = isBookmark ? bookmarkOn : bookmark;
-  const binId: any = useCallback(() => {
-    savePlace ? item.binId : item.id;
-  }, [item]);
+  const binId: any = savePlace ? item.binId : item.id;
 
   const { mutate: handlePost } = useMutation({
     mutationFn: () => postMyBookmark(binId),

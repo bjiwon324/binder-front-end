@@ -21,7 +21,7 @@
   padding: 4rem 2rem;
   // padding: 4rem 2rem 11.2rem;
   box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.25);
-  background-color: #fff;
+  background-color: $white;
   position: absolute;
   bottom: 0;
   animation: slide-up 0.3s ease-out;
@@ -144,7 +144,7 @@
   letter-spacing: -0.024rem;
   border-radius: 1rem;
   background: #3b4943;
-  color: var(--naver-text, #fff);
+  color: var(--naver-text, $white);
   > img {
     filter: brightness(999);
   }

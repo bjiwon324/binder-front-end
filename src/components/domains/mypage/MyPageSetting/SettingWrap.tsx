@@ -1,9 +1,10 @@
 import accountDelete from "@/../public/images/accountDelete.svg";
 import logoutImg from "@/../public/images/logout.svg";
 import shareImg from "@/../public/images/share.svg";
-import SettingItem from "./SettingItem";
-import styles from "./MyPageToggle.module.scss";
+import sun from "@/../public/images/sun.svg";
 import classNames from "classnames/bind";
+import styles from "./MyPageToggle.module.scss";
+import SettingItem from "./SettingItem";
 
 const cn = classNames.bind(styles);
 
@@ -13,6 +14,7 @@ interface SettingProps {
   handleDrop: () => void;
   socialLogin: () => void;
   loginStates: boolean;
+  handleTheme: () => void;
 }
 export default function SettingWrap({
   handleDropShare,
@@ -20,6 +22,7 @@ export default function SettingWrap({
   handleDrop,
   socialLogin,
   loginStates,
+  handleTheme,
 }: SettingProps) {
   return (
     <div className={cn("settingWrap")}>
@@ -28,6 +31,7 @@ export default function SettingWrap({
         handleFn={handleDropShare}
         img={shareImg}
       />
+      <SettingItem name={"화면 테마"} handleFn={handleTheme} img={sun} />
       {loginStates ? (
         <div>
           <SettingItem name={"로그아웃"} handleFn={logout} img={logoutImg} />

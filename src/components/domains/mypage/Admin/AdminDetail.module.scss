@@ -29,7 +29,7 @@
   width: 100%;
   height: calc(100vh - 7.5rem - 7.6rem - 6.6rem);
   padding: 1.3rem 2.6rem;
-  background-color: #fff;
+  background-color: $white;
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
@@ -81,7 +81,7 @@
 }
 .detailSelectItem {
   border: 1px solid #d9d9d9;
-  background: #fff;
+  background: $white;
 }
 .detailBtn {
   display: flex;
@@ -99,7 +99,7 @@
   align-items: center;
   justify-content: center;
 
-  color: #fff;
+  color: $white;
   font-size: 1.5rem;
   font-weight: 500;
   line-height: 20px;
@@ -108,12 +108,12 @@
 .detailReject {
   border: 1px solid #0bb76d;
   color: #3b4943;
-  background: #fff;
+  background: $white;
 }
 .detailRejectReport {
   border: 1px solid #ff3232;
   color: #3b4943;
-  background: #fff;
+  background: $white;
 }
 .detailAcceptReport {
   background: #ff3232;

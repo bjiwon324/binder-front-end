@@ -3,10 +3,9 @@ import { getMembersTimeline } from "@/lib/apis/members";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import Card from "../Card";
 import styles from "./CardList.module.scss";
-import { BinDetail } from "@/lib/atoms/binAtom";
-import { useRouter } from "next/router";
 
 const cn = classNames.bind(styles);
 
@@ -23,6 +22,7 @@ export interface CardProps {
   admin: boolean;
   nickname?: string;
   complaintCount?: number;
+  isDeleted?: boolean;
 }
 
 export default function CardList() {
@@ -34,6 +34,7 @@ export default function CardList() {
   const handleClickCard = (id: string) => {
     router.push(router.route + "/detail/" + id);
   };
+
   return (
     <ul className={cn("card-list")}>
       {cardLists === null ? (

@@ -55,6 +55,10 @@
     font-size: 1.6rem;
   }
 
+  &.DELETE {
+    background: #515f58;
+    color: #f4f6f5;
+  }
   &.PENDING {
     background: #515f58;
     color: #f4f6f5;
@@ -69,7 +73,7 @@
   }
   &.bin {
     color: #d9d9d9;
-    background: #fff;
+    background: $white;
     border: 0.1rem solid #d9d9d9;
   }
 }

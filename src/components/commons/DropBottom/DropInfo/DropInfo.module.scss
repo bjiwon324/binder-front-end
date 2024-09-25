@@ -24,7 +24,7 @@
   font-weight: 500;
   line-height: 2.6rem;
   background-color: #ff3232;
-  color: #fff;
+  color: $white;
 
   &.none {
     background-color: #e9aead;
@@ -86,5 +86,5 @@
 }
 .detailSelectItem {
   border: 1px solid #d9d9d9;
-  background: #fff;
+  background: $white;
 }
