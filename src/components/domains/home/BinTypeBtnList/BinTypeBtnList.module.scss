@@ -26,7 +26,7 @@
   line-height: 2.5rem; /* 192.308% */
   letter-spacing: -0.013rem;
   border-radius: 1.95rem;
-  background: var(--naver-text, #fff);
+  background: var(--naver-text, $white);
   box-shadow: 0px 1px 6px 0px #c8d0cd;
 
   &.selected {
