@@ -2,7 +2,8 @@
 
 .adminWrap {
   width: 100%;
-  height: calc(100vh - 7.5rem - 7.6rem);
+  min-height: calc(100vh - 7.5rem - 7.6rem);
+  height: fit-content;
   background: var(--cart-text);
   padding: 2rem 1.7rem;
 }
@@ -62,7 +63,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
-  overflow: scroll;
+  // overflow: scroll;
   width: 100%;
   height: 100%;
 }

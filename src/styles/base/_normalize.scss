@@ -385,4 +385,9 @@ body #tutorial .swiper-pagination {
   max-width: 60rem;
   margin: 0 auto;
   position: relative;
+  height: calc(100vh - 7.6rem);
+  overflow: auto;
+  @include respondTo(small) {
+    height: calc(100vh - 8.3rem);
+  }
 }

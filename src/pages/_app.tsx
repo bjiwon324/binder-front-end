@@ -55,9 +55,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <div id="webInner">
           <Component {...pageProps} />
           <ReactQueryDevtools initialIsOpen={false} />
-          {!hideGnbOnPages.includes(router.pathname) && <Gnb />}
           <Splash />
         </div>
+        {!hideGnbOnPages.includes(router.pathname) && <Gnb />}
       </div>
     </QueryClientProvider>
   );

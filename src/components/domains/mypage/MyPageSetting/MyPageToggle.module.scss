@@ -1,10 +1,11 @@
 @import "@/styles/main.scss";
 .findWrap {
   width: 100%;
-  height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
+  min-height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
+  height: fit-content;
   background-color: var(--cart-text);
   padding: 2.5rem 1.7rem;
-  overflow: scroll;
+  // overflow: scroll;
 }
 .settingItem {
   display: flex;
