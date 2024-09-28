@@ -31,7 +31,6 @@ export default function SearchItems({ setPrevSearchPick }: searchProps) {
 
   const handleClickItem = (item: any) => {
     setChoice(item);
-    console.log(item);
     return router.push(`search/${item.id}`);
   };
 

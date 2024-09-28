@@ -56,6 +56,7 @@ export default function KakaoMap({
     useToggle(false);
   const [toggleBinInfo, toggleBinInfoOpen, toggleBinInfoClose] =
     useToggle(false);
+  console.log("ccc", choice);
 
   const {
     data: binData,
@@ -120,7 +121,6 @@ export default function KakaoMap({
     setAddress,
     debouncedHandleCenterChanged,
     handleClickAddMarker,
-
     isAddBin,
     isSearch,
     choice,
@@ -290,15 +290,15 @@ export default function KakaoMap({
         onClickGetmyLocation={handleClickGetmyLocation}
         toggleAroundBin={toggleAroundBin}
         toggleMyLocation={toggleMyLocation}
-        hasData={!isError && bins?.length > 0}
+        hasData={!isError && (bins?.length > 0 || choice.id !== 0)}
         isCardHidden={isCardHidden}
       />
-      {!isCardHidden && bins[0]?.id && (
+      {!isCardHidden && (bins[0]?.id || choice.id !== 0) && (
         <RecommendCard
           setIsCardHidden={setIsCardHidden}
           isCardHidden={isCardHidden}
-          binDataId={bins[0]?.id}
-          distance={bins[0]?.distance}
+          binDataId={bins[0]?.id || choice.id}
+          distance={bins[0]?.distance || choice.distance}
         />
       )}
       {showToast && <Toast>근처 쓰레기통이 없습니다</Toast>}
@@ -307,7 +307,8 @@ export default function KakaoMap({
         <DropBinInfo
           binId={selectedBinId}
           distance={
-            binData.find((bin: any) => bin.id === selectedBinId)?.distance
+            binData?.find((bin: any) => bin.id === selectedBinId)?.distance ||
+            choice.distance
           }
           closeDropDown={toggleBinInfoClose}
           getBibsData={handleClickGetAroundBinData}
