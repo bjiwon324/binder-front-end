@@ -8,7 +8,11 @@ import {
 } from "@/lib/apis/likes";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-export const useBinActions = (binId: number, onSuccessBookmark: () => void) => {
+export const useBinActions = (
+  binId: number,
+  onSuccessBookmark: () => void,
+  getBibsData: () => Promise<void>
+) => {
   const {
     data: binDetailData,
     isLoading,
@@ -30,6 +34,7 @@ export const useBinActions = (binId: number, onSuccessBookmark: () => void) => {
     mutationFn: () => deleteMyBookmark(binId),
     onSuccess: () => {
       refetchBinData();
+      getBibsData();
     },
   });
   const { mutate: patchLikeMutate } = useMutation({

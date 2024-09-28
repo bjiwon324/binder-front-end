@@ -29,9 +29,9 @@ export default function SearchItems({ setPrevSearchPick }: searchProps) {
   const [loginModal, setLoginModal] = useState(false);
   const router = useRouter();
 
-  const handleDetail = (item: any) => {
+  const handleClickItem = (item: any) => {
     setChoice(item);
-    router.push("/");
+    return router.push(`search/${item.id}`);
   };
 
   return (
@@ -43,7 +43,7 @@ export default function SearchItems({ setPrevSearchPick }: searchProps) {
               <div
                 key={index}
                 onClick={() => {
-                  handleDetail(item);
+                  handleClickItem(item);
                 }}
               >
                 <SearchDetail item={item} setLoginModal={setLoginModal} />
