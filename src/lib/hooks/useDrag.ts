@@ -8,6 +8,7 @@ export const useDrag = (onDragEnd: (deltaY: number) => void, noUp = false) => {
   const handleDragStart = (e: React.TouchEvent | React.MouseEvent) => {
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
     setStartY(clientY);
+    console.log("start");
   };
 
   const handleDrag = (e: React.TouchEvent | React.MouseEvent) => {

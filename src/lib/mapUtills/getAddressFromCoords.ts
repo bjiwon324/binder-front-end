@@ -1,4 +1,4 @@
-export const getAddressFromCoords = (
+const getAddressFromCoords = (
   kakao: any,
   coordinate: { x: number; y: number },
   callback: (address: string) => void
@@ -21,6 +21,18 @@ export const getAddressFromCoords = (
   );
 };
 
-export const filterAddress = (address: string) => {
+const filterAddress = (address: string) => {
   return address?.replace(/(특별시|광역시|특별자치시)/g, "").trim();
+};
+
+export const fetchAddressFromCoords = (
+  coordinate: { x: number; y: number },
+  callback: (address: any) => void
+) => {
+  getAddressFromCoords(window.kakao, coordinate, (getAddress: any) => {
+    callback({
+      roadAddress: filterAddress(getAddress.road_address?.address_name) || null,
+      address: getAddress.address?.address_name,
+    });
+  });
 };
