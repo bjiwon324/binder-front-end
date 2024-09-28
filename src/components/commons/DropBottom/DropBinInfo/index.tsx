@@ -76,7 +76,7 @@ export default function DropBinInfo({
   } = useBinActions(binId, onSuccessBookmark, getBibsData);
 
   const disableButtonTemporarily = () => {
-    if (isButtonDisabled) setIsButtonDisabled(true);
+    setIsButtonDisabled(true);
     setTimeout(() => setIsButtonDisabled(false), 1000);
   };
   console.log(binDetailData);

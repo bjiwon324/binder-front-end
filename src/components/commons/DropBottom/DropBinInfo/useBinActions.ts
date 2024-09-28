@@ -26,7 +26,6 @@ export const useBinActions = (
   const { mutate: postBookmarkMutate } = useMutation({
     mutationFn: () => postMyBookmark(binId),
     onSuccess: () => {
-      console.log("test", binDetailData);
       onSuccessBookmark();
       refetchBinData();
     },
