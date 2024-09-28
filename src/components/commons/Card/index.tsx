@@ -19,9 +19,13 @@ export default function Card({ ...item }: CardProps) {
 
   const router = useRouter();
   const isReport = router.asPath === "/mypage/report";
-  const completed = item.status === "REJECTED" || (item.status === "APPROVED" && item.admin);
+  const completed =
+    item.status === "REJECTED" ||
+    (item.status === "APPROVED" && item.admin) ||
+    item.isDeleted;
 
   const tagNames: { [key: string]: string } = {
+    "/mypage": "등록",
     "/mypage/ask": "요청",
     "/mypage/fix": "수정",
     "/mypage/report": "신고",
@@ -71,9 +75,22 @@ export default function Card({ ...item }: CardProps) {
               (item.admin && item.status === "PENDING" ? (
                 <></>
               ) : (
-                <span className={cn("card-tag", item.status)}>
-                  {!!tagName && tagName + " "}
-                  {statusText}
+                <span
+                  className={
+                    item.isDeleted
+                      ? item.status === "REJECTED"
+                        ? cn("card-tag", item.status)
+                        : cn("card-tag", "DELETE")
+                      : cn("card-tag", item.status)
+                  }
+                >
+                  {item.isDeleted
+                    ? item.status === "REJECTED"
+                      ? `${tagName} ${statusText}`
+                      : "삭제 됨"
+                    : tagName
+                      ? `${tagName} ${statusText}`
+                      : statusText}
                 </span>
               ))}
           </div>
@@ -84,7 +101,8 @@ export default function Card({ ...item }: CardProps) {
             })}
           >
             {item.admin && !isReport ? (
-              <p>{item.nickname?.slice(0, 16)}</p>
+              // <p>{item.nickname?.slice(0, 16)}</p>
+              <></>
             ) : (
               <>
                 {isReport ? (
@@ -97,10 +115,20 @@ export default function Card({ ...item }: CardProps) {
                     className={cn("isReport")}
                   />
                 ) : (
-                  <Image src={grayStar} alt="좋아요" width={15} height={15} objectFit="fit" />
+                  <Image
+                    src={grayStar}
+                    alt="좋아요"
+                    width={15}
+                    height={15}
+                    objectFit="fit"
+                  />
                 )}
 
-                {item?.complaintCount ? <p>{item?.complaintCount}</p> : <p>{item.bookmarkCount}</p>}
+                {item?.complaintCount ? (
+                  <p>{item?.complaintCount}</p>
+                ) : (
+                  <p>{item.bookmarkCount}</p>
+                )}
               </>
             )}
           </div>

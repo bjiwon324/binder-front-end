@@ -1,11 +1,13 @@
 import bookmark from "@/../public/images/bookmark.svg";
 import bookmarkOn from "@/../public/images/bookmarkOn.svg";
 import { deleteMyBookmark, postMyBookmark } from "@/lib/apis/bookmarks";
+import { loginState } from "@/lib/atoms/userAtom";
 import { binType } from "@/lib/constants/binType";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
+import { useAtom } from "jotai";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./SearchDetail.module.scss";
 
 const cn = classNames.bind(styles);
@@ -23,19 +25,28 @@ interface DetailProp {
     binId?: number;
   };
   savePlace?: boolean;
+  setLoginModal?: any;
 }
 
-export default function SearchDetail({ item, savePlace }: DetailProp) {
+export default function SearchDetail({
+  item,
+  savePlace,
+  setLoginModal,
+}: DetailProp) {
+  const [login] = useAtom(loginState);
   const distances = Math.floor(item.distance).toLocaleString();
   const bin = binType(item.type);
+
   const [isBookmark, setIsBookmark] = useState<boolean>(
     savePlace ? true : item.isBookMarked
   );
 
+  useEffect(() => {
+    setIsBookmark(savePlace ? true : item.isBookMarked);
+  }, [item.isBookMarked, savePlace]);
+
   const bookmarkImg = isBookmark ? bookmarkOn : bookmark;
-  const binId: any = useCallback(() => {
-    savePlace ? item.binId : item.id;
-  }, [item]);
+  const binId: any = savePlace ? item.binId : item.id;
 
   const { mutate: handlePost } = useMutation({
     mutationFn: () => postMyBookmark(binId),
@@ -50,7 +61,15 @@ export default function SearchDetail({ item, savePlace }: DetailProp) {
     },
   });
 
-  const handleBookmark = () => {
+  const handleBookmark = (e: any) => {
+    e.stopPropagation();
+    if (!login) {
+      setLoginModal(true);
+      setTimeout(() => {
+        setLoginModal(false);
+      }, 3000);
+      return;
+    }
     if (isBookmark) {
       handleDelete();
     } else {
@@ -65,7 +84,7 @@ export default function SearchDetail({ item, savePlace }: DetailProp) {
         alt={"북마크 이미지"}
         width={16}
         height={19}
-        onClick={handleBookmark}
+        onClick={(e) => handleBookmark(e)}
       />
 
       <div className={cn("detailMain")}>

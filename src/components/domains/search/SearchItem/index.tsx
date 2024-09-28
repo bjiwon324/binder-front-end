@@ -10,7 +10,8 @@ const cn = classNames.bind(styles);
 
 export default function SearchItem({ item, num }: any) {
   const [prevData, setSearchPrev] = useAtom(searchPrev);
-  const handleDelete = () => {
+  const handleDelete = (e: any) => {
+    e.stopPropagation();
     const newPrevData = [...prevData];
     newPrevData.splice(num, 1);
     setSearchPrev(newPrevData);
@@ -24,10 +25,10 @@ export default function SearchItem({ item, num }: any) {
       <Image
         className={cn("itemClose")}
         src={closeImg}
-        alt="검색 상태 이미지"
+        alt="최근검색 지우기"
         width={11}
         height={11}
-        onClick={handleDelete}
+        onClick={(e) => handleDelete(e)}
       />
     </div>
   );

@@ -1,5 +1,7 @@
 .detailWrap {
   width: 100%;
+  max-width: 60rem;
+  min-width: 39rem;
   height: 7.6rem;
   padding: 1.8rem 1.7rem;
   border: 1px solid #efefef;
@@ -12,30 +14,34 @@
   }
 }
 .detailMain {
+  width: 60%;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 .detailTitle {
-  color: #0bb76d;
+  color: var(--primary-green);
   font-size: 1.6rem;
   font-weight: 600;
   //   line-height: 25px;
+  @include ellipsis;
 }
 .detailAddress {
-  color: #96a9a0;
+  color: var(--detail-address);
   font-size: 1.4rem;
   line-height: 26px;
 }
 
 .detailSub {
+  width: 11rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: flex-end;
   gap: 0.4rem;
 }
 .detailDistance {
-  color: #a5a5a5;
+  color: var(--btn-color);
   text-align: right;
   font-size: 1.3rem;
   line-height: 16px;
@@ -44,13 +50,13 @@
   width: fit-content;
   height: 2.5rem;
   border-radius: 1.8rem;
-  border: 1px solid #d9d9d9;
-  background: #fff;
+  border: 1px solid var(--d9d9d9);
+  background: var(--white);
   padding: 1rem 1.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: #a5a5a5;
+  color: var(--btn-color);
   font-size: 1.4rem;
 }

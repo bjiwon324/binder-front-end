@@ -1,12 +1,12 @@
+import inputX from "@/../public/images/inputX.svg";
+import { deleteMembers } from "@/lib/apis/members";
+import { useMutation } from "@tanstack/react-query";
+import classNames from "classnames/bind";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import DropWrap from "..";
-import { useEffect, useState } from "react";
-import classNames from "classnames/bind";
 import styles from "./DropCancel.module.scss";
-import { useMutation } from "@tanstack/react-query";
-import { deleteMembers } from "@/lib/apis/members";
-import inputX from "@/../public/images/inputX.svg";
-import Image from "next/image";
 
 const cn = classNames.bind(styles);
 
@@ -18,7 +18,10 @@ interface IFormInput {
   cancel: string;
 }
 
-export default function DropCancel({ handleDrop, setDeleteModal }: DropCancelProps) {
+export default function DropCancel({
+  handleDrop,
+  setDeleteModal,
+}: DropCancelProps) {
   const [cancelStats, setCancelState] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
   const [btnBool, setBtnBoolean] = useState<boolean>(false);
@@ -66,12 +69,20 @@ export default function DropCancel({ handleDrop, setDeleteModal }: DropCancelPro
       submitState={btnBool}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={cn("cancelText", cancelStats && `cancelText${cancelStats}`)}>
+        <div
+          className={cn(
+            "cancelText",
+            cancelStats && `cancelText${cancelStats}`
+          )}
+        >
           정말 탈퇴를 원하시면 {`"`}탈퇴하기{`"`}를 입력해 주세요.
         </div>
         <div className={cn("inputWrap")}>
           <input
-            className={cn("cancelTextInput", cancelStats && `cancelTextInput${cancelStats}`)}
+            className={cn(
+              "cancelTextInput",
+              cancelStats && `cancelTextInput${cancelStats}`
+            )}
             type="text"
             value={inputValue}
             placeholder="탈퇴하기"

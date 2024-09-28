@@ -35,7 +35,6 @@ export default function AskDetail() {
       return alert(error.response.data.message);
     },
   });
-  console.log(askDetail);
 
   return (
     <>

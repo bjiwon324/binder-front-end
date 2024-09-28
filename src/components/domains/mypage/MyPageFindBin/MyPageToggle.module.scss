@@ -2,18 +2,21 @@
 
 .findWrap {
   width: 100%;
-  height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
-  background-color: #f4f6f5;
+  min-height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
+  height: fit-content;
+  background-color: var(--cart-text);
   padding: 1.9rem 1.7rem;
+  position: relative;
 }
 .findWrap2 {
   width: 100%;
-  height: calc(100vh - 4.1rem - 21.1rem - 7.6rem - 2.6rem - 3rem);
+  min-height: calc(100vh - 4.1rem - 21.1rem - 7.6rem - 2.6rem - 3rem);
+  height: 100%;
   padding-bottom: 1.7rem;
-  overflow-y: scroll;
+  // overflow-y: scroll;
 }
 .findTitle {
-  color: #06130d;
+  color: var(--green90);
   font-size: 1.9rem;
   font-weight: 700;
   line-height: 26px;
@@ -21,13 +24,4 @@
   @include respondTo(small) {
     font-size: 2.1rem;
   }
-}
-.more {
-  width: 5.2rem;
-  height: 5.2rem;
-  position: absolute;
-  bottom: calc(env(safe-area-inset-bottom) + 1.4rem);
-  right: 1.7rem;
-  z-index: 7;
-  cursor: pointer;
 }

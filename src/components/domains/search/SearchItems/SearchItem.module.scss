@@ -1,9 +1,19 @@
 @import "@/styles/main.scss";
 
+.itemsWrapDetail {
+  width: 100%;
+  min-height: calc(100vh - 13.1rem - 8.3rem + 4.7rem);
+  min-height: 100vh;
+  height: fit-content;
+  background: var(--white);
+  // overflow-y: auto;
+  border-top: 6px solid var(--cart-text);
+}
 .itemsWrap {
   width: 100%;
-  height: calc(100vh - 13.1rem - 8.3rem + 4.7rem);
-  background: #fff;
-  overflow-y: auto;
-  border-top: 6px solid #f4f6f5;
+  min-height: calc(100vh - 13.1rem - 3.9rem);
+  height: fit-content;
+  background: var(--white);
+  // overflow-y: auto;
+  border-top: 6px solid var(--cart-text);
 }

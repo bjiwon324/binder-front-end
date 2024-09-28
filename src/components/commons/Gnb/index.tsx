@@ -1,6 +1,7 @@
 import home from "@/../public/images/home.svg";
 import homeOn from "@/../public/images/homeOn.svg";
 import mypage from "@/../public/images/mypage.svg";
+import more from "@/../public/images/mypageMore.svg";
 import mypageOn from "@/../public/images/mypageOn.svg";
 import search from "@/../public/images/search.svg";
 import searchOn from "@/../public/images/searchOn.svg";
@@ -51,41 +52,49 @@ export default function Gnb() {
   if (isError) {
     setIsNoti(false);
   }
+
   return (
-    <div className={cn("gnbWrap")}>
-      <div className={page === "/" ? cn("gnbOn") : cn("gnb")}>
-        <div className={cn("onBar")}></div>{" "}
-        <Link href={"/"} className={cn("gnbMenuImg")}>
-          <Image src={page === "/" ? homeOn : home} alt="홈" fill />
-        </Link>
-        <span>홈</span>
-      </div>
+    <>
+      <div className={cn("gnbWrap")}>
+        {router.asPath === "/mypage" && (
+          <Link href={"/addbin"} className={cn("more")}>
+            <Image src={more} alt={"쓰레기통 작성"} fill sizes="52px" />
+          </Link>
+        )}
+        <div className={page === "/" ? cn("gnbOn") : cn("gnb")}>
+          <div className={cn("onBar")}></div>{" "}
+          <Link href={"/"} className={cn("gnbMenuImg")}>
+            <Image src={page === "/" ? homeOn : home} alt="홈" fill />
+          </Link>
+          <span>홈</span>
+        </div>
 
-      <div className={page.startsWith("/search") ? cn("gnbOn") : cn("gnb")}>
-        <div className={cn("onBar")}></div>{" "}
-        <Link href={"/search"} className={cn("gnbMenuImg")}>
-          <Image
-            src={page.startsWith("/search") ? searchOn : search}
-            alt="검색"
-            fill
-          />
-        </Link>
-        <span>검색</span>
-      </div>
+        <div className={page.startsWith("/search") ? cn("gnbOn") : cn("gnb")}>
+          <div className={cn("onBar")}></div>{" "}
+          <Link href={"/search"} className={cn("gnbMenuImg")}>
+            <Image
+              src={page.startsWith("/search") ? searchOn : search}
+              alt="검색"
+              fill
+            />
+          </Link>
+          <span>검색</span>
+        </div>
 
-      <div className={page.startsWith("/mypage") ? cn("gnbOn") : cn("gnb")}>
-        <div className={cn("onBar")}></div>
-        <Link href={"/mypage"} className={cn("gnbMenuImg")}>
-          <Image
-            src={page.startsWith("/mypage") ? mypageOn : mypage}
-            alt="마이"
-            fill
-          />
-          {isNoti && <div className={cn("notiNew")}></div>}
-        </Link>
-        <span>마이</span>
+        <div className={page.startsWith("/mypage") ? cn("gnbOn") : cn("gnb")}>
+          <div className={cn("onBar")}></div>
+          <Link href={"/mypage"} className={cn("gnbMenuImg")}>
+            <Image
+              src={page.startsWith("/mypage") ? mypageOn : mypage}
+              alt="마이"
+              fill
+            />
+            {isNoti && <div className={cn("notiNew")}></div>}
+          </Link>
+          <span>마이</span>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
