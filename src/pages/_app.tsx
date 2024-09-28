@@ -29,7 +29,24 @@ export default function App({ Component, pageProps }: AppProps) {
       router.push("/onboarding");
     }
   }, [onBoard]);
+  useEffect(() => {
+    // 화면 높이 계산 함수
+    const setVh = () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
 
+    // 처음 실행
+    setVh();
+
+    // 윈도우 리사이즈 시에도 재계산
+    window.addEventListener("resize", setVh);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 정리
+    return () => {
+      window.removeEventListener("resize", setVh);
+    };
+  }, []);
   const hideGnbOnPages = ["/signin"];
   return (
     <QueryClientProvider client={queryClient}>
