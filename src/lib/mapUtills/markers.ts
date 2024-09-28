@@ -87,10 +87,10 @@ export const addClickMarker = (
 export const updateMarkers = (
   binData: any[],
   map: any,
-  markerRef: any,
-  handleClickMarker: (id: number) => void
+  handleClickMarker: (id: number) => void,
+  markerRef?: any
 ) => {
-  markerRef.current.forEach((marker: any) => marker?.setMap(null));
+  markerRef?.current.forEach((marker: any) => marker?.setMap(null));
   const newMarkers = binData.map((bin: any, index: number) => {
     const markerImage =
       index === 0
@@ -123,5 +123,5 @@ export const resetAndAddMarkers = (
   markerRef.current.forEach((marker: any) => marker?.setMap(null));
   markerRef.current = [];
 
-  updateMarkers(fetchedBinData, map, markerRef, handleClickMarker);
+  updateMarkers(fetchedBinData, map, handleClickMarker, markerRef);
 };

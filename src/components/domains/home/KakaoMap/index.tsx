@@ -72,8 +72,7 @@ export default function KakaoMap({
 
   useEffect(() => {
     if (isSearch && (choice.latitude !== 0, choice.longitude !== 0)) {
-      setCenterCoordinate({ x: choice.latitude, y: choice.longitude });
-      return setCoordinate({ x: choice.latitude, y: choice.longitude });
+      return setCenterCoordinate({ x: choice.latitude, y: choice.longitude });
     }
     if (locationData && Array.isArray(locationData)) {
       setCoordinate(locationData[0]);
@@ -111,13 +110,21 @@ export default function KakaoMap({
     }
   }, 500);
 
+  const handleClickMarker = (id: number) => {
+    setSelectedBinId(id);
+    toggleBinInfoOpen();
+  };
+
   const { mapRef, myMarkerRef, binkMarkerRef } = useKakaoMap(
     coordinate,
     setAddress,
     debouncedHandleCenterChanged,
     handleClickAddMarker,
+
     isAddBin,
-    isSearch
+    isSearch,
+    choice,
+    handleClickMarker
   );
 
   function handleClickAddMarker(mouseEvent: any) {
@@ -218,11 +225,7 @@ export default function KakaoMap({
     };
 
     fetchBinData();
-
-    if (mapRef && isSearch) {
-      handleClickGetAroundBinData();
-    }
-  }, [binType, refetchBinData, isSearch, mapRef]);
+  }, [binType, isSearch]);
 
   const handleClickGetmyLocation = async () => {
     try {
@@ -251,16 +254,6 @@ export default function KakaoMap({
     } catch (error) {
       console.error("데이터 다시 불러오기 실패:", error);
     }
-  };
-
-  const handleClickMarker = (id: number) => {
-    setSelectedBinId(id);
-    toggleBinInfoOpen();
-  };
-
-  const hadnlebininfoDropDownClose = () => {
-    toggleBinInfoClose();
-    handleClickGetAroundBinData();
   };
 
   if (isAddBin) {

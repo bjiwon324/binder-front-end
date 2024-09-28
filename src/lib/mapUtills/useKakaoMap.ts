@@ -7,7 +7,9 @@ export const useKakaoMap = (
   debouncedHandleCenterChanged: () => void,
   handleClickAddMarker: (e: any) => void,
   isAddBin: boolean,
-  isSearch?: boolean
+  isSearch?: boolean,
+  choice?: any,
+  handleClickMarker?: (id: number) => void
 ) => {
   const mapRef = useRef<any>(null);
   const myMarkerRef = useRef<any>(null);
@@ -16,7 +18,14 @@ export const useKakaoMap = (
   useEffect(() => {
     loadKakaoMapScript(() => {
       if (coordinate.x !== 0 && coordinate.y !== 0) {
-        const result = initializeMap(coordinate, setAddress, isSearch);
+        const result = initializeMap(
+          coordinate,
+          setAddress,
+          isSearch,
+          binkMarkerRef,
+          handleClickMarker,
+          choice
+        );
         if (result) {
           mapRef.current = result.map;
           myMarkerRef.current = result.myLocationMarker;
@@ -46,7 +55,7 @@ export const useKakaoMap = (
         binkMarkerRef.current = [];
       }
     };
-  }, [coordinate, isAddBin, binkMarkerRef]);
+  }, [isAddBin, isSearch]);
 
   return { mapRef, myMarkerRef, binkMarkerRef };
 };

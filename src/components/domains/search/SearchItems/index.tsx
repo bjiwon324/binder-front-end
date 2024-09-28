@@ -8,8 +8,8 @@ import {
 import { searchChoice } from "@/lib/atoms/userAtom";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
-import { useState } from "react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import SearchDetail from "../SearchDetail";
 import SearchItem from "../SearchItem";
 import styles from "./SearchItem.module.scss";
@@ -31,6 +31,7 @@ export default function SearchItems({ setPrevSearchPick }: searchProps) {
 
   const handleClickItem = (item: any) => {
     setChoice(item);
+    console.log(item);
     return router.push(`search/${item.id}`);
   };
 
