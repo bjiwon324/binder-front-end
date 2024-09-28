@@ -376,19 +376,27 @@ body #tutorial .swiper-pagination {
   height: 5px;
 }
 
+:root {
+  --vh: 100vh;
+}
+
 #webWrap {
   background-color: rgb(183, 183, 183);
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); /* 동적 vh 사용 */
 }
+
 #webInner {
   width: 100%;
   max-width: 60rem;
   margin: 0 auto;
   position: relative;
   height: fit-content;
-  max-height: calc(100% - 7.6rem);
+  max-height: calc(var(--vh, 1vh) * 100 - 7.6rem); /* 동적 vh 사용 */
   overflow: auto;
+
   @include respondTo(small) {
-    max-height: calc(100vh - 8.3rem);
+    max-height: calc(
+      var(--vh, 1vh) * 100 - 8.3rem
+    ); /* small 사이즈에서 동적 vh 사용 */
   }
 }
