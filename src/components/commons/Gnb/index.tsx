@@ -52,12 +52,15 @@ export default function Gnb() {
   if (isError) {
     setIsNoti(false);
   }
+
   return (
     <>
       <div className={cn("gnbWrap")}>
-        <Link href={"/addbin"} className={cn("more")}>
-          <Image src={more} alt={"쓰레기통 작성"} fill sizes="52px" />
-        </Link>
+        {router.asPath === "/mypage" && (
+          <Link href={"/addbin"} className={cn("more")}>
+            <Image src={more} alt={"쓰레기통 작성"} fill sizes="52px" />
+          </Link>
+        )}
         <div className={page === "/" ? cn("gnbOn") : cn("gnb")}>
           <div className={cn("onBar")}></div>{" "}
           <Link href={"/"} className={cn("gnbMenuImg")}>
