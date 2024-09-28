@@ -386,7 +386,7 @@ body #tutorial .swiper-pagination {
   margin: 0 auto;
   position: relative;
   height: fit-content;
-  max-height: calc(100vh - 7.6rem);
+  max-height: calc(100% - 7.6rem);
   overflow: auto;
   @include respondTo(small) {
     max-height: calc(100vh - 8.3rem);
