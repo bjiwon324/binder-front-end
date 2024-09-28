@@ -6,6 +6,7 @@
   height: fit-content;
   background-color: var(--cart-text);
   padding: 1.9rem 1.7rem;
+  position: relative;
 }
 .findWrap2 {
   width: 100%;
@@ -23,13 +24,4 @@
   @include respondTo(small) {
     font-size: 2.1rem;
   }
-}
-.more {
-  width: 5.2rem;
-  height: 5.2rem;
-  position: absolute;
-  bottom: calc(env(safe-area-inset-bottom) + 1.4rem);
-  right: 1.7rem;
-  z-index: 7;
-  cursor: pointer;
 }
