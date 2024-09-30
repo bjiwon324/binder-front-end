@@ -2,7 +2,10 @@ import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 //추후 수정
-export const mapCenterCoordinate = atom<{ x: 0; y: 0 }>({ x: 0, y: 0 });
+export const mapCenterCoordinate = atom<{ x: number; y: number }>({
+  x: 0,
+  y: 0,
+});
 export const adminUser = atom<string>("");
 export const notiAtom = atom<boolean>(false);
 export const userImg = atom<string>("");
@@ -31,4 +34,22 @@ export const newAddCoordinate = atomWithStorage("newAddCoordinate", {
   y: 0,
 });
 
-export const searchChoice = atomWithStorage("searchChoice", {});
+export const searchChoice = atomWithStorage<{
+  address: string;
+  distance: number;
+  id: number;
+  isBookMarked: boolean;
+  latitude: number;
+  longitude: number;
+  title: string;
+  type: string;
+}>("searchChoice", {
+  address: "",
+  distance: 0,
+  id: 0,
+  isBookMarked: false,
+  latitude: 0,
+  longitude: 0,
+  title: "",
+  type: "",
+});

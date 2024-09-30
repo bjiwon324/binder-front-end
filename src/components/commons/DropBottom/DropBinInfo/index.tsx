@@ -15,6 +15,7 @@ interface Props {
   closeDropDown: () => void;
   binId: number;
   distance: number;
+  getBibsData: () => Promise<void>;
 }
 
 export function ImgField({ imageUrl }: { imageUrl?: string }) {
@@ -25,7 +26,12 @@ export function ImgField({ imageUrl }: { imageUrl?: string }) {
   );
 }
 
-export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
+export default function DropBinInfo({
+  closeDropDown,
+  binId,
+  distance,
+  getBibsData,
+}: Props) {
   const [isVisible, setIsVisible] = useState(true);
   const [isReport, isReportOpen, iseReportClose] = useToggle(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -51,7 +57,11 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
 
   const onSuccessBookmark = () => {
     openSuccessMybookmarkToast();
-    setTimeout(() => closeSuccessMybookmarkToast(), 3000);
+    getBibsData();
+
+    setTimeout(() => {
+      closeSuccessMybookmarkToast();
+    }, 3000);
   };
 
   const {
@@ -63,7 +73,7 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
     deleteLikeMutate,
     patchDislikeMutate,
     deletedisLikeMutate,
-  } = useBinActions(binId, onSuccessBookmark);
+  } = useBinActions(binId, onSuccessBookmark, getBibsData);
 
   const disableButtonTemporarily = () => {
     setIsButtonDisabled(true);
@@ -80,9 +90,9 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
     disableButtonTemporarily();
 
     if (binDetailData?.binInfoForMember.isBookMarked) {
-      deleteBookmarkMutate();
+      return deleteBookmarkMutate();
     } else {
-      postBookmarkMutate();
+      return postBookmarkMutate();
     }
   };
   const handleClickLike = () => {
@@ -93,9 +103,9 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
     disableButtonTemporarily();
 
     if (binDetailData?.binInfoForMember.isLiked) {
-      deleteLikeMutate();
+      return deleteLikeMutate();
     } else {
-      patchLikeMutate();
+      return patchLikeMutate();
     }
   };
   const handleClickDisLike = () => {
@@ -106,9 +116,9 @@ export default function DropBinInfo({ closeDropDown, binId, distance }: Props) {
     disableButtonTemporarily();
 
     if (binDetailData?.binInfoForMember.isDisliked) {
-      deletedisLikeMutate();
+      return deletedisLikeMutate();
     } else {
-      patchDislikeMutate();
+      return patchDislikeMutate();
     }
   };
 

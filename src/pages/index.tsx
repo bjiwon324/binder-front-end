@@ -21,14 +21,20 @@ export const getServerSideProps: GetServerSideProps = async (
   };
 };
 
-export default function Home({ isAddBin }: { isAddBin: boolean }) {
+export default function Home({
+  isAddBin,
+  isSearch = false,
+}: {
+  isAddBin: boolean;
+  isSearch?: boolean;
+}) {
   const [tutorial] = useAtom(tutorialAtom);
   return (
     <>
       {tutorial !== true && <Tutorial />}
       <section className={cn("map-wrapper")}>
         <BtnField isAddBin={isAddBin} />
-        <KakaoMap isAddBin={isAddBin} />
+        <KakaoMap isAddBin={isAddBin} isSearch={isSearch} />
       </section>
     </>
   );
