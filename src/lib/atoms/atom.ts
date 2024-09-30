@@ -9,7 +9,7 @@ export const themeColor = atomWithStorage<string>("themeColor", "라이트 모�
 export const searchPrev = atomWithStorage<SearchType[]>("searchPrev", []);
 export const searchData = atom<string>("");
 export const searchBookmark = atom<any[]>([]);
-export const searchDetailList = atom<any>([]);
+export const searchDetailList = atom<any>(null);
 
 export const myPageSetting = atom<string>("활동내역");
 

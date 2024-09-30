@@ -1,6 +1,10 @@
 import BookmarkNoti from "@/components/commons/Modal/Share/BookmarkNoti";
 import { getMyBookmark } from "@/lib/apis/bookmarks";
-import { searchBookmark, searchToggle } from "@/lib/atoms/atom";
+import {
+  searchBookmark,
+  searchDetailList,
+  searchToggle,
+} from "@/lib/atoms/atom";
 import { loginState, userCoordinate } from "@/lib/atoms/userAtom";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
@@ -16,6 +20,7 @@ export default function SearchToggle() {
   const [login] = useAtom(loginState);
   const [, setSearch] = useAtom(searchBookmark);
   const [loginplzModal, setLoginplzModal] = useState<boolean>(false);
+  const [detail, setDetail] = useAtom(searchDetailList);
 
   const { data: bookmarkData, isSuccess } = useQuery({
     queryKey: ["bookmarkDatas", btnState],
@@ -36,15 +41,34 @@ export default function SearchToggle() {
     }
   }, [btnState, login]);
 
+  useEffect(() => {
+    if (detail?.length > 0) {
+      setBtnState("");
+    } else if (btnState === "최근 검색") {
+      setBtnState("최근 검색");
+    } else if (btnState === "저장한 장소") {
+      setBtnState("저장한 장소");
+    }
+  }, [detail]);
+
+  useEffect(() => {
+    if (btnState === "최근 검색" || btnState === "저장한 장소") {
+      setDetail(null);
+    }
+  }, [btnState]);
+
+  const onClickRecentSearch = (text: string) => {
+    setDetail(null);
+    setBtnState(text);
+  };
   return (
     <>
-      {" "}
       <div className={cn("toggleWrap")}>
         <div
           className={
             btnState === "최근 검색" ? cn("toggleBtnOn") : cn("toggleBtn")
           }
-          onClick={() => setBtnState("최근 검색")}
+          onClick={() => onClickRecentSearch("최근 검색")}
         >
           최근 검색
         </div>
@@ -52,7 +76,7 @@ export default function SearchToggle() {
           className={
             btnState === "저장한 장소" ? cn("toggleBtnOn") : cn("toggleBtn")
           }
-          onClick={() => setBtnState("저장한 장소")}
+          onClick={() => onClickRecentSearch("저장한 장소")}
         >
           저장한 장소
         </div>

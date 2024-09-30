@@ -10,12 +10,12 @@ export default function Search() {
   const [prevSearchPick, setPrevSearchPick] = useState<string>("");
 
   useEffect(() => {
-    setDetail([]);
+    setDetail(null);
   }, []);
   return (
     <>
       <SearchInput prevSearchPick={prevSearchPick} />
-      {detail.length === 0 && <SearchToggle />}
+      <SearchToggle />
       <SearchItems setPrevSearchPick={setPrevSearchPick} />
     </>
   );
