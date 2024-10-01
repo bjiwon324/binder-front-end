@@ -18,9 +18,13 @@ const cn = classNames.bind(styles);
 
 interface searchProps {
   setPrevSearchPick: any;
+  target: any;
 }
 
-export default function SearchItems({ setPrevSearchPick }: searchProps) {
+export default function SearchItems({
+  setPrevSearchPick,
+  target,
+}: searchProps) {
   const [prevSearch] = useAtom(searchPrev);
   const [detail] = useAtom(searchDetailList);
   const [, setChoice] = useAtom(searchChoice);
@@ -34,10 +38,10 @@ export default function SearchItems({ setPrevSearchPick }: searchProps) {
     setChoice(item);
     return router.push(`search/${item.id}`);
   };
-
+  console.log(bookmarks);
   return (
     <>
-      <div className={detail > 0 ? cn("itemsWrapDetail") : cn("itemsWrap")}>
+      <div className={cn("itemsWrap")}>
         {detail && Array.isArray(detail) && detail.length === 0 ? (
           <div className={cn("searchNo")}>연관된 장소가 없습니다</div>
         ) : detail !== null && btnState === "" ? (
@@ -58,16 +62,14 @@ export default function SearchItems({ setPrevSearchPick }: searchProps) {
             </div>
           ))
         ) : (
-          bookmarks?.map((item, index) => (
-            <div
-              key={index}
-              // onClick={() => {
-              //   handleClickItem(item);
-              // }}
-            >
-              <SearchDetail item={item} savePlace={true} />
-            </div>
-          ))
+          <>
+            {bookmarks?.pages[0]?.map((item: any, index: number) => (
+              <div key={index}>
+                <SearchDetail item={item} savePlace={true} />
+              </div>
+            ))}
+            <div ref={target} className={cn("refBox")}></div>
+          </>
         )}
       </div>
       {loginModal && <BookmarkNoti />}
