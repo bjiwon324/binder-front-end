@@ -11,6 +11,8 @@ export interface InputProps
   errorMessage?: string;
   required?: boolean;
   id: string;
+  mapCenter?: { x?: number; y?: number };
+
   onClickDelete?: (name: string) => void;
 }
 
@@ -24,7 +26,10 @@ export interface AddbinFormValues {
 export interface PostAddbinValues extends AddbinFormValues {
   type?: string;
   latitude?: number;
+
   longitude?: number;
+  registrationId: null | number;
+  modificationId: null | number;
 }
 
 export interface AddFormProps {
