@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import styles from "./KakaoMap.module.scss";
 
 const cn = classNames.bind(styles);
@@ -37,27 +38,29 @@ function AddBinBtn() {
 }
 
 export default function BtnField({ isAddBin }: { isAddBin?: boolean }) {
+  const router = useRouter();
+  const handleClickBack = () => {
+    return router.back();
+  };
   if (isAddBin) {
     return (
-      <section className={cn("btn-field")}>
-        <Link href={"/addbin"} className={cn("btn-addbin-link")}>
-          <button>
-            <Image
-              src={"/images/icon-back-circle-btn.svg"}
-              alt="신규 쓰레기통 등록하기"
-              width={49}
-              height={49}
-            />
-          </button>
-        </Link>
+      <article className={cn("btn-field")}>
+        <button onClick={handleClickBack} className={cn("btn-addbin-link")}>
+          <Image
+            src={"/images/icon-back-circle-btn.svg"}
+            alt="뒤로 가기"
+            width={49}
+            height={49}
+          />
+        </button>
         <SearchBtn />
-      </section>
+      </article>
     );
   }
   return (
-    <section className={cn("btn-field")}>
+    <article className={cn("btn-field")}>
       <SearchBtn />
       <AddBinBtn />
-    </section>
+    </article>
   );
 }

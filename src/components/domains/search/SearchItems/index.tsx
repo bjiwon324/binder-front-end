@@ -64,6 +64,7 @@ export default function SearchItems({
         ) : (
           <>
             {bookmarks?.map((item: any, index: number) => (
+
               <div key={index}>
                 <SearchDetail item={item} savePlace={true} />
               </div>

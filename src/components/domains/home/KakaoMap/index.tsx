@@ -1,3 +1,4 @@
+import Button from "@/components/commons/Button";
 import DropBinInfo from "@/components/commons/DropBottom/DropBinInfo";
 import Toast from "@/components/commons/Toast";
 import { getLocation } from "@/lib/apis/geo";
@@ -22,6 +23,7 @@ import {
 } from "@/lib/mapUtills";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
 import AroundBinSearchBtns from "../AroundBinSearchBtns";
@@ -38,7 +40,7 @@ export default function KakaoMap({
   const [coordinate, setCoordinate] = useAtom(userCoordinate);
   const [, setAddress] = useAtom(userAddress);
   const [, setNewAddAddress] = useAtom(newAddAddress);
-  const [, setNewAddCoordinate] = useAtom(newAddCoordinate);
+  const [AddCoordinate, setNewAddCoordinate] = useAtom(newAddCoordinate);
   const [choice] = useAtom(searchChoice);
   const [bins, setbins] = useState<any>("");
   const [isCardHidden, setIsCardHidden] = useState(false);
@@ -56,14 +58,8 @@ export default function KakaoMap({
     useToggle(false);
   const [toggleBinInfo, toggleBinInfoOpen, toggleBinInfoClose] =
     useToggle(false);
-  console.log("ccc", choice);
-
-  const {
-    data: binData,
-    refetch: refetchBinData,
-    isError,
-    isLoading,
-  } = useBinData(binType, centerCoordinate);
+  const router = useRouter();
+  const { query } = router;
 
   const { data: locationData, refetch: locationRefetch } = useQuery<any>({
     queryKey: ["locations"],
@@ -72,15 +68,28 @@ export default function KakaoMap({
   });
 
   useEffect(() => {
-    if (isSearch && (choice.latitude !== 0, choice.longitude !== 0)) {
-      return setCenterCoordinate({ x: choice.latitude, y: choice.longitude });
-    }
-    if (locationData && Array.isArray(locationData)) {
+    if (!!query.latitude && !!query.longitude) {
+      setNewAddAddress({ roadAddress: "", address: "" });
+      setNewAddCoordinate({ x: 0, y: 0 });
+      setCoordinate({
+        x: Number(query.latitude),
+        y: Number(query.longitude),
+      });
+    } else if (isSearch && (choice.latitude !== 0, choice.longitude !== 0)) {
+      setCenterCoordinate({ x: choice.latitude, y: choice.longitude });
+    } else if (locationData && Array.isArray(locationData)) {
+      setNewAddAddress({ roadAddress: "", address: "" });
       setCoordinate(locationData[0]);
       setCenterCoordinate(locationData[0]);
-      setNewAddCoordinate(locationData[0]);
     }
-  }, [locationData, isSearch]);
+  }, [locationData, isSearch, query]);
+
+  const {
+    data: binData,
+    refetch: refetchBinData,
+    isError,
+    isLoading,
+  } = useBinData(binType, centerCoordinate);
 
   useEffect(() => {
     if (showToast) {
@@ -133,7 +142,6 @@ export default function KakaoMap({
     const latlng = mouseEvent.latLng;
     const newCoordinate = { x: latlng.getLat(), y: latlng.getLng() };
     setNewAddCoordinate(newCoordinate);
-
     fetchAddressFromCoords(newCoordinate, setNewAddAddress);
 
     addClickMarker(
@@ -158,7 +166,6 @@ export default function KakaoMap({
         const { data: fetchedBinData } = await refetchBinData();
         setbins(fetchedBinData);
         setIsCardHidden(false);
-
         if (fetchedBinData.length === 0) {
           toggleToastOpen();
         } else if (fetchedBinData.length > 0) {
@@ -255,20 +262,38 @@ export default function KakaoMap({
       console.error("데이터 다시 불러오기 실패:", error);
     }
   };
-
+  console.log(AddCoordinate);
   if (isAddBin) {
     return (
-      <div
-        id="map"
-        style={{
-          width: "100%",
-          height: "calc(100vh - 7.4rem)",
-          zIndex: "0",
-          position: "relative",
-          overflow: "hidden",
-        }}
-        ref={mapRef}
-      ></div>
+      <>
+        <div
+          id="map"
+          style={{
+            width: "100%",
+            height: "calc(100vh - 8.32rem)",
+            zIndex: "0",
+            position: "relative",
+          }}
+          ref={mapRef}
+        ></div>
+        <Button
+          style={{
+            zIndex: "3",
+            position: "absolute",
+            width: "calc(100% - 4rem)",
+            left: "2rem",
+            bottom: "3rem",
+          }}
+          onClick={() => {
+            setCoordinate({ x: 0, y: 0 });
+            router.back();
+          }}
+          disabled={AddCoordinate.x === 0}
+          status="primary"
+        >
+          현재 위치로 등록
+        </Button>
+      </>
     );
   }
   return (
@@ -278,10 +303,9 @@ export default function KakaoMap({
         id="map"
         style={{
           width: "100%",
-          height: "calc(100vh - 7.4rem)",
+          height: "calc(100vh - 8.32rem)",
           zIndex: "0",
           position: "relative",
-          overflow: "hidden",
         }}
         ref={mapRef}
       ></div>
@@ -290,7 +314,9 @@ export default function KakaoMap({
         onClickGetmyLocation={handleClickGetmyLocation}
         toggleAroundBin={toggleAroundBin}
         toggleMyLocation={toggleMyLocation}
-        hasData={!isError && (bins?.length > 0 || choice.id !== 0)}
+        hasData={
+          !isError && (bins?.length > 0 || (isSearch && choice.id !== 0))
+        }
         isCardHidden={isCardHidden}
       />
       {!isCardHidden && (bins[0]?.id || (isSearch && choice.id !== 0)) && (
@@ -303,6 +329,7 @@ export default function KakaoMap({
       )}
       {showToast && <Toast>근처 쓰레기통이 없습니다</Toast>}
       {isLoading && <Toast>근처 쓰레기통을 검색 중 입니다</Toast>}
+
       {toggleBinInfo && selectedBinId !== null && (
         <DropBinInfo
           binId={selectedBinId}

@@ -43,7 +43,6 @@ export default function SearchToggle({ target }: any) {
     enabled: !!coordinate,
   });
 
-  // IntersectionObserver 설정
   useEffect(() => {
     if (!target.current || !bookmarkData?.pages) return; // target 또는 데이터가 없을 때 리턴
 

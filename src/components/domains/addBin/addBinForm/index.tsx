@@ -43,8 +43,9 @@ export default function AddBinForm({
   const [editPostData, setEditPostData] = useState<any>();
   const [coordinate] = useAtom(userCoordinate);
   const [address] = useAtom(userAddress);
-  const [newAddress] = useAtom(newAddAddress);
-  const [newCoordinate] = useAtom(newAddCoordinate);
+  const [newAddress, setNewAddress] = useAtom(newAddAddress);
+  const [newCoordinate, setNewCoordinate] = useAtom(newAddCoordinate);
+
   const {
     register,
     handleSubmit,
@@ -66,7 +67,8 @@ export default function AddBinForm({
   };
 
   useEffect(() => {
-    if (binDetail && (binDetail.binInfoForMember?.isOwner || isAdmin)) {
+    if (!!binDetail) {
+      console.log("detail", binDetail);
       setValue("address", binDetail.address || "");
       setValue("binType", binDetail.type || "");
       setValue("title", binDetail.title || "");
@@ -75,11 +77,15 @@ export default function AddBinForm({
         btnInputValues.find((item) => item.id === binDetail.type)?.id || ""
       );
       setImg(binDetail.imageUrl || "");
-    } else if (newAddress?.roadAddress || newAddress?.address) {
-      setValue("address", newAddress.roadAddress || newAddress.address);
     } else if (address?.roadAddress || address?.address) {
       setValue("address", address.roadAddress || address.address);
     }
+
+    if (newAddress?.roadAddress || newAddress?.address) {
+      setValue("address", newAddress.roadAddress || newAddress.address);
+    }
+    console.log("dddd", newAddress);
+    console.log(binDetail);
   }, [address, setValue, binDetail]);
 
   const handleBlurBtn: FocusEventHandler<HTMLButtonElement> = () => {
@@ -94,9 +100,6 @@ export default function AddBinForm({
     setValue(name as keyof AddbinFormValues, "");
   };
 
-  const handleDeleteAddress = (name: string) => {
-    setValue(name as keyof AddbinFormValues, "");
-  };
   const handleChangeImgData = (imgUrl: string) => {
     setValue("imageUrl", imgUrl);
     setImg(imgUrl);
@@ -112,12 +115,15 @@ export default function AddBinForm({
     const postData: PostAddbinValues = {
       ...data,
       type: data.binType,
+      registrationId: binDetail?.registrationId || null,
+      modificationId: binDetail?.modificationId || null,
     };
 
     if (!!binDetail) {
-      postData.latitude = binDetail.latitude;
-      postData.longitude = binDetail.longitude;
+      postData.latitude = newCoordinate?.x || binDetail.latitude;
+      postData.longitude = newCoordinate?.y || binDetail.longitude;
       setEditPostData(postData);
+      console.log(postData);
     } else {
       postData.latitude = newCoordinate?.x || coordinate?.x;
       postData.longitude = newCoordinate?.y || coordinate?.y;
@@ -131,6 +137,8 @@ export default function AddBinForm({
 
     onSuccess: () => {
       openModal();
+      setNewAddress({ roadAddress: "", address: "" });
+      setNewCoordinate({ x: 0, y: 0 });
     },
   });
 
@@ -140,16 +148,21 @@ export default function AddBinForm({
     onSuccess: () => {
       closeDropBottom();
       openModal();
+      setNewAddress({ roadAddress: "", address: "" });
+      setNewCoordinate({ x: 0, y: 0 });
     },
     onError: (error: any) => alert(error.response.data.message),
   });
 
   const { mutate: patchBinAdminMutate } = useMutation({
     mutationKey: ["petch-admin-edit-bin", binDetail?.id],
-    mutationFn: (data) => patchBinAdmin(binDetail?.binId!, data),
+    mutationFn: (data) =>
+      patchBinAdmin(binDetail?.binId || binDetail?.id!, data),
     onSuccess: () => {
       closeDropBottom();
       openModal();
+      setNewAddress({ roadAddress: "", address: "" });
+      setNewCoordinate({ x: 0, y: 0 });
     },
     onError: (error: any) => alert(error.response.data.message),
   });
@@ -164,7 +177,7 @@ export default function AddBinForm({
 
   useEffect(() => {
     if (editPostData?.modificationReason) {
-      submitEditbin(editPostData);
+      isAdmin ? patchBinAdminMutate(editPostData) : submitEditbin(editPostData);
     }
   }, [editPostData]);
 
@@ -179,6 +192,7 @@ export default function AddBinForm({
         <Input
           id="address"
           label="쓰레기통 주소"
+          mapCenter={{ x: binDetail?.latitude, y: binDetail?.longitude }}
           placeholder="주소를 입력하세요"
           {...register("address", { required: "주소는 필수입니다." })}
           isError={!!errors.address}
@@ -262,11 +276,16 @@ export default function AddBinForm({
       {isOpenModal && (
         <Modal
           modalState={
-            !!binDetail
-              ? MODAL_CONTENTS.requestFixBin
-              : MODAL_CONTENTS.requestAddBin
+            !binDetail
+              ? MODAL_CONTENTS.requestAddBin
+              : isAdmin
+                ? MODAL_CONTENTS.editbin
+                : MODAL_CONTENTS.requestFixBin
           }
-          modalClose={Router.back}
+          modalClose={() => {
+            !!toggleIsEdit && toggleIsEdit();
+            Router.back();
+          }}
           moreInfo={reason}
         />
       )}
