@@ -221,7 +221,7 @@ export default function DefaultForm({
         <AdminDetailItem title={"장소 명칭"} detail={binDetail?.title} />
         <article className={cn("detail")}>
           <h4>
-            쓰레기통 사진<span>(선택)</span>
+            쓰레기통 사진<span> (선택)</span>
           </h4>
           {binDetail?.imageUrl ? (
             <div className={cn("imgBox")}>

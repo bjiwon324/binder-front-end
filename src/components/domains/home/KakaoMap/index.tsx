@@ -262,7 +262,7 @@ export default function KakaoMap({
       console.error("데이터 다시 불러오기 실패:", error);
     }
   };
-  console.log(AddCoordinate);
+
   if (isAddBin) {
     return (
       <>

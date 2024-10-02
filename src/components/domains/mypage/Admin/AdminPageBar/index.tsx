@@ -8,7 +8,7 @@ const cn = classNames.bind(styles);
 
 export default function AdminPageBar() {
   const router = useRouter();
-  console.log(router);
+
   const handleBtn = () => {
     switch (router.pathname) {
       case "/mypage/ask":

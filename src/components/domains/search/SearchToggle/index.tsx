@@ -35,7 +35,6 @@ export default function SearchToggle({ target }: any) {
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       const notificationDetails = lastPage;
-      console.log(lastPage);
       return notificationDetails?.length >= 10
         ? notificationDetails[notificationDetails.length - 1].bookmarkId
         : undefined;

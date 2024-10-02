@@ -78,7 +78,6 @@ export default function MyPageNoti({ closeBtn }: any) {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          console.log("Load more triggered");
           const lastPage = notiData?.pages[notiData.pages.length - 1];
           if (lastPage?.notificationDetails?.length >= 20) {
             setLastId(

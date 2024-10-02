@@ -27,6 +27,7 @@
   border-radius: 10px;
   border: 1px solid var(--d9d9d9);
   padding: 1rem 1.4rem;
+  color: var(--black);
   font-size: 1.6rem;
   @include respondTo(small) {
     font-size: 1.8rem;

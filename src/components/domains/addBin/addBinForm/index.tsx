@@ -68,7 +68,6 @@ export default function AddBinForm({
 
   useEffect(() => {
     if (!!binDetail) {
-      console.log("detail", binDetail);
       setValue("address", binDetail.address || "");
       setValue("binType", binDetail.type || "");
       setValue("title", binDetail.title || "");
@@ -84,8 +83,6 @@ export default function AddBinForm({
     if (newAddress?.roadAddress || newAddress?.address) {
       setValue("address", newAddress.roadAddress || newAddress.address);
     }
-    console.log("dddd", newAddress);
-    console.log(binDetail);
   }, [address, setValue, binDetail]);
 
   const handleBlurBtn: FocusEventHandler<HTMLButtonElement> = () => {
@@ -123,7 +120,6 @@ export default function AddBinForm({
       postData.latitude = newCoordinate?.x || binDetail.latitude;
       postData.longitude = newCoordinate?.y || binDetail.longitude;
       setEditPostData(postData);
-      console.log(postData);
     } else {
       postData.latitude = newCoordinate?.x || coordinate?.x;
       postData.longitude = newCoordinate?.y || coordinate?.y;
