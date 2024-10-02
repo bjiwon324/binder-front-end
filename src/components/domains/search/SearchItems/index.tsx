@@ -63,12 +63,11 @@ export default function SearchItems({
           ))
         ) : (
           <>
-            {bookmarks?.pages[0]?.map((item: any, index: number) => (
+            {bookmarks?.map((item: any, index: number) => (
               <div key={index}>
                 <SearchDetail item={item} savePlace={true} />
               </div>
             ))}
-            <div ref={target} className={cn("refBox")}></div>
           </>
         )}
       </div>

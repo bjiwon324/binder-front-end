@@ -16,7 +16,9 @@ export default function Search() {
     <>
       <SearchInput prevSearchPick={prevSearchPick} />
       <SearchToggle target={target} />
+
       <SearchItems setPrevSearchPick={setPrevSearchPick} target={target} />
+      <div ref={target} style={{ height: "1px", marginTop: "-5rem" }}></div>
     </>
   );
 }

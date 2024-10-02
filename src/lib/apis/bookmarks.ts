@@ -20,11 +20,16 @@ export const deleteMyBookmark = async (id: number | string) => {
   }
 };
 
-export const getMyBookmark = async (x: number, y: number, id: number = -1) => {
+export const getMyBookmark = async (
+  x: number,
+  y: number,
+  id: number = -1,
+  distance: number | null = null
+) => {
   try {
-    if (id !== -1) {
+    if (id !== -1 && distance !== null) {
       const res = await instance.get(
-        `/bookmarks/all?longitude=${y}&latitude=${x}&lastId=${id}`
+        `/bookmarks/all?longitude=${y}&latitude=${x}&lastId=${id}&lastDistance=${distance}`
       );
       return res.data;
     } else {

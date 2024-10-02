@@ -22,37 +22,38 @@ export default function SearchToggle({ target }: any) {
   const [loginplzModal, setLoginplzModal] = useState<boolean>(false);
   const [detail, setDetail] = useAtom(searchDetailList);
   const [lastId, setLastId] = useState<number>(-1);
-  const [notis, setNotis] = useState<any[]>([]);
+  const [isDistance, setDistance] = useState<number | null>(null);
 
   const {
     data: bookmarkData,
     fetchNextPage,
     isSuccess,
   } = useInfiniteQuery({
-    queryKey: ["bookmarkDatas", lastId, coordinate],
-    queryFn: () => getMyBookmark(coordinate.x, coordinate.y, lastId),
+    queryKey: ["bookmarkDatas", lastId, coordinate, isDistance],
+    queryFn: () =>
+      getMyBookmark(coordinate.x, coordinate.y, lastId, isDistance),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
-      const notificationDetails = lastPage?.notificationDetails;
+      const notificationDetails = lastPage;
+      console.log(lastPage);
       return notificationDetails?.length >= 10
-        ? notificationDetails[notificationDetails.length - 1].notificationId
+        ? notificationDetails[notificationDetails.length - 1].bookmarkId
         : undefined;
     },
     enabled: !!coordinate,
   });
 
-  if (isSuccess) {
-    setSearch(bookmarkData);
-  }
-
+  // IntersectionObserver 설정
   useEffect(() => {
+    if (!target.current || !bookmarkData?.pages) return; // target 또는 데이터가 없을 때 리턴
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          const lastPage = bookmarkData?.pages[bookmarkData.pages.length - 1];
-          if (bookmarkData?.pages[0]?.length >= 10) {
-            console.log(lastPage);
+        if (entries[0].isIntersecting && bookmarkData?.pages?.length > 0) {
+          const lastPage = bookmarkData.pages[bookmarkData.pages.length - 1];
+          if (lastPage?.length >= 10) {
             setLastId(lastPage[9].bookmarkId);
+            setDistance(lastPage[9].distance);
           }
           fetchNextPage();
         }
@@ -60,67 +61,59 @@ export default function SearchToggle({ target }: any) {
       { threshold: 1.0 }
     );
 
-    if (target.current) {
-      observer.observe(target.current);
-    }
+    observer.observe(target.current);
 
     return () => {
-      if (target.current) {
-        observer.unobserve(target.current);
-      }
+      if (target.current) observer.unobserve(target.current);
     };
-  }, []);
+  }, [target, bookmarkData, fetchNextPage]); // bookmarkData와 fetchNextPage 의존성 추가
 
+  // 중복 제거 및 상태 업데이트
   useEffect(() => {
-    if (bookmarkData?.pages) {
+    if (isSuccess && bookmarkData?.pages) {
       const newBookmark = bookmarkData.pages.flat();
 
       setSearch((prev: any) => {
         // prev가 null이거나 undefined일 경우 빈 배열로 대체
         const combinedNotis = [
-          ...newBookmark,
           ...(Array.isArray(prev) ? prev : []),
+          ...newBookmark,
         ];
 
-        // Set을 이용하여 중복 제거
-        const uniqueNotis = Array.from(
-          new Set(combinedNotis.map((item) => item.bookmarkId))
-        ).map((id) => combinedNotis.find((item) => item.bookmarkId === id));
+        // 중복 제거
+        const uniqueNotis = combinedNotis.filter(
+          (v, i, a) => a.findIndex((t) => t.bookmarkId === v.bookmarkId) === i
+        );
 
         return uniqueNotis;
       });
     }
-  }, [bookmarkData]);
-  useEffect(() => {
-    if (btnState === "저장한 장소" && login === false) {
-      setLoginplzModal(true);
+  }, [isSuccess, bookmarkData, setSearch]); // 의존성에 isSuccess와 bookmarkData 추가
 
+  // 로그인 확인 로직
+  useEffect(() => {
+    if (btnState === "저장한 장소" && !login) {
+      setLoginplzModal(true);
       setTimeout(() => {
         setLoginplzModal(false);
       }, 3000);
     }
   }, [btnState, login]);
 
+  // 최근 검색 및 저장한 장소 버튼 로직
   useEffect(() => {
     if (detail?.length > 0) {
       setBtnState("");
-    } else if (btnState === "최근 검색") {
-      setBtnState("최근 검색");
-    } else if (btnState === "저장한 장소") {
-      setBtnState("저장한 장소");
-    }
-  }, [detail]);
-
-  useEffect(() => {
-    if (btnState === "최근 검색" || btnState === "저장한 장소") {
+    } else if (btnState === "최근 검색" || btnState === "저장한 장소") {
       setDetail(null);
     }
-  }, [btnState]);
+  }, [detail]);
 
   const onClickRecentSearch = (text: string) => {
     setDetail(null);
     setBtnState(text);
   };
+
   return (
     <>
       <div className={cn("toggleWrap")}>
