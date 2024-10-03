@@ -32,14 +32,14 @@ export default function AdminPageItem({ title }: AdminProps) {
           queryFn: () => getAdminBins(filter),
         });
         const askCount = ask?.pendingCount;
-        return [askCount, ask?.binRegistrationDetails]; // 데이터를 반환
+        return [askCount, ask?.binRegistrationDetails];
       case "/mypage/fix":
         const { data: fix } = useQuery({
           queryKey: ["fix", filter],
           queryFn: () => getAdminBinsFix(filter),
         });
         const fixCount = fix?.pendingCount;
-        return [fixCount, fix?.binModificationDetails]; // 데이터를 반환
+        return [fixCount, fix?.binModificationDetails];
 
       default:
         const { data: report } = useQuery({
@@ -47,7 +47,7 @@ export default function AdminPageItem({ title }: AdminProps) {
           queryFn: () => getAdminBinsReport(filter),
         });
         const reportCount = report?.pendingCount;
-        return [reportCount, report?.binComplaintDetails]; // 기본 데이터를 반환
+        return [reportCount, report?.binComplaintDetails];
     }
   })();
 
@@ -55,7 +55,6 @@ export default function AdminPageItem({ title }: AdminProps) {
     if (id === item.binId) {
       setBinDetail(item);
       router.push(router.route + "/" + id);
-      //이렇게 할 경우 url 직접 입력시 빈값
     }
   };
 
@@ -104,6 +103,6 @@ export default function AdminPageItem({ title }: AdminProps) {
     </>
   );
 }
-function askPageContext() {
-  throw new Error("Function not implemented.");
-}
+// function askPageContext() {
+//   throw new Error("Function not implemented.");
+// }

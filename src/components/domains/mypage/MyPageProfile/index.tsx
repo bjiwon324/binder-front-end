@@ -51,11 +51,22 @@ export default function MyPageProfile({ memberData }: ProfileProps) {
       <div className={cn("profileWrap")}>
         <div className={cn("imgEditWrap")} onClick={handleProfileEdit}>
           <div className={cn("profileImg")}>
-            <Image src={image} alt="프로필 이미지" fill />
+            <Image
+              src={image}
+              alt="프로필 이미지"
+              width={86}
+              height={86}
+              layout="intrinsic"
+            />
           </div>
           <div className={cn("profileEdit")}>
             <div className={cn("profileEditimg")}>
-              <Image src={profileEditImg} alt="프로필 편집 이미지" fill />
+              <Image
+                src={profileEditImg}
+                alt="프로필 편집 이미지"
+                width={19}
+                height={19}
+              />
             </div>
           </div>
         </div>

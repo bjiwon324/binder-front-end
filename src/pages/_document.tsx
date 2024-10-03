@@ -5,14 +5,14 @@ export default function Document() {
     <Html lang="ko">
       <Head>
         <title>주변 쓰레기통 찾기, Binder </title>
-        <link rel="icon" href="/images/logo-144.png" />
+        <link rel="icon" href="/images/logo-144.png?ver=1" />
 
         {/* Open Graph 메타 태그 */}
         <meta property="og:title" content="Binder" />
         <meta property="og:description" content="내 주변 쓰레기통을 찾아보자" />
         <meta
           property="og:image"
-          content="https://www.bin-finder.net/images/logo-144.png"
+          content="https://www.bin-finder.net/images/logo-144.png?ver=1"
         />
         <meta property="og:url" content="https://www.bin-finder.net/" />
         <meta property="og:type" content="website" />
@@ -20,7 +20,7 @@ export default function Document() {
         {/* Twitter 메타 태그 */}
         <meta
           name="twitter:card"
-          content="https://www.bin-finder.net/images/logo-144.png"
+          content="https://www.bin-finder.net/images/logo-144.png?ver=1"
         />
         <meta name="twitter:title" content="Binder" />
         <meta
@@ -29,7 +29,7 @@ export default function Document() {
         />
         <meta
           name="twitter:image"
-          content="https://www.bin-finder.net/images/logo-144.png"
+          content="https://www.bin-finder.net/images/logo-144.png?ver=1"
         />
 
         <link rel="manifest" href="/manifest.json" />

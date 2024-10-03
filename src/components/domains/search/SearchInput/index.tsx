@@ -37,6 +37,7 @@ export default function SearchInput({ prevSearchPick }: SearchInputProps) {
   const [debouncedSearchInput, setDebouncedSearchInput] = useState(searchInput);
   const [choicePlace, setChoicePlace] = useState<any>();
   const { register, handleSubmit } = useForm<IFormInput>();
+  const [searchIng, setSearchIng] = useState(false);
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     setSearchPrev((prev: SearchType[]) => {
@@ -77,8 +78,6 @@ export default function SearchInput({ prevSearchPick }: SearchInputProps) {
     refetchOnWindowFocus: false, // 포커스 시 재요청 막기
   });
 
-  // const ref = useRef(null);
-
   const handleClickOutside = () => {
     setSearchData("");
   };
@@ -86,22 +85,27 @@ export default function SearchInput({ prevSearchPick }: SearchInputProps) {
   // useOnClickOutside(ref, handleClickOutside);
 
   const { data: searchAddress, isSuccess } = useQuery({
-    queryKey: ["searchAddress", coordinate, choicePlace, searchInput],
+    queryKey: ["searchAddress", coordinate, choicePlace],
     queryFn: () =>
       getSearchKeyword(
         coordinate.y,
         coordinate.x,
         choicePlace.x,
         choicePlace.y,
-        searchInput,
+        debouncedSearchInput,
         choicePlace.address_name
       ),
+    enabled: searchIng,
   });
   const handleChoice = (item: any) => {
     setChoicePlace(item);
 
     setSearchData(item.title);
 
+    setSearchIng(true);
+    setTimeout(() => {
+      setSearchIng(false);
+    }, 100);
     handleSubmit(onSubmit)();
   };
   if (isSuccess) {
