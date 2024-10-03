@@ -42,6 +42,7 @@ export default function SearchItems({
     setChoice(item);
     return router.push(`/search/${item.id}`);
   };
+  
   const {
     data: prevSearchData,
     fetchNextPage,
