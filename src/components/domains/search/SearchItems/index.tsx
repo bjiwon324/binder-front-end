@@ -1,15 +1,16 @@
 import BookmarkNoti from "@/components/commons/Modal/Share/BookmarkNoti";
+import { deleteSearch, prevSearch } from "@/lib/apis/search";
 import {
   searchBookmark,
   searchDetailList,
-  searchPrev,
   searchToggle,
 } from "@/lib/atoms/atom";
 import { searchChoice } from "@/lib/atoms/userAtom";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchDetail from "../SearchDetail";
 import SearchItem from "../SearchItem";
 import styles from "./SearchItem.module.scss";
@@ -19,26 +20,91 @@ const cn = classNames.bind(styles);
 interface searchProps {
   setPrevSearchPick: any;
   target: any;
+  prevSearchRef: any;
 }
 
 export default function SearchItems({
   setPrevSearchPick,
   target,
+  prevSearchRef,
 }: searchProps) {
-  const [prevSearch] = useAtom(searchPrev);
   const [detail] = useAtom(searchDetailList);
   const [, setChoice] = useAtom(searchChoice);
   const [bookmarks] = useAtom(searchBookmark);
   const [btnState] = useAtom(searchToggle);
-  const [loginModal, setLoginModal] = useState(false);
+  const [loginModal, setLoginModal] = useState<boolean>(false);
+  const [prevSearchList, setPrevSearchList] = useState<any[]>([]);
+  const [lastId, setLastId] = useState<number>(0);
 
   const router = useRouter();
 
   const handleClickItem = (item: any) => {
     setChoice(item);
-    return router.push(`search/${item.id}`);
+    return router.push(`/search/${item.id}`);
+  };
+  
+  const {
+    data: prevSearchData,
+    fetchNextPage,
+    isSuccess,
+  } = useInfiniteQuery({
+    queryKey: ["searchPrev", lastId],
+    queryFn: () => prevSearch(lastId),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      const notificationDetails = lastPage;
+      return notificationDetails?.length >= 10
+        ? notificationDetails[notificationDetails.length - 1].id
+        : undefined;
+    },
+  });
+
+  useEffect(() => {
+    setPrevSearchList([]);
+  }, []);
+  useEffect(() => {
+    if (!prevSearchRef.current || !prevSearchData?.pages) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        console.log(prevSearchData);
+        if (entries[0].isIntersecting && prevSearchData?.pages?.length > 0) {
+          const lastPage = prevSearchData.pages[0];
+          console.log(prevSearchData);
+          if (lastPage?.length >= 10) {
+            setLastId(lastPage[9].id);
+          }
+          fetchNextPage();
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    observer.observe(prevSearchRef.current);
+
+    return () => {
+      if (prevSearchRef.current) observer.unobserve(prevSearchRef.current);
+    };
+  }, [prevSearchRef, prevSearchData, fetchNextPage]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setPrevSearchList((prev) => [...prev, ...prevSearchData.pages.flat()]);
+    }
+  }, [isSuccess, prevSearchData, setPrevSearchList]);
+
+  const { mutate: handleDelete } = useMutation({
+    mutationFn: (id: number) => deleteSearch(id),
+  });
+
+  const deleteItem = (id: number) => {
+    handleDelete(id); // 전달된 id를 이용해 삭제 처리
+    setPrevSearchList((prev: any) =>
+      prev.filter((prevItem: { id: number }) => prevItem.id !== id)
+    );
   };
 
+  console.log(prevSearchData);
   return (
     <>
       <div className={cn("itemsWrap")}>
@@ -56,11 +122,17 @@ export default function SearchItems({
             </div>
           ))
         ) : btnState === "최근 검색" ? (
-          prevSearch?.map((item: any, index: number) => (
-            <div key={index} onClick={() => setPrevSearchPick(item.title)}>
-              <SearchItem item={item} num={index} />
-            </div>
-          ))
+          <>
+            {prevSearchList?.map((item: any, index: number) => (
+              <div key={index} onClick={() => setPrevSearchPick(item.keyword)}>
+                <SearchItem
+                  item={item}
+                  num={index}
+                  removeItem={() => deleteItem(item.id)}
+                />
+              </div>
+            ))}
+          </>
         ) : (
           <>
             {bookmarks?.map((item: any, index: number) => (

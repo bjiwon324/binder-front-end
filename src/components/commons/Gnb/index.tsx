@@ -98,4 +98,4 @@ export default function Gnb() {
   );
 }
 
-Gnb.defaultProps = {};
+// Gnb.defaultProps = {};

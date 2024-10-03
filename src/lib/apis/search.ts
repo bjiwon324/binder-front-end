@@ -62,3 +62,25 @@ export const getSearchKeyword = async (
     console.error("키워드 검색 실패:", error);
   }
 };
+
+export const prevSearch = async (lastId: number) => {
+  try {
+    if (lastId !== 0) {
+      const res = await instance.get(`/searchlog?lastSearchLogId=${lastId}`);
+      return res.data;
+    } else {
+      const res = await instance.get(`/searchlog`);
+      return res.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const deleteSearch = async (id: number) => {
+  try {
+    const res = await instance.delete(`/searchlog/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

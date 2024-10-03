@@ -10,6 +10,7 @@ export default function Search() {
   const [prevSearchPick, setPrevSearchPick] = useState<string>("");
   const target = useRef<HTMLDivElement>(null);
   const [btnState] = useAtom(searchToggle);
+  const prevSearchRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setDetail(null);
   }, []);
@@ -19,7 +20,11 @@ export default function Search() {
       <SearchInput prevSearchPick={prevSearchPick} />
       <SearchToggle target={target} />
 
-      <SearchItems setPrevSearchPick={setPrevSearchPick} target={target} />
+      <SearchItems
+        setPrevSearchPick={setPrevSearchPick}
+        target={target}
+        prevSearchRef={prevSearchRef}
+      />
 
       <div
         ref={target}
@@ -27,6 +32,15 @@ export default function Search() {
           height: "1px",
           marginTop: "-5rem",
           display: btnState === "저장한 장소" ? "block" : "none",
+        }}
+      ></div>
+
+      <div
+        ref={prevSearchRef}
+        style={{
+          height: "1px",
+          marginTop: "-5rem",
+          display: btnState === "최근 검색" ? "block" : "none",
         }}
       ></div>
     </>
