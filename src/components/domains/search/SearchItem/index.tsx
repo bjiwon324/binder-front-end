@@ -14,7 +14,6 @@ export default function SearchItem({ item, num, removeItem }: any) {
   //   newPrevData.splice(num, 1);
   //   setSearchPrev(newPrevData);
   // };
-
   return (
     // <div className={cn("itemWrap")}>
     //   <Image src={searchImg} alt="검색 상태 이미지" width={15} height={15} />
