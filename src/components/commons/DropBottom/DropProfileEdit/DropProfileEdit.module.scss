@@ -70,6 +70,7 @@
   border: 1px solid var(--d9d9d9);
   padding: 1rem 1.4rem;
   font-size: 1.6rem;
+  color: var(--black);
   @include respondTo(small) {
     font-size: 1.8rem;
   }

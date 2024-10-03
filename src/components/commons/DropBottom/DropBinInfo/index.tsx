@@ -80,7 +80,6 @@ export default function DropBinInfo({
     setIsButtonDisabled(true);
     setTimeout(() => setIsButtonDisabled(false), 1000);
   };
-  console.log(binDetailData);
 
   const handleClickBookmark = () => {
     if (binDetailData?.binInfoForMember === null) {

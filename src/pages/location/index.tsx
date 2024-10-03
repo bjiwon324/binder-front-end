@@ -22,7 +22,7 @@ function Location() {
       setXy(locationData[0]);
     }
   }, [locationData]);
-  console.log(place);
+
   return <div>{isLoading ? "로딩중.." : place}</div>;
 }
 

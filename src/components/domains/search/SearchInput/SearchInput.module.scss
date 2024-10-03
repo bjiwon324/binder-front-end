@@ -29,6 +29,7 @@
   z-index: 3;
   & > input {
     width: 100%;
+    color: var(--black);
   }
 }
 
@@ -47,6 +48,7 @@
   border-radius: 0px 0px 14px 14px;
   display: flex;
   flex-direction: column;
+  color: var(--black);
   // gap: 1rem;
   box-shadow: 0px 1px 4px 0px #b8c4c0;
   z-index: 2;

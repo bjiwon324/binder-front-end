@@ -27,13 +27,12 @@
 }
 .detailInner {
   width: 100%;
-  height: calc(100vh - 7.5rem - 7.6rem - 6.6rem);
+  min-height: calc(100vh - 7.5rem - 7.6rem - 6.6rem);
   padding: 1.3rem 2.6rem;
   background-color: var(--white);
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
-  overflow-y: scroll;
 }
 .detail {
   color: var(--btn-selected);
@@ -108,12 +107,12 @@
 }
 .detailReject {
   border: 1px solid var(--primary-green);
-  color: var(--btn-edit);
+  color: var(--black);
   background: var(--white);
 }
 .detailRejectReport {
   border: 1px solid var(--error-red);
-  color: var(--btn-edit);
+  color: var(--black);
   background: var(--white);
 }
 .detailAcceptReport {

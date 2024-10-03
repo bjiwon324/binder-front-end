@@ -42,8 +42,6 @@ export default function RecommendCard({
     return null;
   }
 
-  console.log(binDetailData);
-
   return (
     <div
       ref={ref}

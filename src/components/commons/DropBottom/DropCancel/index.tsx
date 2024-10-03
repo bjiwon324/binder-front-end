@@ -33,7 +33,6 @@ export default function DropCancel({
   const { mutate: cancelMember } = useMutation({
     mutationFn: (data: string) => deleteMembers(data),
     onSuccess: () => {
-      console.log("성공");
       handleDrop();
       setDeleteModal(true);
     },

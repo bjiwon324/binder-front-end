@@ -38,7 +38,7 @@ export default function SearchItems({
     setChoice(item);
     return router.push(`search/${item.id}`);
   };
-  console.log(bookmarks);
+
   return (
     <>
       <div className={cn("itemsWrap")}>
@@ -64,8 +64,12 @@ export default function SearchItems({
         ) : (
           <>
             {bookmarks?.map((item: any, index: number) => (
-
-              <div key={index}>
+              <div
+                key={index}
+                onClick={() => {
+                  handleClickItem(item);
+                }}
+              >
                 <SearchDetail item={item} savePlace={true} />
               </div>
             ))}

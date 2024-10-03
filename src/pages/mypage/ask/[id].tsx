@@ -37,7 +37,6 @@ export default function AskDetail() {
     },
   });
 
-  console.log("askDetail", askDetail);
   return (
     <>
       <AdminPageBar />

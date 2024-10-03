@@ -82,7 +82,6 @@ export default function DropProfileEdit({
     // setImage("");
     setImgData("");
   };
-  console.log(nickname);
   useEffect(() => {
     const isProfileImgChanged = profileImg.length !== 0 || imgData === "";
     const isNicknameValid = inputValue.length >= 2;
