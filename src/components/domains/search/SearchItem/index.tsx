@@ -1,4 +1,5 @@
 import closeImg from "@/../public/images/close.svg";
+import locationImg from "@/../public/images/location.svg";
 import searchImg from "@/../public/images/search.svg";
 import classNames from "classnames/bind";
 import Image from "next/image";
@@ -7,31 +8,17 @@ import styles from "./SearchItem.module.scss";
 const cn = classNames.bind(styles);
 
 export default function SearchItem({ item, num, removeItem }: any) {
-  // const [prevData, setSearchPrev] = useAtom(searchPrev);
-  // const handleDelete = (e: any) => {
-  //   e.stopPropagation();
-  //   const newPrevData = [...prevData];
-  //   newPrevData.splice(num, 1);
-  //   setSearchPrev(newPrevData);
-  // };
+  const date = item.createdAt.slice(5, 7) + ". " + item.createdAt.slice(8, 10);
   return (
-    // <div className={cn("itemWrap")}>
-    //   <Image src={searchImg} alt="검색 상태 이미지" width={15} height={15} />
-    //   <div className={cn("itemTitle")}>{item.title}</div>
-    //   <div className={cn("itemDate")}>{item.date}</div>
-    //   <Image
-    //     className={cn("itemClose")}
-    //     src={closeImg}
-    //     alt="최근검색 지우기"
-    //     width={11}
-    //     height={11}
-    //     onClick={(e) => handleDelete(e)}
-    //   />
-    // </div>
     <div className={cn("itemWrap")}>
-      <Image src={searchImg} alt="검색 상태 이미지" width={15} height={15} />
+      <Image
+        src={item.hasBinsNearby ? locationImg : searchImg}
+        alt="검색 상태 이미지"
+        width={15}
+        height={15}
+      />
       <div className={cn("itemTitle")}>{item?.keyword}</div>
-      {/* <div className={cn("itemDate")}>{item.date}</div> */}
+      <div className={cn("itemDate")}>{date}</div>
       <Image
         className={cn("itemClose")}
         src={closeImg}
