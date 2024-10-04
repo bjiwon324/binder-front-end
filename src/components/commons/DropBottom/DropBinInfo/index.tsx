@@ -36,7 +36,7 @@ export default function DropBinInfo({
   const [isVisible, setIsVisible] = useState(true);
   const [isReport, isReportOpen, iseReportClose] = useToggle(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [cardHeight, setCardHeight] = useState(400);
+  const [cardHeight, setCardHeight] = useState<number | string>(400);
   const router = useRouter();
 
   const [
@@ -47,7 +47,7 @@ export default function DropBinInfo({
 
   const onDragEnd = (deltaY: number) => {
     if (deltaY < -100) {
-      setCardHeight(window.innerHeight);
+      setCardHeight("100%");
     } else {
       setCardHeight(400);
     }
