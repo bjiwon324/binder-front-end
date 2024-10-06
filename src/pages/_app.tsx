@@ -67,7 +67,6 @@ export default function App({ Component, pageProps }: AppProps) {
           gtag('config', 'G-ZEWF6HWTJB');
         `}
       </Script>
-
       <div id="webWrap">
         <div id="webInner">
           <Component {...pageProps} />

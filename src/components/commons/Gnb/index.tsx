@@ -55,7 +55,13 @@ export default function Gnb() {
   if (isError) {
     setIsNoti(false);
   }
-
+  const handleSearchClick = () => {
+    window.gtag("event", "search_page_click", {
+      event_category: "Navigation",
+      event_label: "Search Button",
+      value: 1,
+    });
+  };
   return (
     <>
       <div className={cn("gnbWrap")}>
@@ -72,7 +78,10 @@ export default function Gnb() {
           <span>홈</span>
         </div>
 
-        <div className={page.startsWith("/search") ? cn("gnbOn") : cn("gnb")}>
+        <div
+          className={page.startsWith("/search") ? cn("gnbOn") : cn("gnb")}
+          onClick={handleSearchClick}
+        >
           <div className={cn("onBar")}></div>{" "}
           <Link href={"/search"} className={cn("gnbMenuImg")}>
             <Image
