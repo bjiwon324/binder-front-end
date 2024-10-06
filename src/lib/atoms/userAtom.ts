@@ -37,7 +37,8 @@ export const newAddCoordinate = atomWithStorage("newAddCoordinate", {
 export const searchChoice = atomWithStorage<{
   address: string;
   distance: number;
-  id: number;
+  id?: number;
+  binId?: number;
   isBookMarked: boolean;
   latitude: number;
   longitude: number;

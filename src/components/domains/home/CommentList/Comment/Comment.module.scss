@@ -1,0 +1,97 @@
+.comment-warpper {
+  @include column-flexbox(start, start);
+  position: relative;
+  gap: 1rem;
+  padding: 1.6rem 0;
+  width: 100%;
+  border-bottom: 0.1rem solid #efefef;
+}
+
+.title-box {
+  @include flexbox(start);
+  line-height: 2rem;
+  letter-spacing: -0.0225rem;
+
+  & .best-tag {
+    margin-right: 0.6rem;
+    border-radius: 0.5rem;
+    width: 4.8rem;
+    height: 1.9rem;
+    flex-shrink: 0;
+    background: var(--primary-green);
+    color: var(--white, #fff);
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  & .name {
+    margin-right: 1rem;
+    color: var(--green90);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  & .date {
+    color: #c8d0cd;
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: -0.0195rem;
+  }
+}
+
+.text {
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: -0.016rem;
+  color: var(--card-address);
+}
+
+.btn-field {
+  @include flexbox();
+  padding: 0.4rem 0;
+  border-radius: 0.6rem;
+  background: var(--white);
+  box-shadow: 0px 1px 4px 0px #c8d0cd;
+}
+
+.dislike-btn,
+.like-btn {
+  @include flexbox();
+  gap: 0.6rem;
+  padding: 0.3rem 1.8rem;
+  color: var(--state-btn);
+  font-size: 1.2rem;
+  font-style: normal;
+  letter-spacing: -0.018rem;
+
+  > img {
+    filter: invert(100%) sepia(0%) saturate(6462%) hue-rotate(50deg)
+      brightness(100%) contrast(65%);
+  }
+
+  &.selected {
+    & img {
+      filter: invert(49%) sepia(100%) saturate(562%) hue-rotate(110deg)
+        brightness(90%) contrast(91%);
+    }
+  }
+}
+
+.like-btn {
+  border-right: 0.1rem solid #efefef;
+}
+
+.user-action-btn-field {
+  @include flexbox();
+  gap: 1.4rem;
+  position: absolute;
+  right: 0;
+  bottom: 1.6rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: -0.0195rem;
+  > button {
+    color: var(--noti-date);
+    text-decoration-line: underline;
+  }
+}

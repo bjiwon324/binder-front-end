@@ -13,7 +13,7 @@
   font-weight: 400;
   letter-spacing: -0.021rem;
   animation: toast-slide 2.5s ease-in-out forwards;
-  z-index: 10;
+  z-index: 100;
 
   &.green {
     background: rgba(11, 183, 109, 0.8);

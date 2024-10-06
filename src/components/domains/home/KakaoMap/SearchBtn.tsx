@@ -1,8 +1,12 @@
+import { loginState } from "@/lib/atoms/userAtom";
 import classNames from "classnames/bind";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "./KakaoMap.module.scss";
+import { useQuery } from "@tanstack/react-query";
+import { getMembers } from "@/lib/apis/members";
 
 const cn = classNames.bind(styles);
 

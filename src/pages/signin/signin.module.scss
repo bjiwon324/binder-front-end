@@ -1,12 +1,14 @@
 .btns-wrapper {
+  @include column-flexbox();
   position: relative;
   width: 100%;
   padding: 12rem 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 
   gap: 1.7rem;
+}
+
+.back-btn {
+  margin: 8.3rem 2rem 0;
 }
 .description {
   color: var(--card-address);
@@ -23,8 +25,6 @@
 }
 
 .wrapper {
-  text-align: center;
-
   width: 100%;
   max-width: 60rem;
   height: 100vh;
