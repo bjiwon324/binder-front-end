@@ -1,13 +1,15 @@
+import LoginToast from "@/components/domains/signin/LoginToast";
 import SocialoginButton from "@/components/domains/signin/SocialoginButton";
 import { SOCIAL_LOGIN_URL } from "@/lib/constants/urls";
 import classNames from "classnames/bind";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import styles from "./signin.module.scss";
-import LoginToast from "@/components/domains/signin/LoginToast";
 
 const cn = classNames.bind(styles);
 
 export default function Signin() {
+  const router = useRouter();
   const handleClickKakaoSignIn = () => {
     window.location.href = SOCIAL_LOGIN_URL + "/kakao";
   };
@@ -22,11 +24,19 @@ export default function Signin() {
 
   return (
     <section className={cn("wrapper")}>
+      <button className={cn("back-btn")} onClick={router.back}>
+        <Image
+          src={"/images/icon-left-arrow.svg"}
+          alt="뒤로가기"
+          width={8}
+          height={16}
+        />
+      </button>
       <div>
         <article className={cn("title-box")}>
           <Image
             alt="logo"
-            src={"/images/icon-sample-logo.svg"}
+            src={"/images/logo.svg"}
             objectFit="fit"
             width={120}
             height={39}

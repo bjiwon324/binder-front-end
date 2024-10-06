@@ -1,3 +1,5 @@
+import CommentList from "@/components/domains/home/CommentList";
+import { binType } from "@/lib/constants/binType";
 import { useDrag } from "@/lib/hooks/useDrag";
 import { useToggle } from "@/lib/hooks/useToggle";
 import classNames from "classnames/bind";
@@ -22,7 +24,11 @@ interface Props {
 export function ImgField({ imageUrl }: { imageUrl?: string }) {
   return (
     <div className={cn("img-box")}>
-      {imageUrl && <Image src={imageUrl} alt="쓰레기통 이미지" fill />}
+      {imageUrl ? (
+        <Image src={imageUrl} alt="쓰레기통 이미지" fill />
+      ) : (
+        <p>등록된 사진이 없습니다</p>
+      )}
     </div>
   );
 }
@@ -36,7 +42,8 @@ export default function DropBinInfo({
   const [isVisible, setIsVisible] = useState(true);
   const [isReport, isReportOpen, iseReportClose] = useToggle(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [cardHeight, setCardHeight] = useState<number | string>(400);
+  const [cardHeight, setCardHeight] = useState<number | string>(460);
+
   const router = useRouter();
 
   const [
@@ -81,12 +88,16 @@ export default function DropBinInfo({
     setTimeout(() => setIsButtonDisabled(false), 1000);
   };
 
+  const handleRouteSignin = () => {
+    return router.push("/signin");
+  };
+
   const handleClickBookmark = () => {
+    if (isButtonDisabled) return;
     if (binDetailData?.binInfoForMember === null) {
-      return router.push("/signin");
+      return handleRouteSignin();
     }
 
-    if (isButtonDisabled) return;
     disableButtonTemporarily();
 
     if (binDetailData?.binInfoForMember.isBookMarked) {
@@ -97,7 +108,7 @@ export default function DropBinInfo({
   };
   const handleClickLike = () => {
     if (binDetailData?.binInfoForMember === null) {
-      return router.push("/signin");
+      return handleRouteSignin();
     }
     if (isButtonDisabled) return;
     disableButtonTemporarily();
@@ -110,7 +121,7 @@ export default function DropBinInfo({
   };
   const handleClickDisLike = () => {
     if (binDetailData?.binInfoForMember === null) {
-      return router.push("/signin");
+      return handleRouteSignin();
     }
     if (isButtonDisabled) return;
     disableButtonTemporarily();
@@ -127,8 +138,10 @@ export default function DropBinInfo({
     setTimeout(closeDropDown, 290);
   };
 
-  useOnClickOutside(ref, () => {
-    if (!isReport) handleClose();
+  useOnClickOutside(ref, (e) => {
+    if (cardHeight === "100%") return;
+    if (isReport && cardHeight === "100%") return;
+    if (!isReport && cardHeight !== "100%") handleClose();
   });
 
   if (isLoading) {
@@ -138,15 +151,34 @@ export default function DropBinInfo({
   return (
     <div className={cn("drop")}>
       <div
-        className={cn("dropWrap", { exit: !isVisible })}
+        className={cn("dropWrap", {
+          exit: !isVisible,
+          isFill: cardHeight === "100%",
+        })}
         ref={ref}
         onTouchStart={handleDragStart}
         onTouchMove={handleDrag}
         onTouchEnd={handleDragEnd}
         style={{ height: cardHeight }}
       >
-        <button className={cn("drag-btn")}></button>
+        {cardHeight !== "100%" && (
+          <button
+            onClick={() => setCardHeight("100%")}
+            className={cn("drag-btn")}
+          ></button>
+        )}
+
         <div className={cn("title-box")}>
+          {cardHeight === "100%" && (
+            <button className={cn("back-btn")} onClick={handleClose}>
+              <Image
+                src={"/images/icon-left-arrow.svg"}
+                alt="뒤로 가기"
+                width={8}
+                height={16}
+              />
+            </button>
+          )}
           <div className={cn("title-text")}>
             <h6 className={cn("title")}>{binDetailData?.title}</h6>
             <p className={cn("address")}>
@@ -158,9 +190,18 @@ export default function DropBinInfo({
               />
               {binDetailData?.address}
             </p>
+            <p className={cn("bintype-tag")}>
+              {binType(binDetailData?.binType)}
+            </p>
           </div>
-          <div>
-            <Link href={`/mypage/edit/${binId}`}>
+          <div className={cn("title-btn-field")}>
+            <Link
+              href={
+                binDetailData?.binInfoForMember !== null
+                  ? `/mypage/edit/${binId}`
+                  : "/signin"
+              }
+            >
               <button>
                 <Image
                   src={"/images/icon-edit-pen-btn.svg"}
@@ -171,7 +212,14 @@ export default function DropBinInfo({
               </button>
             </Link>
 
-            <button className={cn("report-btn")} onClick={isReportOpen}>
+            <button
+              className={cn("report-btn")}
+              onClick={() => {
+                binDetailData?.binInfoForMember !== null
+                  ? isReportOpen()
+                  : router.push("/signin");
+              }}
+            >
               <Image
                 src={"/images/icon-report-btn.svg"}
                 alt="신고하기 버튼"
@@ -251,13 +299,8 @@ export default function DropBinInfo({
             <p> {Math.floor(distance) + "m"}</p>
           </div>
         </div>
-        <div className={cn("comment-title-feild")}>
-          <h6 className={cn("comment-title")}>댓글</h6>
-          <div>
-            <button className={cn("comment-sort-btn")}>추천순</button>
-            <button className={cn("comment-sort-btn")}>최신순 </button>
-          </div>
-        </div>
+        <CommentList binId={binId} isFill={cardHeight === "100%"} />
+
         {isSuccessMybookmark && (
           <Toast
             isgreen

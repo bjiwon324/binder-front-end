@@ -108,7 +108,6 @@ export default function KakaoMap({
         x: center.getLat(),
         y: center.getLng(),
       };
-      console.log("bins", bins);
       if (
         newCenterCoordinate.x !== centerCoordinate.x ||
         newCenterCoordinate.y !== centerCoordinate.y
