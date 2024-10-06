@@ -79,6 +79,7 @@ export default function CommentList({ binId, isFill }: Props) {
 
   useEffect(() => {
     if (loadMoreRef.current) {
+      console.log(commentsListData?.pages[0]);
       observeLastElement(loadMoreRef.current);
     }
   }, [observeLastElement]);
@@ -120,13 +121,13 @@ export default function CommentList({ binId, isFill }: Props) {
             />
           ))
         )}
+        {commentsListData?.pages[0].commentDetails.length === 0 && (
+          <p className={cn("none-text")}>댓글이 없습니다.</p>
+        )}
       </ul>
       <div ref={loadMoreRef} className={cn("loading-trigger")}>
         {isFetchingNextPage && <p>로딩 중...</p>}
       </div>
-      {!hasNextPage && (
-        <p className={cn("none-text")}>더 이상 댓글이 없습니다.</p>
-      )}
       {isFill && (
         <CommentForm
           binId={binId}
