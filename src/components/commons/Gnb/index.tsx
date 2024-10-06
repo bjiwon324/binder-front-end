@@ -48,6 +48,7 @@ export default function Gnb() {
   useEffect(() => {
     if (isSuccess) {
       setIsNoti(noti.hasUnread);
+      setLoginState(true);
     }
   }, [isSuccess]);
 
