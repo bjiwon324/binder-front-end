@@ -53,11 +53,13 @@ export default function Gnb() {
     setIsNoti(false);
   }
   const handleSearchClick = () => {
-    window.gtag("event", "search_page_click", {
-      event_category: "Navigation",
-      event_label: "Search Button",
-      value: 1,
-    });
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "search_page_click", {
+        event_category: "Navigation",
+        event_label: "Search Button",
+        value: 1,
+      });
+    }
   };
   return (
     <>
