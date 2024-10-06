@@ -4,7 +4,7 @@
   max-width: 60rem;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -21,13 +21,46 @@
   padding: 4rem 2rem;
   // padding: 4rem 2rem 11.2rem;
   box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.25);
-  background-color: var(--white);
+  background-color: var(--white) !important;
   position: absolute;
   bottom: 0;
   animation: slide-up 0.3s ease-out;
 
   &.exit {
     animation: slide-down 0.3s ease-out forwards;
+  }
+
+  &.isFill {
+    border-radius: 0;
+    overflow: scroll;
+
+    & .back-btn {
+      display: inline-block;
+    }
+    & .title-box {
+      @include flexbox(start);
+      position: fixed;
+      top: 0rem;
+      left: 0rem;
+      padding: 3.6rem 2rem 1.6rem;
+      width: 100%;
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+      background-color: var(--white);
+      z-index: 3;
+      gap: 2rem;
+
+      & .bintype-tag {
+        display: none;
+      }
+      & .title-btn-field {
+        position: absolute;
+        right: 2rem;
+      }
+    }
+
+    & .img-box {
+      margin-top: 11rem;
+    }
   }
 }
 
@@ -53,6 +86,18 @@
     letter-spacing: -0.01rem;
     color: var(--green90);
   }
+  & .bintype-tag {
+    color: var(--btn-color);
+    padding: 0.5rem 1.3rem;
+    margin-top: 0.8rem;
+    display: inline-block;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: -0.014rem;
+    border-radius: 1.8rem;
+    border: 1px solid var(--d9d9d9);
+    flex-shrink: 0;
+  }
 
   & .address {
     @include flexbox(start);
@@ -65,6 +110,8 @@
 
 .img-box {
   position: relative;
+  text-align: center;
+  flex-shrink: 0;
   bottom: 0.2rem;
   width: 100%;
   height: 14.3rem;
@@ -74,6 +121,17 @@
     #f2f2f2;
   > img {
     object-fit: cover;
+  }
+
+  > p {
+    margin: 12rem 2rem 0 0;
+    font-size: 1.6rem;
+    font-weight: 400;
+    letter-spacing: -0.024rem;
+    color: var(--btn-color);
+  }
+  @include respondTo(small) {
+    height: 16.3rem;
   }
 }
 
@@ -129,7 +187,7 @@
     letter-spacing: -0.012rem;
 
     &.none {
-      opacity: 0.4;
+      opacity: 0.3;
     }
   }
 }
@@ -164,27 +222,5 @@
   }
   100% {
     transform: translateY(100%);
-  }
-}
-
-.comment-title {
-  &-feild {
-    @include flexbox(between);
-    width: 100%;
-  }
-  font-size: 1.9rem;
-  font-weight: 600;
-  line-height: 2.6rem; /* 136.842% */
-  letter-spacing: -0.019rem;
-  color: var(--green90);
-}
-
-.comment-sort-btn {
-  color: var(--btn-color);
-  font-size: 1.3rem;
-  line-height: 2rem;
-  letter-spacing: -0.0195rem;
-  &:first-child {
-    margin-right: 2rem;
   }
 }

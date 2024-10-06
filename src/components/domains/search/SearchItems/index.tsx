@@ -40,8 +40,9 @@ export default function SearchItems({
 
   const handleClickItem = (item: any) => {
     setChoice(item);
-    return router.push(`/search/${item.id}`);
+    return router.push(`/search/${item.id || item.binId}`);
   };
+
   const handlePickPrev = (data: any) => {
     setPrevSearchPick(data);
   };

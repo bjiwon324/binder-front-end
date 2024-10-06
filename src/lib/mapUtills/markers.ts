@@ -105,7 +105,7 @@ export const updateMarkers = (
     );
 
     window.kakao.maps.event.addListener(marker, "click", () => {
-      handleClickMarker(bin.id);
+      handleClickMarker(bin.id || bin.binId);
     });
 
     return marker;

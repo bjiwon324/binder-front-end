@@ -108,7 +108,6 @@ export default function KakaoMap({
         x: center.getLat(),
         y: center.getLng(),
       };
-
       if (
         newCenterCoordinate.x !== centerCoordinate.x ||
         newCenterCoordinate.y !== centerCoordinate.y
@@ -323,7 +322,7 @@ export default function KakaoMap({
         <RecommendCard
           setIsCardHidden={setIsCardHidden}
           isCardHidden={isCardHidden}
-          binDataId={bins[0]?.id || choice.id}
+          binDataId={bins[0]?.id || choice.id || choice.binId!}
           distance={bins[0]?.distance || choice.distance}
         />
       )}
