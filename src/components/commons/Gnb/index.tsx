@@ -61,11 +61,20 @@ export default function Gnb() {
       });
     }
   };
+  const handleAddBin = () => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "add_bin_click", {
+        event_category: "Navigation",
+        event_label: "Add Bin Button",
+        value: 1,
+      });
+    }
+  };
   return (
     <>
       <div className={cn("gnbWrap")}>
         {router.asPath === "/mypage" && (
-          <Link href={"/addbin"} className={cn("more")}>
+          <Link href={"/addbin"} className={cn("more")} onClick={handleAddBin}>
             <Image src={more} alt={"쓰레기통 작성"} fill sizes="52px" />
           </Link>
         )}

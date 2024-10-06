@@ -7,8 +7,21 @@ import styles from "./KakaoMap.module.scss";
 const cn = classNames.bind(styles);
 
 function SearchBtn() {
+  const handleSearchClick = () => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "search_page_click", {
+        event_category: "Navigation",
+        event_label: "Search Button",
+        value: 1,
+      });
+    }
+  };
   return (
-    <Link href={"/search"} className={cn("btn-search-link")}>
+    <Link
+      href={"/search"}
+      className={cn("btn-search-link")}
+      onClick={handleSearchClick}
+    >
       <button>
         <Image
           src={"/images/search.svg"}
@@ -23,8 +36,21 @@ function SearchBtn() {
 }
 
 function AddBinBtn() {
+  const handleAddBin = () => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "add_bin_click", {
+        event_category: "Navigation",
+        event_label: "Add Bin Button",
+        value: 1,
+      });
+    }
+  };
   return (
-    <Link href={"/addbin"} className={cn("btn-addbin-link")}>
+    <Link
+      href={"/addbin"}
+      className={cn("btn-addbin-link")}
+      onClick={handleAddBin}
+    >
       <button>
         <Image
           src={"/images/icon-plus.svg"}
