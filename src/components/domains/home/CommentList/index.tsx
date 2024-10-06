@@ -1,7 +1,7 @@
 import { getComments, SortType } from "@/lib/apis/comments";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import styles from "./CommentList.module.scss";
@@ -16,9 +16,33 @@ interface Props {
 export default function CommentList({ binId, isFill }: Props) {
   const [sortType, setSortType] = useState<SortType>("LIKE_COUNT_DESC");
   const [fixCommentId, setFixCommentId] = useState(0);
-  const { data: commentsListData, refetch: refetchComments } = useQuery({
-    queryKey: ["comments", binId, sortType],
-    queryFn: () => getComments(binId, sortType),
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const {
+    data: commentsListData,
+    refetch: refetchComments,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["comments", sortType],
+    queryFn: ({ pageParam }) =>
+      getComments(
+        binId,
+        sortType,
+        pageParam.lastCommentId,
+        pageParam.lastLikeCount
+      ),
+    initialPageParam: { lastCommentId: 0, lastLikeCount: 0 },
+    getNextPageParam: (lastPage) => {
+      if (lastPage.commentDetails.length === 0) return undefined;
+      const lastComment =
+        lastPage.commentDetails[lastPage.commentDetails.length - 1];
+      return {
+        lastCommentId: lastComment.commentId,
+        lastLikeCount: lastComment.likeCount,
+      };
+    },
   });
 
   const handleClickSortType = (listSortType: SortType) => {
@@ -31,11 +55,33 @@ export default function CommentList({ binId, isFill }: Props) {
 
   const bestLikeCount = commentsListData
     ? Math.max(
-        ...commentsListData.commentDetails.map(
-          (comment: any) => comment.likeCount
+        ...commentsListData.pages.flatMap((page) =>
+          page.commentDetails.map((comment: any) => comment.likeCount)
         )
       )
     : 0;
+
+  const observeLastElement = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (isFetchingNextPage) return;
+      if (observerRef.current) observerRef.current.disconnect();
+
+      observerRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+
+      if (node) observerRef.current.observe(node);
+    },
+    [isFetchingNextPage, hasNextPage, fetchNextPage]
+  );
+
+  useEffect(() => {
+    if (loadMoreRef.current) {
+      observeLastElement(loadMoreRef.current);
+    }
+  }, [observeLastElement]);
 
   return (
     <>
@@ -63,19 +109,24 @@ export default function CommentList({ binId, isFill }: Props) {
         </div>
       </div>
       <ul className={cn("comments-list")}>
-        {commentsListData && commentsListData.commentDetails.length !== 0 ? (
-          commentsListData.commentDetails.map((comment: any) => (
+        {commentsListData?.pages.map((page) =>
+          page.commentDetails.map((comment: any) => (
             <Comment
+              key={comment.commentId}
               commentData={comment}
               refetchComments={refetchComments}
               isBest={comment.likeCount === bestLikeCount}
               onClickFixState={handleClickFixState}
             />
           ))
-        ) : (
-          <p className={cn("none-text")}>댓글이 없습니다.</p>
         )}
       </ul>
+      <div ref={loadMoreRef} className={cn("loading-trigger")}>
+        {isFetchingNextPage && <p>로딩 중...</p>}
+      </div>
+      {!hasNextPage && (
+        <p className={cn("none-text")}>더 이상 댓글이 없습니다.</p>
+      )}
       {isFill && (
         <CommentForm
           binId={binId}

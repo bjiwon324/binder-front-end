@@ -3,7 +3,7 @@ import { useToggle } from "@/lib/hooks/useToggle";
 import classNames from "classnames/bind";
 import Image from "next/image";
 import styles from "./Comment.module.scss";
-import { useCommentActions } from "./useCommentActions"; // 분리한 훅 가져오기
+import { useCommentActions } from "./useCommentActions";
 
 const cn = classNames.bind(styles);
 interface Props {
@@ -73,7 +73,6 @@ export default function Comment({
       </div>
       <div className={cn("user-action-btn-field")}>
         {/* {!commentData.commentInfoForMember.isWriter && <button>신고</button>} */}
-
         {commentData.commentInfoForMember.isWriter && (
           <>
             <button onClick={openAskFixModal}>수정</button>

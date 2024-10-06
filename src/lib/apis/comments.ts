@@ -2,12 +2,29 @@ import { instance } from "./axios";
 
 export type SortType = "CREATED_AT_DESC" | "LIKE_COUNT_DESC";
 
-export const getComments = async (id: string | number, sortType: SortType) => {
+export const getComments = async (
+  id: string | number,
+  sortType: SortType,
+  lastCommentId = 0,
+  lastLikeCount = 0
+) => {
   try {
-    const res = await instance.get(`/comments`, {
-      params: { binId: id, sort: sortType },
-    });
-    return res.data;
+    if (lastCommentId === 0) {
+      const res = await instance.get(`/comments`, {
+        params: { binId: id, sort: sortType },
+      });
+      return res.data;
+    } else if (sortType === "LIKE_COUNT_DESC") {
+      const res = await instance.get(`/comments`, {
+        params: { binId: id, sort: sortType, lastCommentId, lastLikeCount },
+      });
+      return res.data;
+    } else {
+      const res = await instance.get(`/comments`, {
+        params: { binId: id, sort: "CREATED_AT_DESC", lastCommentId },
+      });
+      return res.data;
+    }
   } catch (err: any) {
     console.log(err);
     throw err;
