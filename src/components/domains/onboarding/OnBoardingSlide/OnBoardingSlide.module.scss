@@ -1,6 +1,9 @@
 .slideWrap {
   z-index: 11;
   background-color: var(--white);
+  margin-top: -100vh;
+  max-width: 60rem;
+  width: 100%;
 }
 
 .slide {

@@ -79,7 +79,6 @@ export default function CommentList({ binId, isFill }: Props) {
 
   useEffect(() => {
     if (loadMoreRef.current) {
-      console.log(commentsListData?.pages[0]);
       observeLastElement(loadMoreRef.current);
     }
   }, [observeLastElement]);

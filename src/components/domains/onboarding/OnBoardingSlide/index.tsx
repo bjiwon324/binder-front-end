@@ -1,6 +1,7 @@
 import onBoarding1 from "@/../public/images/onBoarding1.svg";
 import onBoarding2 from "@/../public/images/onBoarding2.svg";
 import onBoarding3 from "@/../public/images/onBoarding3.svg";
+import Portal from "@/components/commons/Modal/Portal";
 import { onBoardingAtom } from "@/lib/atoms/atom";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
@@ -33,42 +34,44 @@ export default function OnBoardingSlide() {
   };
 
   return (
-    <>
-      <Swiper
-        id="onBoarding"
-        onSwiper={(swiper: any) => (swiperRef.current = swiper)}
-        modules={[Pagination]}
-        spaceBetween={50}
-        pagination={{ clickable: true }}
-        slidesPerView={1}
-        className={cn("slideWrap")}
-      >
-        <SwiperSlide className={cn("slide")}>
-          <OnBoardingItem
-            title="근처 쓰레기통을 찾아보세요"
-            subTitle="추가설명"
-            imgs={onBoarding1}
-            next={slideNext}
-          />
-        </SwiperSlide>
-        <SwiperSlide className={cn("slide")}>
-          <OnBoardingItem
-            title="신규 쓰레기통을 등록해 주세요"
-            subTitle="추가설명"
-            imgs={onBoarding2}
-            next={slideNext}
-          />
-        </SwiperSlide>
-        <SwiperSlide className={cn("slide")}>
-          <OnBoardingItem
-            title="위치 동의 받고 빠르게 안내 받아보세요"
-            imgs={onBoarding3}
-            next={lastSlide}
-          />
-        </SwiperSlide>
-      </Swiper>
+    <Portal>
+      <>
+        <Swiper
+          id="onBoarding"
+          onSwiper={(swiper: any) => (swiperRef.current = swiper)}
+          modules={[Pagination]}
+          spaceBetween={50}
+          pagination={{ clickable: true }}
+          slidesPerView={1}
+          className={cn("slideWrap")}
+        >
+          <SwiperSlide className={cn("slide")}>
+            <OnBoardingItem
+              title="근처 쓰레기통을 찾아보세요"
+              subTitle="추가설명"
+              imgs={onBoarding1}
+              next={slideNext}
+            />
+          </SwiperSlide>
+          <SwiperSlide className={cn("slide")}>
+            <OnBoardingItem
+              title="신규 쓰레기통을 등록해 주세요"
+              subTitle="추가설명"
+              imgs={onBoarding2}
+              next={slideNext}
+            />
+          </SwiperSlide>
+          <SwiperSlide className={cn("slide")}>
+            <OnBoardingItem
+              title="위치 동의 받고 빠르게 안내 받아보세요"
+              imgs={onBoarding3}
+              next={lastSlide}
+            />
+          </SwiperSlide>
+        </Swiper>
 
-      <button onClick={slideNext}>Next Slide</button>
-    </>
+        {/* <button onClick={slideNext}>Next Slide</button> */}
+      </>
+    </Portal>
   );
 }
