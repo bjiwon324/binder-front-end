@@ -6,6 +6,7 @@
   &-feild {
     @include flexbox(between);
     width: 100%;
+    margin-top: 1.2rem;
   }
   font-size: 1.9rem;
   font-weight: 600;
