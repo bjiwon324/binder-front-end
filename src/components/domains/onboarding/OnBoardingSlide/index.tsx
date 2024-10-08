@@ -48,7 +48,6 @@ export default function OnBoardingSlide() {
           <SwiperSlide className={cn("slide")}>
             <OnBoardingItem
               title="근처 쓰레기통을 찾아보세요"
-              subTitle="추가설명"
               imgs={onBoarding1}
               next={slideNext}
             />
@@ -56,7 +55,6 @@ export default function OnBoardingSlide() {
           <SwiperSlide className={cn("slide")}>
             <OnBoardingItem
               title="신규 쓰레기통을 등록해 주세요"
-              subTitle="추가설명"
               imgs={onBoarding2}
               next={slideNext}
             />
