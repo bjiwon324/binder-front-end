@@ -27,13 +27,13 @@ export default function Gnb() {
   useEffect(() => {
     setPage(router.asPath);
   }, [router]);
-
+  console.log(page);
   const {
     data: noti,
     isSuccess,
     isError,
   } = useQuery({
-    queryKey: ["noti"],
+    queryKey: ["noti", page],
     queryFn: getNotiUnread,
 
     retry: (failureCount, error: any) => {
