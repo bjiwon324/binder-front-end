@@ -33,7 +33,7 @@ export default function Gnb() {
     isSuccess,
     isError,
   } = useQuery({
-    queryKey: ["noti"],
+    queryKey: ["noti", page],
     queryFn: getNotiUnread,
 
     retry: (failureCount, error: any) => {
