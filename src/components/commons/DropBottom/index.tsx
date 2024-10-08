@@ -112,8 +112,8 @@ export default function DropWrap({
   );
 }
 
-DropWrap.defaultProps = {
-  children: <div>test</div>,
-  title: "제목",
-  btn: "전송",
-};
+// DropWrap.defaultProps = {
+//   children: <div>test</div>,
+//   title: "제목",
+//   btn: "전송",
+// };

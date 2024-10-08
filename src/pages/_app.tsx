@@ -1,6 +1,6 @@
 import Gnb from "@/components/commons/Gnb";
 import Splash from "@/components/commons/Splash";
-import { onBoardingAtom, themeColor } from "@/lib/atoms/atom";
+import { themeColor } from "@/lib/atoms/atom";
 import "@/styles/base/index.scss";
 import "@/styles/global.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -14,7 +14,6 @@ import { useEffect } from "react";
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [onBoard] = useAtom(onBoardingAtom);
   const [themeMode] = useAtom(themeColor);
   const theme = themeMode === "라이트 모드" ? "light" : "dark";
 
@@ -24,11 +23,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (onBoard === false) {
-      router.push("/onboarding");
-    }
-  }, [onBoard]);
   useEffect(() => {
     // 화면 높이 계산 함수
     const setVh = () => {
@@ -57,14 +51,16 @@ export default function App({ Component, pageProps }: AppProps) {
       />
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-ZEWF6HWTJB"
-        strategy="afterInteractive"
+        strategy="beforeInteractive"
       />
       <Script id="google-analytics" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-ZEWF6HWTJB');
+          gtag('config', 'G-ZEWF6HWTJB',{
+            cookie_flags: 'SameSite=Lax; Secure'
+        });
         `}
       </Script>
       <div id="webWrap">

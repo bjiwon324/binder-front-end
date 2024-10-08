@@ -118,10 +118,19 @@ export default function KakaoMap({
       }
     }
   }, 500);
-
+  const handleMarkerClick = () => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "Marker_click", {
+        event_category: "Navigation",
+        event_label: "Marker Button",
+        value: 1,
+      });
+    }
+  };
   const handleClickMarker = (id: number) => {
     setSelectedBinId(id);
     toggleBinInfoOpen();
+    handleMarkerClick();
   };
 
   const { mapRef, myMarkerRef, binkMarkerRef } = useKakaoMap(

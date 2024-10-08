@@ -58,7 +58,7 @@ export default function Card({ ...item }: CardProps) {
         alt="초록색 위치 표시 핀"
         width={16}
         height={19}
-        layout="intrinsic"
+        // layout="intrinsic"
         className={cn("")}
       />
       <div className={cn("card-text-box")}>

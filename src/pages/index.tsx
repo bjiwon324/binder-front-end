@@ -2,7 +2,8 @@ import KakaoMap from "@/components/domains/home/KakaoMap";
 import styles from "@/components/domains/home/KakaoMap/KakaoMap.module.scss";
 import BtnField from "@/components/domains/home/KakaoMap/SearchBtn";
 import Tutorial from "@/components/domains/home/Tutorial";
-import { tutorialAtom } from "@/lib/atoms/atom";
+import OnBoardingSlide from "@/components/domains/onboarding/OnBoardingSlide";
+import { onBoardingAtom, tutorialAtom } from "@/lib/atoms/atom";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
@@ -29,9 +30,11 @@ export default function Home({
   isSearch?: boolean;
 }) {
   const [tutorial] = useAtom(tutorialAtom);
+  const [onBoard] = useAtom(onBoardingAtom);
   return (
     <>
       {tutorial !== true && <Tutorial />}
+      {onBoard !== true && <OnBoardingSlide />}
       <section className={cn("map-wrapper")}>
         <BtnField isAddBin={isAddBin} />
         <KakaoMap isAddBin={isAddBin} isSearch={isSearch} />
