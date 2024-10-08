@@ -12,7 +12,7 @@ export default function Document() {
         <meta property="og:description" content="내 주변 쓰레기통을 찾아보자" />
         <meta
           property="og:image"
-          content="https://www.bin-finder.net/images/logo-144.png?ver=1"
+          content="https://www.bin-finder.net/images/shareLogo.png?ver=1"
         />
         <meta property="og:url" content="https://www.bin-finder.net/" />
         <meta property="og:type" content="website" />
@@ -29,7 +29,7 @@ export default function Document() {
         />
         <meta
           name="twitter:image"
-          content="https://www.bin-finder.net/images/logo-144.png?ver=1"
+          content="https://www.bin-finder.net/images/shareLogo.png?ver=1"
         />
 
         <link rel="manifest" href="/manifest.json" />

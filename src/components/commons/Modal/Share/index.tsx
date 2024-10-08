@@ -15,19 +15,24 @@ interface IModalProps {
 
 export default function Share({ modalClose, setShare }: IModalProps) {
   const copyURL = () => {
-    let currentUrl = "https://www.bin-finder.net/";
-    let t = document.createElement("textarea");
-    document.body.appendChild(t);
-    t.value = currentUrl;
-    t.select();
-    document.execCommand("copy");
-    document.body.removeChild(t);
-    modalClose();
-    setShare(true);
+    const currentUrl = "https://www.bin-finder.net/";
+    navigator.clipboard
+      .writeText(currentUrl)
+      .then(() => {
+        setShare(true);
+        modalClose();
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+      });
   };
 
   useEffect(() => {
-    if (window.Kakao && !window.Kakao.isInitialized()) {
+    if (
+      typeof window !== "undefined" &&
+      window.Kakao &&
+      !window.Kakao.isInitialized()
+    ) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
     }
   }, []);
