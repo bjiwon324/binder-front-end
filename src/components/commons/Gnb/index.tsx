@@ -13,7 +13,7 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./Gnb.module.scss";
 
 const cn = classNames.bind(styles);
@@ -22,19 +22,24 @@ export default function Gnb() {
   const [page, setPage] = useState<string>("");
   const [isNoti, setIsNoti] = useAtom(notiAtom);
   const [, setLoginState] = useAtom(loginState);
+  const notiSet = useMemo(() => {
+    let date = new Date().getMinutes();
+    return page + date;
+  }, [page]);
 
   const router = useRouter();
   useEffect(() => {
     setPage(router.asPath);
   }, [router]);
-  console.log(page);
+
   const {
     data: noti,
     isSuccess,
     isError,
   } = useQuery({
-    queryKey: ["noti", page],
+    queryKey: ["noti", notiSet],
     queryFn: getNotiUnread,
+    gcTime: 1000,
 
     retry: (failureCount, error: any) => {
       if (error.response?.status === 401) {
