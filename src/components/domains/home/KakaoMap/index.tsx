@@ -312,6 +312,7 @@ export default function KakaoMap({
 
   useEffect(() => {
     if (toggleMyLocation) {
+      handleClickGetmyLocation();
       const id = setInterval(() => {
         handleClickGetmyLocation();
       }, 5000);
