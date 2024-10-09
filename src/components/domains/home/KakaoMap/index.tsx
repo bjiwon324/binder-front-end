@@ -312,12 +312,11 @@ export default function KakaoMap({
 
   useEffect(() => {
     if (toggleMyLocation) {
-      handleClickGetmyLocation();
-
       const id = setInterval(() => {
         handleClickGetmyLocation();
       }, 5000);
 
+      handleClickGetmyLocation();
       setIntervalId(id);
     } else if (intervalId) {
       clearInterval(intervalId);
