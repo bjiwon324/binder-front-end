@@ -273,7 +273,7 @@ export default function KakaoMap({
       }
     } catch (error) {
       console.error("데이터 다시 불러오기 실패:", error);
-      toggleMyLocationClose();
+      // toggleMyLocationClose();
     }
   };
 
