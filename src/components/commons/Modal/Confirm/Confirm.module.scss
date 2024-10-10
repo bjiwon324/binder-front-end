@@ -1,0 +1,82 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  @include flexbox();
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 90;
+}
+
+.modal {
+  @include column-flexbox();
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 28.8rem;
+
+  &-title {
+    color: var(--green90);
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 3.7rem;
+    letter-spacing: -0.019rem;
+
+    @include respondTo(small) {
+      font-size: 2.1rem;
+    }
+  }
+
+  &-text {
+    color: var(--comment-text);
+    font-size: 1.6rem;
+
+    line-height: 2.5rem; /* 156.25% */
+    letter-spacing: -0.016rem;
+
+    @include respondTo(small) {
+      font-size: 1.8rem;
+    }
+  }
+
+  @include respondTo(small) {
+    padding: 4.5rem;
+    width: calc(100% - 4rem);
+    max-width: 56rem;
+  }
+}
+
+.buttons {
+  @include flexbox(between);
+  margin-top: 2.9rem;
+  width: 100%;
+  @include respondTo(small) {
+    margin-top: 4.5rem;
+    max-width: 30rem;
+  }
+}
+
+.buttons-gap {
+  width: 0.1rem;
+  height: 1.6rem;
+  background: var(--comment-modal-bg);
+}
+
+.cancel-button,
+.confirm-button {
+  padding: 1rem 2rem;
+  text-wrap: nowrap;
+  width: 45%;
+
+  color: var(--primary-green);
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: -0.0195rem;
+  flex-shrink: 0;
+
+  @include respondTo(small) {
+    font-size: 1.5rem;
+  }
+}

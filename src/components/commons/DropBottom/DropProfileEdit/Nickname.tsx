@@ -1,7 +1,8 @@
+import inputX from "@/../public/images/inputX.svg";
 import classNames from "classnames/bind";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import styles from "./DropProfileEdit.module.scss";
-import inputX from "@/../public/images/inputX.svg";
 
 const cn = classNames.bind(styles);
 
@@ -11,7 +12,7 @@ interface NicknameProps {
   submitNick: boolean;
   prevNickname: string;
   nickname: string;
-  inputValue: string;
+  inputValue?: string;
   handleInputX: () => void;
 }
 export default function Nickname({
@@ -23,6 +24,15 @@ export default function Nickname({
   inputValue,
   handleInputX,
 }: NicknameProps) {
+  const [nicknameLength, setNicknameLength] = useState<number>(
+    prevNickname.length
+  );
+
+  useEffect(() => {
+    if (nickname.length > 0) {
+      setNicknameLength(nickname.length);
+    }
+  }, [nickname]);
   return (
     <div className={cn("nicknameWrap")}>
       <div className={cn("nicknameTitle")}>
@@ -41,15 +51,12 @@ export default function Nickname({
         {errors.nickname ? (
           <div className={cn("nicknameNotiRed")}>{errors.nickname.message}</div>
         ) : (
-          <div className={cn("nicknameNoti")}>
-            {nickname.length === 0 ? prevNickname.length : nickname.length} /
-            16자
-          </div>
+          <div className={cn("nicknameNoti")}>{nicknameLength} / 16자</div>
         )}
       </div>
       <div className={cn("inputWrap")}>
         <input
-          defaultValue={prevNickname}
+          // defaultValue={inputValue}
           className={
             errors.nickname
               ? cn("nicknameInputRed")
@@ -64,7 +71,13 @@ export default function Nickname({
           {...register}
           placeholder="한글, 영어, 숫자만 사용가능 (2자 이상)"
         />
-        <div className={cn("inputX")} onClick={handleInputX}>
+        <div
+          className={cn("inputX")}
+          onClick={() => {
+            handleInputX();
+            setNicknameLength(0);
+          }}
+        >
           <Image src={inputX} alt="인풋 비우기" fill sizes="17px" />
         </div>
       </div>

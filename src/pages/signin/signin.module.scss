@@ -1,36 +1,60 @@
 .btns-wrapper {
+  @include column-flexbox();
   position: relative;
   width: 100%;
   padding: 12rem 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 
   gap: 1.7rem;
 }
+
+.back-btn {
+  margin: 8.3rem 2rem 0;
+  position: relative;
+  height: 1.6rem;
+  width: 0.8rem;
+
+  @include respondTo(small) {
+    width: 0.9rem;
+    height: 1.8rem;
+  }
+}
 .description {
-  color: #515f58;
+  color: var(--card-address);
   font-size: 1.6rem;
   font-weight: 500;
   line-height: 2.5rem; /* 156.25% */
   letter-spacing: -0.024rem;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }
-
+.darkLogo {
+  filter: brightness(999);
+}
 .title-box {
   @include column-flexbox();
+
   gap: 0.7rem;
+  @include respondTo(small) {
+    gap: 1.45rem;
+  }
 }
 
 .wrapper {
-  position: absolute;
-  text-align: center;
-
   width: 100%;
-  max-width: 39rem;
+  max-width: 60rem;
+  height: 100vh;
+  position: fixed;
 
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -60%);
+  background-color: var(--white);
 
-  padding: 0 2rem;
+  > div {
+    position: absolute;
+    padding: 0 2rem;
+
+    width: 100%;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+  }
 }

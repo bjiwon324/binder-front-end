@@ -66,7 +66,7 @@ export function showPosition(position: GeolocationPosition) {
   const latitude = position.coords.latitude;
   const longitude = position.coords.longitude;
   const box = [{ x: latitude, y: longitude }];
-  console.log("Latitude: " + latitude + ", Longitude: " + longitude);
+  //console.log("Latitude: " + latitude + ", Longitude: " + longitude);
   return box;
 }
 

@@ -1,11 +1,22 @@
 @import "@/styles/main.scss";
+
 .textInput {
   width: 100%;
   height: 21rem;
   border-radius: 1rem;
-  border: 1px solid #d9d9d9;
+  border: 1px solid var(--d9d9d9);
   font-size: 1.6rem;
   font-weight: 400;
   display: flex;
-  padding: 1rem;
+  padding: 2rem;
+  text-align: start;
+  resize: none;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }

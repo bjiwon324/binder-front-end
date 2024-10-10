@@ -5,19 +5,42 @@
   z-index: 999;
   width: 100vw;
   height: 100vh;
+  padding: 0 2rem;
   top: 0;
   left: 0;
   background-color: rgba($color: black, $alpha: 0.2);
 }
 .modalWrap {
-  width: 35.6rem;
-  height: 30.3rem;
+  width: 100%;
+  max-width: 35rem;
+  padding: 6.7rem 3rem 6.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 0.9rem;
-  background-color: #fff;
+  background-color: var(--white);
+  border-radius: 14px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  @include respondTo(small) {
+    max-width: 56rem;
+    padding: 8.7rem 3rem;
+    gap: 1.1rem;
+  }
+}
+.deleteModalWrap {
+  width: 35.6rem;
+  height: 21.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+  background-color: var(--white);
   border-radius: 14px;
   position: absolute;
   left: 50%;
@@ -31,9 +54,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #ff3232;
+  border: 2px solid var(--error-red);
+  color: var(--error-red);
   border-radius: 100px;
   margin-top: -2rem;
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var();
 }
 .modalImgWrapAccess {
   width: 4rem;
@@ -41,9 +68,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #0bb76d;
+  border: 2px solid var(--primary-green);
   border-radius: 100px;
   margin-top: -2rem;
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--primary-green);
 }
 .modalImgWrapAudit {
   width: 4rem;
@@ -51,9 +81,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #34423d;
+  border: 2px solid var(--modal-title);
   border-radius: 100px;
   margin-top: -2rem;
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--modal-title);
 }
 .modalImg {
   width: 0.5rem;
@@ -62,40 +95,70 @@
 }
 
 .modalTitle {
-  color: #ff3232;
+  color: var(--error-red);
   text-align: center;
   font-size: 2rem;
   font-weight: 800;
   line-height: 37px;
+  @include respondTo(small) {
+    font-size: 2.2rem;
+  }
 }
 .modalTitleAccess {
-  color: #0bb76d;
+  color: var(--primary-green);
   text-align: center;
   font-size: 2rem;
   font-weight: 800;
   line-height: 37px;
+  @include respondTo(small) {
+    font-size: 2.2rem;
+  }
 }
 .modalTitleAudit {
-  color: #34423d;
+  color: var(--modal-title);
   text-align: center;
   font-size: 2rem;
   font-weight: 800;
   line-height: 37px;
+  @include respondTo(small) {
+    font-size: 2.2rem;
+  }
 }
 
 .modalText {
-  color: #515f58;
+  color: var(--comment-text);
   font-size: 1.6rem;
   text-align: center;
   line-height: 23px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }
 
 .modalClose {
-  color: #a5a5a5;
+  color: var(--btn-color);
   text-align: center;
   font-size: 1.3rem;
   position: absolute;
   bottom: 0;
   margin-bottom: 1.6rem;
   cursor: pointer;
+  @include respondTo(small) {
+    font-size: 1.5rem;
+    bottom: 1.6rem;
+  }
+}
+
+.modalMoreInfo {
+  color: var(--comment-text);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 2.3rem; /* 143.75% */
+  text-decoration-line: underline;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }

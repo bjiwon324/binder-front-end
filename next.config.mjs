@@ -14,6 +14,12 @@ const nextConfig = {
         port: "",
         pathname: "/binder/img/**",
       },
+      {
+        protocol: "https",
+        hostname: "binder-bucket.s3.ap-northeast-2.amazonaws.com",
+        port: "",
+        pathname: "/img/**",
+      },
     ],
   },
   // 다른 Next.js 설정들

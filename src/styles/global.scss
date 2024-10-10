@@ -1,0 +1,145 @@
+// styles/globals.scss (글로벌 파일)
+:root[theme="light"] {
+  --white: #fff;
+  --black: #000;
+  --gray20: #d1dbd6;
+  --primary-green: #0bb76d;
+  --green90: #06130d;
+  --toast-bg: #06130d;
+  --naver-bg: #03c75a;
+  --kakao-text: rgba(0, 0, 0, 0.85);
+  --kakao-bg: #fee500;
+  --google-text: #262200;
+  --google-border: #d1dbd6;
+  --error-red: #ff3232;
+
+  --box-shadow: #c8d0cd;
+  --date-text: #c8d0cd;
+
+  --cart-text: #f4f6f5;
+  --cart-text2: #e1f4ed;
+  --card-reject: #e9aead;
+
+  --green: #75968a;
+  --d9d9d9: #d9d9d9;
+  --btn-none-selected-b: #d9d9d9;
+  --btn-none-selected: #a5a5a5;
+  --card-address: #515f58;
+  --comment-text: #515f58;
+  --comment-modal-bg: #efefef;
+
+  --createat: #a4b7ad;
+
+  --btn-color: #a5a5a5;
+  --btn-selected: #4d4d4d;
+  --btn-primary: #94ccb4;
+  --btn-edit: #3b4943;
+  --distance: #3b4943;
+
+  --card-title: #a6adab;
+
+  --c4c4c4: #c4c4c4;
+
+  --state-btn: #676767;
+  --home-bin-type-btn: #676767;
+
+  --info-alert: #787c8b;
+  --info-alert-bg: #e9e9e9;
+  --info-btn: #fff;
+
+  --detail-title: #6b7772;
+
+  --modal-title: #34423d;
+
+  --splash-text: #5e786c;
+
+  --addbin-img: #f2f2f2;
+
+  --btn-search-link: #88a297;
+
+  --noti-date: #96a9a0;
+
+  --profile-star: #3b866b;
+
+  --detail-address: #96a9a0;
+
+  --toast: #f7f7f7;
+
+  --card-disabled: #e0e3e2;
+  --card-approve: #3cc58a;
+  --input-bg: #fff;
+  --input-text: #4d4d4d;
+  --mypage-toggle-border: #d1dad6;
+}
+
+:root[theme="dark"] {
+  --white: #2b2e2d;
+  --black: #fff;
+  --gray20: #d1dbd6;
+  --primary-green: #0bb76d;
+  --green90: #f6fcf9;
+  --toast-bg: #3b4240;
+  --naver-bg: #03c75a;
+  --kakao-text: rgba(0, 0, 0, 0.85);
+  --kakao-bg: #fee500;
+  --google-text: #262200;
+  --google-border: #d1dbd6;
+  --error-red: #ff3232;
+
+  --box-shadow: #222424;
+  --date-text: #a1b0aa;
+  --cart-text: #252826;
+  --cart-text2: #e1f4ed;
+  --card-reject: #e9aead;
+
+  --green: #75968a;
+  --d9d9d9: #6b7772;
+  --btn-none-selected-b: #3a3e3d;
+  --btn-none-selected: #666f6c;
+  --card-address: #6b7772;
+  --comment-text: #eaf2ee;
+  --comment-modal-bg: #3e3f3f;
+
+  --createat: #a4b7ad;
+
+  --btn-color: #a5a5a5;
+  --btn-selected: #dfe9e5;
+  --btn-primary: #94ccb4;
+  --btn-edit: #3b4943;
+  --distance: #0bb76d;
+
+  --card-title: #a6adab;
+
+  --c4c4c4: #707875;
+
+  --state-btn: #676767;
+  --home-bin-type-btn: #eee;
+  --info-alert: #8e9994;
+  --info-alert-bg: #404442;
+
+  --info-btn: #404442;
+
+  --detail-title: #afbab7;
+
+  --modal-title: #addbcb;
+
+  --splash-text: #5e786c;
+
+  --addbin-img: #3a3e3d;
+
+  --btn-search-link: #88a297;
+
+  --noti-date: #96a9a0;
+
+  --profile-star: #3b866b;
+
+  --detail-address: #96a9a0;
+
+  --toast: #f7f7f7;
+
+  --card-disabled: #202221;
+  --card-approve: #3cc58a;
+  --input-bg: #383b3a;
+  --input-text: #dfe9e5;
+  --mypage-toggle-border: #3e3f3f;
+}

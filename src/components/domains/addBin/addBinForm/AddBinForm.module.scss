@@ -5,22 +5,48 @@
 
     font-size: 1.6rem;
     width: 100%;
-    max-width: 39rem;
-    padding: 2rem;
-    margin: 10rem 0;
+    padding: 1.8rem 2rem 11rem;
+    transition: color 0.3s ease;
+    height: calc(100% - 7.6rem - 8.2rem);
+    overflow-x: hidden;
+
+    background-color: var(--white);
+    @include respondTo(small) {
+      height: calc(100% - 8.32rem - 8.2rem);
+    }
 
     > div {
-      @include column-flexbox(start, start);
+      @include flexbox(start, start);
+      flex-direction: column-reverse;
+      position: relative;
       gap: 1.2rem;
       width: 100%;
+    }
+    @include respondTo(small) {
+      font-size: 1.8rem;
     }
   }
 
   &-selector {
     flex-direction: row !important;
     flex-wrap: wrap;
-    > button {
-      width: 48.2%;
+
+    & .focus {
+      color: $primary-green;
+    }
+
+    &.error {
+      color: $error-red;
+      > button {
+        border-color: $error-red;
+      }
+    }
+    & > button {
+      width: calc(50% - 0.6rem);
+      &:focus {
+        border-color: $primary-green;
+        color: $primary-green;
+      }
     }
   }
 
@@ -30,53 +56,140 @@
     width: 100%;
     cursor: pointer;
 
-    color: #4d4d4d;
+    color: var(--input-text);
+
+    &.error {
+      color: $error-red;
+    }
   }
   &-input {
     padding: 1.4rem;
     width: 100%;
     border-radius: 1rem;
     letter-spacing: -0.024rem;
-    color: #a5a5a5;
-    border: 1px solid #d9d9d9;
-    background: #fff;
+    color: var(--btn-selected);
+    border: 1px solid var(--d9d9d9);
+    background-color: var(--input-bg);
 
     &::placeholder {
-      color: #a5a5a5;
+      color: var(--btn-color);
     }
 
-    & .error {
+    &:focus {
+      border: 1px solid $primary-green;
+    }
+
+    &.error {
+      outline: none;
+      border: 1px solid $error-red;
+    }
+    &-search-button {
+      position: absolute;
+      bottom: 1.55rem;
+      right: 1.4rem;
+      > div {
+        position: relative;
+        width: 1.7rem;
+        height: 1.7rem;
+
+        @include respondTo(small) {
+          bottom: -0.1rem;
+          width: 2.1rem;
+          height: 2.1rem;
+        }
+      }
+    }
+    &-delete-button {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.4rem;
+      > div {
+        position: relative;
+        width: 1.7rem;
+        height: 1.7rem;
+
+        @include respondTo(small) {
+          width: 2.1rem;
+          height: 2.1rem;
+        }
+      }
     }
   }
 
   &-img-box {
     @include column-flexbox();
+    position: relative;
     width: 100%;
     margin-top: 1.2rem;
     height: 14.3rem;
     text-align: center;
     gap: 1.2rem;
     border-radius: 1rem;
-    background-color: #f2f2f2;
+    background-color: var(--addbin-img);
+    overflow: hidden;
 
     &-text {
       font-size: 1.4rem;
       letter-spacing: -0.021rem;
-      color: #a5a5a5;
+      color: var(--btn-color);
     }
   }
 }
 
 .img-input {
-  position: relative;
-  bottom: 10rem;
+  position: absolute;
   left: 3rem;
   z-index: -1;
+  top: 3rem;
 }
 
 .choose {
   font-size: 1.3rem;
   margin-left: 0.3rem;
   letter-spacing: -0.013rem;
-  color: #a5a5a5;
+  color: var(--btn-color);
+  @include respondTo(small) {
+    font-size: 1.5rem;
+  }
+}
+
+.error-message {
+  position: absolute;
+  right: 0;
+  top: 0.3rem;
+  font-size: 1.3rem;
+  color: $error-red;
+  @include respondTo(small) {
+    font-size: 1.5rem;
+  }
+}
+
+.addbin-input:focus + .addbin-label,
+.addbin-selector > button:focus + .addbin-label {
+  color: $primary-green !important;
+  &.error {
+    color: $error-red !important;
+  }
+}
+
+.preview {
+  z-index: 3;
+}
+
+.edit-small-title {
+  padding: 2rem 1.7rem 1.6rem;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 26px;
+  background: var(--cart-text);
+  color: var(--green90);
+  @include respondTo(small) {
+    font-size: 2.1rem;
+  }
+}
+
+.edit-btnWrapper {
+  @include flexbox;
+  width: 100%;
+  gap: 0.8rem;
 }

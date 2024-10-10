@@ -1,18 +1,20 @@
+import { myPageSetting } from "@/lib/atoms/atom";
 import classNames from "classnames/bind";
-import styles from "./MyPageToggle.module.scss";
-import { useState } from "react";
+import { useAtom } from "jotai";
 import MyPageFindBin from "../MyPageFindBin";
 import MyPageSetting from "../MyPageSetting";
+import styles from "./MyPageToggle.module.scss";
 
 const cn = classNames.bind(styles);
 
 export default function MyPageToggle() {
-  const [menu, setMenu] = useState<string>("활동내역");
+  const [menu, setMenu] = useAtom(myPageSetting);
   return (
     <>
       <div className={cn("toggleWrap")}>
         <div className={cn("toggle")}>
           <div
+            data-cy="toggle1"
             className={
               menu === "활동내역" ? cn("toggleItemOn") : cn("toggleItem")
             }
@@ -21,6 +23,7 @@ export default function MyPageToggle() {
             활동내역
           </div>
           <div
+            data-cy="toggle2"
             className={menu === "설정" ? cn("toggleItemOn") : cn("toggleItem")}
             onClick={() => setMenu("설정")}
           >

@@ -1,12 +1,14 @@
+import { patchMembers } from "@/lib/apis/members";
+import { userImg } from "@/lib/atoms/userAtom";
+import { useMutation } from "@tanstack/react-query";
+import classNames from "classnames/bind";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import DropWrap from "..";
-import { useEffect, useState } from "react";
-import classNames from "classnames/bind";
 import styles from "./DropProfileEdit.module.scss";
-import Nickname from "./Nickname";
 import Img from "./Img";
-import { useMutation } from "@tanstack/react-query";
-import { patchMembers } from "@/lib/apis/members";
+import Nickname from "./Nickname";
 
 const cn = classNames.bind(styles);
 
@@ -32,7 +34,8 @@ export default function DropProfileEdit({
 }: EditProfileProps) {
   const [submit, setSubmit] = useState<boolean>(false);
   const [submitNick, setSubmitNick] = useState<boolean>(false);
-  const [imgData, setImgData] = useState<any>(memberData.imageUrl);
+  const [image, setImage] = useAtom(userImg);
+  const [imgData, setImgData] = useState<any>(image);
   const [prevNickname, setPrevNickname] = useState<string>(nick.slice(0, 16));
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -44,7 +47,7 @@ export default function DropProfileEdit({
   } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     profileEdit({
-      nickname: data.nickname,
+      nickname: data.nickname ? data.nickname : prevNickname,
       imageUrl: imgData,
     });
   };
@@ -69,18 +72,36 @@ export default function DropProfileEdit({
   const nickname = useWatch({
     control,
     name: "nickname",
-    defaultValue: "",
+    defaultValue: inputValue,
   });
 
-  useEffect(() => {
-    setSubmit(
-      profileImg.length > 0 || (nickname !== "" && nickname.length > 1)
-    );
-    setSubmitNick(nickname.length > 1);
-  }, [profileImg, nickname]);
   const handleInputX = () => {
     setInputValue("");
   };
+  const handleDefault = () => {
+    // setImage("");
+    setImgData("");
+  };
+  useEffect(() => {
+    const isProfileImgChanged = profileImg.length !== 0 || imgData === "";
+    const isNicknameValid = inputValue.length >= 2;
+    const isNicknameChanged = inputValue !== prevNickname;
+
+    if (isProfileImgChanged && !isNicknameValid) {
+      setSubmit(false);
+    } else if (isProfileImgChanged || (isNicknameChanged && isNicknameValid)) {
+      setSubmit(true);
+    } else {
+      setSubmit(false);
+    }
+
+    setSubmitNick(isNicknameValid);
+  }, [profileImg, inputValue, imgData, prevNickname, image]);
+
+  useEffect(() => {
+    setInputValue(prevNickname);
+  }, [prevNickname]);
+
   return (
     <DropWrap
       title="프로필 수정"
@@ -88,6 +109,7 @@ export default function DropProfileEdit({
       closeBtn={closeBtn}
       btnFunction={handleSubmit(onSubmit)}
       submitState={submit}
+      handleDefault={handleDefault}
     >
       <>
         {/^(naver_|google_|kakao_)/.test(nick) && (
@@ -122,7 +144,7 @@ export default function DropProfileEdit({
                   message: "특수문자는 사용할 수 없습니다.",
                 },
                 onChange: (e) => {
-                  setInputValue(e.target.value); // 입력값 업데이트 함수
+                  setInputValue(e.target.value);
                 },
               }),
             }}

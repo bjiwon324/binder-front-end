@@ -1,23 +1,27 @@
+import inputX from "@/../public/images/inputX.svg";
+import { deleteMembers } from "@/lib/apis/members";
+import { useMutation } from "@tanstack/react-query";
+import classNames from "classnames/bind";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import DropWrap from "..";
-import { useEffect, useState } from "react";
-import classNames from "classnames/bind";
 import styles from "./DropCancel.module.scss";
-import { useMutation } from "@tanstack/react-query";
-import { deleteMembers } from "@/lib/apis/members";
-import inputX from "@/../public/images/inputX.svg";
-import Image from "next/image";
 
 const cn = classNames.bind(styles);
 
 interface DropCancelProps {
   handleDrop: () => void;
+  setDeleteModal: any;
 }
 interface IFormInput {
   cancel: string;
 }
 
-export default function DropCancel({ handleDrop }: DropCancelProps) {
+export default function DropCancel({
+  handleDrop,
+  setDeleteModal,
+}: DropCancelProps) {
   const [cancelStats, setCancelState] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
   const [btnBool, setBtnBoolean] = useState<boolean>(false);
@@ -29,8 +33,8 @@ export default function DropCancel({ handleDrop }: DropCancelProps) {
   const { mutate: cancelMember } = useMutation({
     mutationFn: (data: string) => deleteMembers(data),
     onSuccess: () => {
-      console.log("성공");
       handleDrop();
+      setDeleteModal(true);
     },
   });
 

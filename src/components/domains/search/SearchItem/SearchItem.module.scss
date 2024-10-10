@@ -1,0 +1,26 @@
+@import "@/styles/main.scss";
+
+.itemWrap {
+  display: flex;
+  max-height: 6.3rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2.9rem;
+  border-bottom: 0.1rem solid var(--comment-modal-bg);
+  gap: 1rem;
+}
+.itemTitle {
+  color: var(--card-address);
+  font-size: 1.6rem;
+  line-height: 25px;
+  cursor: pointer;
+  flex: 1;
+}
+.itemDate {
+  color: var(--createat);
+  font-size: 1.4rem;
+  line-height: 37px;
+}
+.itemClose {
+  cursor: pointer;
+}

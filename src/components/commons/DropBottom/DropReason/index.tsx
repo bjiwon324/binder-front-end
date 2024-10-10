@@ -1,11 +1,8 @@
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
-import DropWrap from "..";
-import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import DropWrap from "..";
 import styles from "./DropReason.module.scss";
-import Image from "next/image";
-import defaultImg from "@/../public/images/profileDefault.svg";
-import profileEdit from "@/../public/images/profileEdit.svg";
 
 const cn = classNames.bind(styles);
 
@@ -13,13 +10,27 @@ interface IFormInput {
   text: string;
 }
 
-export default function DropReason() {
+interface Props {
+  title: string;
+  placeholder: string;
+  onHandleSubmit: (data: string) => void;
+  state: "수정" | "등록" | "신고 승인" | "신고 거절" | "정보";
+  closeBtn: () => void;
+}
+export default function DropReason({
+  title,
+  placeholder,
+  onHandleSubmit,
+  closeBtn,
+  state,
+}: Props) {
   const [submit, setSubmit] = useState<boolean>(false);
 
   const { register, handleSubmit, watch } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+    onHandleSubmit(data.text);
   };
+
   const text = watch("text");
   useEffect(() => {
     if (text !== "") {
@@ -31,9 +42,9 @@ export default function DropReason() {
 
   return (
     <DropWrap
-      title="거절 사유 입력"
-      btn="등록"
-      closeBtn={() => {}}
+      title={title}
+      btn={state === "신고 거절" || state === "신고 승인" ? state : "등록"}
+      closeBtn={closeBtn}
       btnFunction={handleSubmit(onSubmit)}
       submitState={submit}
     >
@@ -42,7 +53,7 @@ export default function DropReason() {
           className={cn("textInput")}
           id="text"
           {...register("text")}
-          placeholder="거절 사유를 입력하세요"
+          placeholder={placeholder}
         />
       </form>
     </DropWrap>

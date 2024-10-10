@@ -1,0 +1,51 @@
+.btns-wrapper {
+  @include flexbox(between);
+  position: absolute;
+  bottom: 8rem;
+  right: 2rem;
+  width: calc(100% - 4rem);
+  z-index: 6;
+  opacity: 1;
+
+  &.hasBin {
+    bottom: 20rem;
+  }
+}
+
+.search-around-bin-btn {
+  @include flexbox();
+  gap: 0.7rem;
+  padding: 1.2rem 2.4rem;
+  color: var(--state-btn);
+  font-size: 1.5rem;
+  line-height: 2rem; /* 166.667% */
+  letter-spacing: -0.015rem;
+  border-radius: 2.45rem;
+  background: var(--white);
+  box-shadow: 0px 1px 6px 0px #c8d0cd !important;
+
+  filter: grayscale(1);
+  &.on {
+    filter: grayscale(0);
+    box-shadow: 0px 1px 6px 0px #c8d0cd;
+  }
+
+  @include respondTo(small) {
+    font-size: 1.7rem;
+  }
+}
+
+.my-location-btn,
+.my-location-btn-on {
+  position: relative;
+  width: 4.9rem;
+  height: 4.9rem;
+
+  @include respondTo(small) {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+.my-location-btn {
+  filter: grayscale(1);
+}

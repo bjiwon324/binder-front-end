@@ -1,11 +1,10 @@
-import classNames from "classnames/bind";
-import Portal from "../Portal";
-import styles from "./Share.module.scss";
-import { useRouter } from "next/router";
+import close from "@/../public/images/dropClose.svg";
 import kakao from "@/../public/images/kakao.svg";
+import classNames from "classnames/bind";
 import Image from "next/image";
 import { useEffect } from "react";
-import close from "@/../public/images/dropClose.svg";
+import Portal from "../Portal";
+import styles from "./Share.module.scss";
 
 const cn = classNames.bind(styles);
 
@@ -15,22 +14,25 @@ interface IModalProps {
 }
 
 export default function Share({ modalClose, setShare }: IModalProps) {
-  const router = useRouter();
-
   const copyURL = () => {
-    let currentUrl = window.document.location.href;
-    let t = document.createElement("textarea");
-    document.body.appendChild(t);
-    t.value = currentUrl;
-    t.select();
-    document.execCommand("copy");
-    document.body.removeChild(t);
-    modalClose();
-    setShare(true);
+    const currentUrl = "https://www.bin-finder.net/";
+    navigator.clipboard
+      .writeText(currentUrl)
+      .then(() => {
+        setShare(true);
+        modalClose();
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+      });
   };
 
   useEffect(() => {
-    if (window.Kakao && !window.Kakao.isInitialized()) {
+    if (
+      typeof window !== "undefined" &&
+      window.Kakao &&
+      !window.Kakao.isInitialized()
+    ) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
     }
   }, []);
@@ -43,8 +45,7 @@ export default function Share({ modalClose, setShare }: IModalProps) {
         content: {
           title: "Bin-finder", // 제목
           description: "가까운 쓰레기통 위치를 찾아보자", // 설명
-          imageUrl:
-            "https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/05/urban-20230530170006446243.jpg", // 썸네일 이미지 URL
+          imageUrl: "https://www.bin-finder.net/images/logo-144.png", // 썸네일 이미지 URL
           link: {
             mobileWebUrl: location.href,
             webUrl: location.href,

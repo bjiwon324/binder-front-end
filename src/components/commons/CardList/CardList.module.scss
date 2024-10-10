@@ -2,10 +2,27 @@
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
+  @include respondTo(small) {
+    gap: 1.7rem;
+  }
   & > span {
-    color: #515f58;
+    color: var(--card-address);
     font-size: 1.7rem;
     font-weight: 600;
     line-height: 37px;
+  }
+}
+.card-nologin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 7.1rem;
+  gap: 1.1rem;
+  color: var(--card-address);
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 37px;
+  @include respondTo(small) {
+    font-size: 1.9rem;
   }
 }

@@ -1,0 +1,53 @@
+.wrapper {
+  display: block;
+}
+
+.comment-title {
+  &-feild {
+    @include flexbox(between);
+    width: 100%;
+    margin-top: 1.2rem;
+  }
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 2.6rem;
+  letter-spacing: -0.019rem;
+  color: var(--green90);
+  @include respondTo(small) {
+    font-size: 2.1rem;
+  }
+}
+
+.comment-sort-btn {
+  color: var(--btn-color);
+  font-size: 1.3rem;
+  line-height: 2rem;
+  letter-spacing: -0.0195rem;
+  &:first-child {
+    margin-right: 2rem;
+  }
+  &.selected {
+    color: var(--comment-text);
+    font-weight: 600;
+  }
+  @include respondTo(small) {
+    font-size: 1.5rem;
+  }
+}
+
+.comments-list {
+  background-color: var(--white);
+  width: 100%;
+  margin-bottom: 6.5rem;
+}
+
+.none-text {
+  color: var(--card-address);
+
+  font-size: 1.6rem;
+  line-height: 2.5rem;
+  letter-spacing: -0.016rem;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
+}

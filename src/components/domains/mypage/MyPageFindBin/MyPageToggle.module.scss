@@ -2,8 +2,26 @@
 
 .findWrap {
   width: 100%;
-  height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
-  background-color: #f4f6f5;
+  min-height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
+  height: fit-content;
+  background-color: var(--cart-text);
   padding: 1.9rem 1.7rem;
-  overflow: scroll;
+  position: relative;
+}
+.findWrap2 {
+  width: 100%;
+  min-height: calc(100vh - 4.1rem - 21.1rem - 7.6rem - 2.6rem - 3rem);
+  height: 100%;
+  padding-bottom: 1.7rem;
+  // overflow-y: scroll;
+}
+.findTitle {
+  color: var(--green90);
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 26px;
+  margin-bottom: 1.4rem;
+  @include respondTo(small) {
+    font-size: 2.1rem;
+  }
 }

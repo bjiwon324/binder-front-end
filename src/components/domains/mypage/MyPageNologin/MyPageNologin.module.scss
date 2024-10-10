@@ -7,6 +7,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: var(--white);
+  position: relative;
   //   gap: 0.7rem;
 }
 .profileImg {
@@ -21,7 +23,7 @@
   }
 }
 .profileName {
-  color: #06130d;
+  color: var(--green90);
   font-size: 2rem;
   font-weight: 800;
   line-height: 37px;
@@ -30,6 +32,10 @@
   gap: 0.5rem;
   cursor: pointer;
   margin-top: 1rem;
+  @include respondTo(small) {
+    font-size: 2.2rem;
+    gap: 1rem;
+  }
 }
 
 .loginImg {
@@ -37,4 +43,10 @@
   height: 1.2rem;
   position: relative;
   fill: #3b866b;
+}
+.profileNoti {
+  position: absolute;
+  top: 4rem;
+  right: 1.7rem;
+  cursor: pointer;
 }

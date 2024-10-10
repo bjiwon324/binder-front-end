@@ -1,17 +1,18 @@
 @import "@/styles/main.scss";
 .findWrap {
   width: 100%;
-  height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
-  background-color: #f4f6f5;
+  min-height: calc(100vh - 4.1rem - 21.1rem - 7.6rem);
+  height: fit-content;
+  background-color: var(--cart-text);
   padding: 2.5rem 1.7rem;
-  overflow: scroll;
+  // overflow: scroll;
 }
 .settingItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.7rem 2.1rem;
-  border-bottom: 1px solid #d1dad6;
+  border-bottom: 1px solid var(--mypage-toggle-border);
   cursor: pointer;
 }
 .settingItem:last-child {
@@ -20,7 +21,7 @@
 .settingWrap {
   width: 100%;
   border-radius: 1rem;
-  background: #fff;
+  background: var(--white);
   box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
 }
 
@@ -28,7 +29,12 @@
   width: 1.5rem;
   height: 1.5rem;
   position: relative;
+  @include respondTo(small) {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
 }
+
 .settingLink {
   width: 1.5rem;
   height: 1.5rem;
@@ -38,10 +44,16 @@
   display: flex;
   gap: 1.1rem;
   align-items: center;
+  @include respondTo(small) {
+    gap: 2.2rem;
+  }
 }
 .settingText {
-  color: #06130d;
+  color: var(--green90);
   font-size: 1.7rem;
   font-weight: 600;
   line-height: 37px; /* 217.647% */
+  @include respondTo(small) {
+    font-size: 1.9rem;
+  }
 }

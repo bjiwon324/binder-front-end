@@ -1,14 +1,19 @@
-import DropWrap from "..";
-import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import DropWrap from "..";
 import styles from "./AdminFilter.module.scss";
 
 const cn = classNames.bind(styles);
 
-export default function AdminFilter() {
+interface AdminFilter {
+  closeModal: () => void;
+  pageFilter: any;
+}
+export default function AdminFilter({ closeModal, pageFilter }: AdminFilter) {
   const [submit, setSubmit] = useState<boolean>(false);
-  const [choice, setChoice] = useState<String>("");
-
+  const [choice, setChoice] = useState<string>(pageFilter);
+  const router = useRouter();
   const handleChoice = (e: string) => {
     setChoice(e);
   };
@@ -19,12 +24,18 @@ export default function AdminFilter() {
     }
   }, [choice]);
 
+  const handleSubmit = () => {
+    closeModal();
+    router.push(router.pathname + "?filter=" + choice);
+  };
+
   return (
     <DropWrap
       title="처리 상태"
       btn="적용"
-      closeBtn={() => {}}
+      closeBtn={closeModal}
       submitState={submit}
+      btnFunction={handleSubmit}
     >
       <div className={cn("wrap")}>
         <div

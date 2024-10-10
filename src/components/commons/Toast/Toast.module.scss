@@ -1,0 +1,43 @@
+.toast {
+  position: absolute;
+  bottom: 1rem;
+  width: calc(100% - 4rem);
+  left: 2rem;
+  padding: 1.6rem;
+  border-radius: 1rem;
+  background: rgba(77, 77, 77, 0.8);
+  color: $white;
+  text-align: center;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.021rem;
+  animation: toast-slide 2.5s ease-in-out forwards;
+  z-index: 100;
+
+  &.green {
+    background: rgba(11, 183, 109, 0.8);
+  }
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
+}
+
+@keyframes toast-slide {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}

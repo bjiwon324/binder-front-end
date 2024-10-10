@@ -11,14 +11,17 @@
   height: 4.4rem;
   flex-shrink: 0;
   border-radius: 1rem;
-  border: 1px solid #c4c4c4;
-  color: #c4c4c4;
+  border: 1px solid var(--c4c4c4);
+  color: var(--c4c4c4);
   font-size: 1.6rem;
   font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }
 .btnOn {
   flex: 1;
@@ -26,12 +29,15 @@
   height: 4.4rem;
   flex-shrink: 0;
   border-radius: 1rem;
-  border: 1px solid #515f58;
-  color: #515f58;
+  border: 1px solid var(--card-address);
+  color: var(--card-address);
   font-size: 1.6rem;
   font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  @include respondTo(small) {
+    font-size: 1.8rem;
+  }
 }
